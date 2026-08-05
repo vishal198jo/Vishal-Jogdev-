@@ -5,17 +5,15 @@ import { StatsSection } from '../components/StatsSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { Award, Music, Heart, Globe, BookOpen } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 
 export const AboutPage: React.FC = () => {
-  useSEO({
-    title: "Biography & Musical Journey",
-    description: "Learn about Vishal Jogdeo's 15-year classical vocal journey, Gurukul lineage, Sant Sahitya research, and global devotional concert tours.",
-    keywords: "Vishal Jogdeo Biography, Classical Music Vocalist, Sant Sahitya, Hindustani Music, Pune Singer"
-  });
+  
 
   return (
-    <div className="pt-20 space-y-10">
+    <>
+      <SEO title="Biography & Musical Journey" description="Learn about Vishal Jogdeo's 15-year classical vocal journey, Gurukul lineage, Sant Sahitya research, and global devotional concert tours." keywords="Vishal Jogdeo Biography, Classical Music Vocalist, Sant Sahitya, Hindustani Music, Pune Singer" />
+      <div className="pt-20 space-y-10">
       {/* Page Header */}
       <motion.div 
         initial={{ opacity: 0, y: 15 }}
@@ -99,6 +97,7 @@ export const AboutPage: React.FC = () => {
       {/* Testimonials */}
       <TestimonialsSection />
     </div>
+  </>
   );
 };
 

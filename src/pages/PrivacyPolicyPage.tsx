@@ -1,16 +1,15 @@
 import React from 'react';
 import { ShieldCheck, Lock, Eye, FileText, CheckCircle2 } from 'lucide-react';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 
 export const PrivacyPolicyPage: React.FC = () => {
-  useSEO({
-    title: "Privacy Policy",
-    description: "Official Privacy Policy for Vishal Jogdeo Sangeet portal. Learn how we handle your data securely and respectfully.",
-    keywords: "Privacy Policy, Vishal Jogdeo, Data Protection, Terms, Devotional Portal"
-  });
+  
 
   return (
-    <div className="pt-24 space-y-12 pb-20">
+    <>
+      <SEO title={"Privacy Policy"} description={"Official Privacy Policy for Vishal Jogdeo Sangeet portal. Learn how we handle your data securely and respectfully."} keywords={"Privacy Policy, Vishal Jogdeo, Data Protection, Terms, Devotional Portal"
+  } />
+      <div className="pt-24 space-y-12 pb-20">
       {/* Header Banner */}
       <div className="bg-[#FDFCFB] border-b border-stone-200/80 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
@@ -111,5 +110,6 @@ export const PrivacyPolicyPage: React.FC = () => {
 
       </div>
     </div>
+    </>
   );
 };

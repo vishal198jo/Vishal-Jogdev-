@@ -2,7 +2,7 @@ import React from 'react';
 import { FeaturedSongs } from '../components/FeaturedSongs';
 import { Song } from '../types';
 import { Music2 } from 'lucide-react';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 
 interface SongsPageProps {
   currentSong: Song | null;
@@ -17,14 +17,12 @@ export const SongsPage: React.FC<SongsPageProps> = ({
   onPlaySong,
   onOpenLyrics
 }) => {
-  useSEO({
-    title: "Devotional Songs Audio Catalog",
-    description: "Listen to 120+ authentic Marathi Abhangas, classical Bhajans, sacred Aartis, and Kirtans sung by Vishal Jogdeo.",
-    keywords: "Devotional Songs, Abhanga Audio, Marathi Bhajan Player, Vishal Jogdeo Songs, Vitthal Songs"
-  });
+  
 
   return (
-    <div className="pt-24 space-y-10 pb-16">
+    <>
+      <SEO title="Devotional Songs Audio Catalog" description="Listen to 120+ authentic Marathi Abhangas, classical Bhajans, sacred Aartis, and Kirtans sung by Vishal Jogdeo." keywords="Devotional Songs, Abhanga Audio, Marathi Bhajan Player, Vishal Jogdeo Songs, Vitthal Songs" />
+      <div className="pt-24 space-y-10 pb-16">
       {/* Page Header */}
       <div className="bg-[#FDFCFB] border-b border-stone-200/80 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
@@ -48,5 +46,6 @@ export const SongsPage: React.FC<SongsPageProps> = ({
         onOpenLyrics={onOpenLyrics}
       />
     </div>
+  </>
   );
 };

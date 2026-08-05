@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { HeroSection } from '../components/HeroSection';
 import { FEATURED_SONGS, LATEST_LYRICS, GALLERY_FOLDERS, UPCOMING_SHOWS, SINGER_PROFILE } from '../data/mockData';
 import { Song } from '../types';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 import { 
   Play, 
   Pause, 
@@ -32,11 +32,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   onPlaySong,
   onOpenBooking
 }) => {
-  useSEO({
-    title: "Home | Devotional Classical Vocalist",
-    description: "Official Portal of Vishal Jogdeo - 15+ years classical vocalist & devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts.",
-    keywords: "Vishal Jogdeo, Devotional Singer, Abhanga, Bhajan, Classical Vocalist, Marathi Devotional Music"
-  });
+  
 
   // Demo items
   const demoSongs = FEATURED_SONGS.slice(0, 3);
@@ -44,7 +40,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   const demoShows = UPCOMING_SHOWS.slice(0, 2);
 
   return (
-    <div className="space-y-16 pb-16">
+    <>
+      <SEO title="Home | Devotional Classical Vocalist" description="Official Portal of Vishal Jogdeo - 15+ years classical vocalist & devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts." keywords="Vishal Jogdeo, Devotional Singer, Abhanga, Bhajan, Classical Vocalist, Marathi Devotional Music" />
+      <div className="space-y-16 pb-16">
       
       {/* Hero Section with Photo on Left, Name & About on Right */}
       <HeroSection 
@@ -356,6 +354,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       </div>
     </div>
+  </>
   );
 };
 

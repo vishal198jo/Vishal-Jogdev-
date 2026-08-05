@@ -2,21 +2,19 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { UpcomingShows } from '../components/UpcomingShows';
 import { Calendar } from 'lucide-react';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 
 interface ShowsPageProps {
   onOpenBooking: (showTitle?: string) => void;
 }
 
 export const ShowsPage: React.FC<ShowsPageProps> = ({ onOpenBooking }) => {
-  useSEO({
-    title: "Live Concerts & Temple Seva Schedule",
-    description: "View upcoming performance dates and venue tickets for Vishal Jogdeo's Abhanga Sandhya concerts in Mumbai, Pune, and overseas temples.",
-    keywords: "Vishal Jogdeo Concerts, Abhanga Sandhya Schedule, Live Devotional Show, Mumbai Pune Classical Concerts"
-  });
+  
 
   return (
-    <div className="pt-20 space-y-8 pb-16">
+    <>
+      <SEO title="Live Concerts & Temple Seva Schedule" description="View upcoming performance dates and venue tickets for Vishal Jogdeo's Abhanga Sandhya concerts in Mumbai, Pune, and overseas temples." keywords="Vishal Jogdeo Concerts, Abhanga Sandhya Schedule, Live Devotional Show, Mumbai Pune Classical Concerts" />
+      <div className="pt-20 space-y-8 pb-16">
       {/* Page Header */}
       <motion.div 
         initial={{ opacity: 0, y: 15 }}
@@ -40,6 +38,7 @@ export const ShowsPage: React.FC<ShowsPageProps> = ({ onOpenBooking }) => {
 
       <UpcomingShows onOpenBookingForShow={(show) => onOpenBooking(show.title)} />
     </div>
+  </>
   );
 };
 

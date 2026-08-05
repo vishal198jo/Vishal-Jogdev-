@@ -9,7 +9,7 @@ import {
   AlignRight
 } from 'lucide-react';
 import { LATEST_LYRICS, SINGER_PROFILE } from '../data/mockData';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 
 export const SingleLyricPage: React.FC = () => {
   const { lyricId } = useParams<{ lyricId: string }>();
@@ -18,12 +18,7 @@ export const SingleLyricPage: React.FC = () => {
   // Find lyric by id or songId
   const lyric = LATEST_LYRICS.find(l => l.id === lyricId || l.songId === lyricId) || LATEST_LYRICS[0];
 
-  // Dynamic SEO setup for this specific song lyric
-  useSEO({
-    title: `${lyric.titleDevanagari} (${lyric.title}) - Full Lyrics | Vishal Jogdeo`,
-    description: `Read complete lyrics for "${lyric.titleDevanagari}". Album: ${lyric.album}. Sung by Vishal Jogdeo.`,
-    keywords: `${lyric.title}, ${lyric.titleDevanagari}, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo`
-  });
+
 
   // Reader States
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
@@ -61,6 +56,13 @@ export const SingleLyricPage: React.FC = () => {
   const relatedLyrics = LATEST_LYRICS.filter(l => l.id !== lyric.id).slice(0, 3);
 
   return (
+    <>
+  {/* Dynamic SEO setup for this specific song lyric */}
+  <SEO
+      title={`${lyric.titleDevanagari} (${lyric.title}) - Full Lyrics | Vishal Jogdeo`}
+      description={`Read complete lyrics for "${lyric.titleDevanagari}". Album: ${lyric.album}. Sung by Vishal Jogdeo.`}
+      keywords={`${lyric.title}, ${lyric.titleDevanagari}, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo`}
+    />
     <div className="pt-20 pb-10 bg-[#FDFCFB] min-h-screen">
       
       {/* Sleek Top Navigation Bar */}
@@ -289,5 +291,6 @@ export const SingleLyricPage: React.FC = () => {
 
       </div>
     </div>
+    </>
   );
 };

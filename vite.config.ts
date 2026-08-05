@@ -2,10 +2,30 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
+import Sitemap from 'vite-plugin-sitemap';
+import { LATEST_LYRICS } from './src/data/mockData';
 
 export default defineConfig(() => {
+  const dynamicRoutes = [
+    '/about',
+    '/songs',
+    '/lyrics',
+    '/gallery',
+    '/shows',
+    '/contact',
+    '/terms',
+    '/privacy',
+    ...LATEST_LYRICS.map(lyric => `/lyrics/${lyric.id}`)
+  ];
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(),
+      tailwindcss(),
+      Sitemap({
+        hostname: 'https://vishaljogdeo.com',
+        dynamicRoutes
+      })
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

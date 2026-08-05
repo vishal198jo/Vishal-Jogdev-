@@ -1,16 +1,14 @@
 import React from 'react';
 import { Scale, CheckCircle2, ShieldAlert, FileText } from 'lucide-react';
-import { useSEO } from '../hooks/useSEO';
+import { SEO } from '../components/SEO';
 
 export const TermsPage: React.FC = () => {
-  useSEO({
-    title: "Terms & Conditions",
-    description: "Official Terms and Conditions for using Vishal Jogdeo Sangeet portal, music licensing, and event bookings.",
-    keywords: "Terms and Conditions, Vishal Jogdeo, Music Licensing, Event Booking Terms, Abhanga Sandhya"
-  });
+  
 
   return (
-    <div className="pt-24 space-y-12 pb-20">
+    <>
+      <SEO title="Terms & Conditions" description="Official Terms and Conditions for using Vishal Jogdeo Sangeet portal, music licensing, and event bookings." keywords="Terms and Conditions, Vishal Jogdeo, Music Licensing, Event Booking Terms, Abhanga Sandhya" />
+      <div className="pt-24 space-y-12 pb-20">
       {/* Header Banner */}
       <div className="bg-[#FDFCFB] border-b border-stone-200/80 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
@@ -91,5 +89,6 @@ export const TermsPage: React.FC = () => {
 
       </div>
     </div>
+  </>
   );
 };
