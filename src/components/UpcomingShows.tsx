@@ -22,28 +22,8 @@ export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ onOpenBookingForSh
     <section id="shows" className="py-12 bg-[#FDFCFB] text-stone-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 border-b border-stone-200 pb-6"
-        >
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-[0.2em]">
-              <Calendar className="w-3.5 h-3.5 text-amber-800" />
-              <span>Live Spiritual Schedule</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-stone-900">
-              Upcoming <span className="font-serif italic font-normal text-amber-900">Live Shows</span>
-            </h2>
-            <p className="text-stone-600 text-sm sm:text-base max-w-xl font-sans">
-              Experience the divine ecstasy of live devotional sangeet. Book passes or invite Vishal Jogdeo to your city.
-            </p>
-          </div>
-
-          {/* City Selector */}
+        {/* Filter Bar */}
+        <div className="flex justify-start mb-8 border-b border-stone-200 pb-4">
           <div className="flex flex-wrap items-center gap-1.5 p-1 bg-stone-100 border border-stone-200">
             {cities.map((city) => (
               <button
@@ -59,7 +39,7 @@ export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ onOpenBookingForSh
               </button>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Timeline Cards Grid */}
         {filteredShows.length > 0 ? (

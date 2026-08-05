@@ -37,28 +37,14 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
     <section id="songs" className="py-12 bg-[#FDFCFB] text-stone-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
+        {/* Category Filter Tabs */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 border-b border-stone-200 pb-6"
+          className="flex justify-start mb-8 border-b border-stone-200 pb-4"
         >
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-[0.2em]">
-              <Disc className="w-3.5 h-3.5 text-amber-800" />
-              <span>Divine Discography</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-stone-900">
-              Featured <span className="font-serif italic font-normal text-amber-900">Devotional Songs</span>
-            </h2>
-            <p className="text-stone-600 text-sm sm:text-base max-w-xl font-sans">
-              Listen to popular Abhangas, Aartis, and Kirtans rendered by Vishal Jogdeo in pristine audio quality.
-            </p>
-          </div>
-
-          {/* Category Filter Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 p-1 bg-stone-100 border border-stone-200">
             {categories.map((cat) => (
               <button

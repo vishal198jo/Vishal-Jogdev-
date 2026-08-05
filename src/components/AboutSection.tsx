@@ -11,26 +11,6 @@ export const AboutSection: React.FC = () => {
     <section id="about" className="py-12 bg-[#FDFCFB] text-stone-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12 space-y-2 border-b border-stone-200 pb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-[0.2em]">
-            <Award className="w-3.5 h-3.5 text-amber-800" />
-            <span>Biography & Journey</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-stone-900">
-            About <span className="font-serif italic font-normal text-amber-900">Vishal Jogdeo</span>
-          </h2>
-          <p className="text-stone-600 text-sm sm:text-base max-w-xl mx-auto font-sans">
-            Dedicated to enriching lives through authentic devotional voice, classical discipline, and spiritual warmth.
-          </p>
-        </motion.div>
-
         {/* Grid Layout: Photo Left, Content Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
@@ -134,17 +114,6 @@ export const AboutSection: React.FC = () => {
                 </div>
                 <p className="text-[11px] text-stone-500 font-sans">Bringing Maharashtrian & Indian bhakti sangeet to international audiences.</p>
               </div>
-            </div>
-
-            {/* Learn More Button */}
-            <div className="pt-2">
-              <button
-                onClick={() => setShowFullModal(true)}
-                className="px-6 py-3 bg-stone-900 hover:bg-stone-800 text-stone-50 font-medium text-xs transition-all flex items-center gap-2 group"
-              >
-                <span>Learn More About Vishal's Journey</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
 
           </motion.div>

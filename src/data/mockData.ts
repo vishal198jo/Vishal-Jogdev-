@@ -11,8 +11,8 @@ export const SINGER_PROFILE = {
   showsCount: 450,
   followersCount: "250K+",
   spotifyListeners: "100K+ monthly",
-  portraitImage: "https://i.ibb.co/DHpfCYwJ/Picsart-26-08-05-09-36-28-096.png",
-  watermarkImage: "https://i.ibb.co/DHpfCYwJ/Picsart-26-08-05-09-36-28-096.png",
+  portraitImage: "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+  watermarkImage: "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
   bio: `Vishal Jogdeo is one of modern India's most cherished devotional playback singers, revered for his soul-stirring renditions of Abhangas, Bhajans, Aartis, and Kirtans. Trained in Hindustani Classical Music under legendary maestros, Vishal seamlessly fuses timeless spiritual poetry with contemporary melodic arrangements.
 
 With over 15 years of dedicated music journey, Vishal has performed at grand spiritual gatherings, sacred temple festivals, and international cultural events. His iconic tracks like "Majhe Vithu Mauli" and "Shree Ram Chandra Kripalu" resonate in millions of homes daily across Maharashtra and globally.`,

@@ -42,7 +42,8 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <>
       <SEO title="Home | Devotional Classical Vocalist" description="Official Portal of Vishal Jogdeo - 15+ years classical vocalist & devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts." keywords="Vishal Jogdeo, Devotional Singer, Abhanga, Bhajan, Classical Vocalist, Marathi Devotional Music" />
-      <div className="space-y-16 pb-16">
+      
+      <div className="pt-24 sm:pt-28 space-y-12 pb-16">
       
       {/* Hero Section with Photo on Left, Name & About on Right */}
       <HeroSection 

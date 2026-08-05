@@ -2,30 +2,35 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Disc, BookOpen, Calendar, Clock, Trophy } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
+import { CountUpNumber } from './CountUpNumber';
 
 export const StatsSection: React.FC = () => {
   const stats = [
     {
       label: 'Songs Released',
-      value: `${SINGER_PROFILE.songsCount}+`,
+      numericValue: SINGER_PROFILE.songsCount,
+      suffix: '+',
       sub: 'Official Devotional Singles & Albums',
       icon: Disc,
     },
     {
       label: 'Lyrics Published',
-      value: `${SINGER_PROFILE.lyricsCount}+`,
+      numericValue: SINGER_PROFILE.lyricsCount,
+      suffix: '+',
       sub: 'Abhangas, Bhajans & Aartis',
       icon: BookOpen,
     },
     {
       label: 'Shows Completed',
-      value: `${SINGER_PROFILE.showsCount}+`,
+      numericValue: SINGER_PROFILE.showsCount,
+      suffix: '+',
       sub: 'Live Spiritual Gatherings & Tours',
       icon: Calendar,
     },
     {
       label: 'Years Experience',
-      value: `${SINGER_PROFILE.experienceYears}+`,
+      numericValue: SINGER_PROFILE.experienceYears,
+      suffix: '+',
       sub: 'Devotional Music Excellence',
       icon: Clock,
     },
@@ -51,7 +56,7 @@ export const StatsSection: React.FC = () => {
                 </div>
                 
                 <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">
-                  {stat.value}
+                  <CountUpNumber end={stat.numericValue} suffix={stat.suffix} />
                 </h3>
                 
                 <p className="text-xs sm:text-sm font-semibold text-stone-800 font-heading">

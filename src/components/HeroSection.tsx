@@ -16,6 +16,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
+import { CountUpNumber } from './CountUpNumber';
 
 // Use generated image
 import heroImage from '../assets/images/vishal_jogdev_hero_1785893999710.jpg';
@@ -79,7 +80,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
   ];
 
   return (
-    <section id="home" className="relative min-h-[90vh] pt-28 pb-16 flex flex-col items-center overflow-hidden bg-[#FDFCFB] text-stone-900 border-b border-stone-200">
+    <section id="home" className="relative min-h-[85vh] pt-8 sm:pt-12 pb-16 flex flex-col items-center overflow-hidden bg-[#FDFCFB] text-stone-900 border-b border-stone-200">
       {/* Soft warm ambient background glow */}
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-amber-100/30 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-stone-200/20 rounded-full blur-3xl pointer-events-none" />
@@ -215,7 +216,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
 
             {/* Name */}
             <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-stone-900 whitespace-nowrap">
+              <h1 style={{ backgroundColor: '#f7ff00' }} className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-stone-900 whitespace-nowrap">
                 Vishal <span className="font-serif italic font-normal text-amber-900">Jogdeo</span>
               </h1>
               <p className="text-base sm:text-lg font-semibold text-stone-700 font-sans tracking-wide">
@@ -224,12 +225,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
             </div>
 
             {/* About Bio snippet on the right under the name */}
-            <div className="space-y-2 py-4 border-y border-stone-200">
-              <h3 className="text-xs font-bold text-amber-900 uppercase tracking-widest flex items-center justify-center lg:justify-start gap-1.5">
-                <Music2 className="w-3.5 h-3.5 text-amber-800" />
-                <span>About Vishal Jogdeo</span>
+            <div style={{ backgroundColor: '#edb90d', borderColor: '#55280c', color: '#ae6464' }} className="space-y-2 py-4 border-y">
+              <h3 className="text-xs font-bold uppercase tracking-widest flex items-center justify-center lg:justify-start gap-1.5">
+                <Music2 className="w-3.5 h-3.5" />
+                <span style={{ color: '#000000', fontStyle: 'normal', textDecorationLine: 'none', textAlign: 'center', fontFamily: '"Times New Roman", Times, serif' }}>About Vishal Jogdeo</span>
               </h3>
-              <p className="text-stone-700 text-sm sm:text-base font-sans leading-relaxed">
+              <p style={{ color: '#000000' }} className="text-sm sm:text-base font-sans leading-relaxed">
                 {SINGER_PROFILE.bio}
               </p>
             </div>
@@ -265,15 +266,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
             {/* Quick Metrics Pills */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-stone-200 max-w-lg mx-auto lg:mx-0">
               <div className="text-center lg:text-left">
-                <p className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">120+</p>
+                <p className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">
+                  <CountUpNumber end={120} suffix="+" />
+                </p>
                 <p className="text-[10px] text-stone-500 font-bold uppercase tracking-[0.15em]">Tracks</p>
               </div>
               <div className="text-center lg:text-left">
-                <p className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">450+</p>
+                <p className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">
+                  <CountUpNumber end={450} suffix="+" />
+                </p>
                 <p className="text-[10px] text-stone-500 font-bold uppercase tracking-[0.15em]">Live Shows</p>
               </div>
               <div className="text-center lg:text-left">
-                <p className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">15+</p>
+                <p className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">
+                  <CountUpNumber end={15} suffix="+" />
+                </p>
                 <p className="text-[10px] text-stone-500 font-bold uppercase tracking-[0.15em]">Years Exp.</p>
               </div>
             </div>
