@@ -215,7 +215,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
 
             {/* Name */}
             <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-stone-900">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-stone-900 whitespace-nowrap">
                 Vishal <span className="font-serif italic font-normal text-amber-900">Jogdeo</span>
               </h1>
               <p className="text-base sm:text-lg font-semibold text-stone-700 font-sans tracking-wide">

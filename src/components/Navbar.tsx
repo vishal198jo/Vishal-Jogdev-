@@ -66,11 +66,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300 bg-stone-100 border border-stone-200">
               <img src={SINGER_PROFILE.portraitImage} alt="Vishal Jogdeo" className="w-full h-full object-cover" />
             </div>
-            <div>
-              <span className="font-heading font-bold text-lg sm:text-xl tracking-tight text-stone-900 group-hover:text-amber-900 transition-colors">
+            <div className="flex flex-col">
+              <span className="font-heading font-bold text-lg sm:text-xl tracking-tight text-stone-900 group-hover:text-amber-900 transition-colors whitespace-nowrap">
                 Vishal Jogdeo
               </span>
-              <span className="block text-[10px] uppercase tracking-[0.2em] text-stone-500 font-semibold">
+              <span className="block text-[10px] uppercase tracking-[0.2em] text-stone-500 font-semibold whitespace-nowrap">
                 Devotional Artist
               </span>
             </div>
