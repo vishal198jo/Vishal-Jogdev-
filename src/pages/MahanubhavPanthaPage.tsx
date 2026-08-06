@@ -158,25 +158,25 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
         keywords="Mahanubhav Pantha, Panchavatara, Shri Chakradhar Swami, Lord Dattatreya, Lilacharitra, Marathi Devotional Music, Vishal Jogdeo" 
       />
 
-      <div className="pt-20 sm:pt-24 pb-20 bg-[#FDFCFB] text-stone-900 min-h-screen">
+      <div className="pt-20 sm:pt-24 pb-20 bg-[#0b0b0e] text-stone-100 min-h-screen">
         
         {/* Page Top Header with Logo, Title and Language Toggle */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 text-center space-y-6 border-b border-stone-200 relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 text-center space-y-6 border-b border-amber-500/20 relative overflow-hidden">
           
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold uppercase tracking-widest shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase tracking-widest shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>{lang === 'en' ? 'Mahanubhav Sect • Panchavatara' : 'महानुभाव पंथ • पंचावतार दर्शन'}</span>
             </div>
 
             {/* Language Switcher */}
-            <div className="inline-flex items-center p-1 bg-stone-200/80 rounded-full border border-stone-300 text-xs font-bold">
+            <div className="inline-flex items-center p-1 bg-stone-900 rounded-full border border-stone-800 text-xs font-bold">
               <button
                 onClick={() => setLang('en')}
                 className={`px-3 py-1 rounded-full transition-all ${
                   lang === 'en' 
-                    ? 'bg-stone-900 text-white shadow' 
-                    : 'text-stone-700 hover:text-stone-900'
+                    ? 'bg-amber-500 text-black shadow' 
+                    : 'text-stone-400 hover:text-white'
                 }`}
               >
                 English
@@ -185,8 +185,8 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
                 onClick={() => setLang('mr')}
                 className={`px-3 py-1 rounded-full transition-all ${
                   lang === 'mr' 
-                    ? 'bg-stone-900 text-white shadow' 
-                    : 'text-stone-700 hover:text-stone-900'
+                    ? 'bg-amber-500 text-black shadow' 
+                    : 'text-stone-400 hover:text-white'
                 }`}
               >
                 मराठी
@@ -206,7 +206,7 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
               <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-yellow-300 opacity-75 blur-md group-hover:opacity-100 transition duration-500 animate-pulse" />
               
               {/* Logo Frame */}
-              <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-white p-2 border-4 border-amber-500 shadow-2xl overflow-hidden flex items-center justify-center">
+              <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-stone-950 p-2 border-4 border-amber-500 shadow-2xl overflow-hidden flex items-center justify-center">
                 <img 
                   src="https://i.ibb.co/kVHCQ0gz/Picsart-26-08-06-09-55-05-686.png" 
                   alt="Official Mahanubhav Pantha Logo" 
@@ -215,24 +215,24 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
               </div>
             </div>
 
-            <span className="mt-3 text-xs sm:text-sm font-bold tracking-widest text-amber-900 uppercase bg-amber-100/80 border border-amber-300/80 px-4 py-1 rounded-full shadow-sm">
+            <span className="mt-3 text-xs sm:text-sm font-bold tracking-widest text-amber-300 uppercase bg-amber-950/80 border border-amber-500/40 px-4 py-1 rounded-full shadow-sm">
               {lang === 'en' ? 'Official Pantha Emblem' : '॥ जय श्रीकृष्ण सर्वज्ञ ॥'}
             </span>
           </motion.div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold font-heading tracking-tight text-stone-900 pt-1">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold font-heading tracking-tight text-white pt-1">
             {lang === 'en' ? (
               <>
-                Mahanubhav <span className="font-serif italic text-amber-900 font-normal">Pantha</span>
+                Mahanubhav <span className="font-serif italic text-gold-gradient font-normal">Pantha</span>
               </>
             ) : (
               <>
-                महानुभाव <span className="font-serif italic text-amber-900 font-normal">पंथ</span>
+                महानुभाव <span className="font-serif italic text-gold-gradient font-normal">पंथ</span>
               </>
             )}
           </h1>
 
-          <p className="text-stone-600 text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
             {lang === 'en' 
               ? 'Devotional reference to the five sacred incarnations (Panchavatara) of Supreme Parameshvara in the timeless Mahanubhav tradition established by Sarvajnana Shri Chakradhar Swami.'
               : 'सर्वज्ञ श्री चक्रधर स्वामींनी प्रस्थापित केलेल्या महानुभाव संप्रदायातील परमेश्वराचे पवित्र पंचावतार (पाच अवतार) दर्शन व जीवन परिचय.'}
@@ -335,32 +335,32 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100/60 rounded-3xl p-6 sm:p-8 border-2 border-amber-300 shadow-md relative overflow-hidden flex flex-col md:flex-row items-center gap-6 md:gap-10"
+            className="bg-gradient-to-br from-[#18120a] via-[#241a0d] to-[#18120a] rounded-3xl p-6 sm:p-8 border-2 border-amber-500/30 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-6 md:gap-10 text-stone-100 gold-glow"
           >
             {/* Logo Emblem on Left */}
             <div className="shrink-0 relative flex flex-col items-center">
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-white p-2.5 border-4 border-amber-500 shadow-xl overflow-hidden flex items-center justify-center">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-stone-950 p-2.5 border-4 border-amber-500 shadow-xl overflow-hidden flex items-center justify-center">
                 <img 
                   src="https://i.ibb.co/kVHCQ0gz/Picsart-26-08-06-09-55-05-686.png" 
                   alt="Official Mahanubhav Pantha Logo Emblem" 
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="mt-2 text-[11px] font-bold text-amber-900 bg-amber-200/80 px-3 py-0.5 rounded-full border border-amber-300">
+              <span className="mt-2 text-[11px] font-bold text-amber-300 bg-amber-950/90 px-3 py-0.5 rounded-full border border-amber-500/40">
                 {lang === 'en' ? 'Sacred Insignia' : 'पंथाची अधिकृत मुद्रा'}
               </span>
             </div>
 
             {/* Emblem Description text on Right */}
             <div className="space-y-2 text-center md:text-left flex-1">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-900 text-amber-200 text-xs font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
                 <span>{lang === 'en' ? 'Mahanubhav Emblem Significance' : 'महानुभाव पंथ मुद्रा व ध्वज महत्त्व'}</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-stone-900">
+              <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-white">
                 {lang === 'en' ? 'The Symbol of Universal Peace & Divine Truth' : 'जय श्रीकृष्ण सर्वज्ञ • सार्वभौम शांती व सत्याचे प्रतीक'}
               </h3>
-              <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-sans">
+              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-sans">
                 {lang === 'en'
                   ? 'This sacred emblem represents the eternal grace of Supreme Parameshvara and the five incarnations (Panchavatara). It embodies the message of "Jai Krishni Sarvajnana", divine knowledge, Ahimsa, and supreme spiritual enlightenment for humanity.'
                   : 'हे पावन प्रतीक परमेश्वराच्या पंचावतार कृपेचे आणि "जय श्रीकृष्ण सर्वज्ञ" या मंत्राचे प्रतिनिधित्व करते. अखिल मानवजातीला अहिंसा, निरपेक्ष ज्ञान आणि मोक्षाचा दिव्य मार्ग दाखवणारी ही पंथाची पवित्र मुद्रा आहे.'}
@@ -370,18 +370,18 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
 
           {/* Section Divider */}
           <div className="text-center space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-stone-900">
+            <h2 className="text-2xl sm:text-3xl font-extrabold font-heading text-white">
               {lang === 'en' ? (
                 <>
-                  Core Teaching & <span className="font-serif italic text-amber-900 font-normal">Sacred Literature</span>
+                  Core Teaching & <span className="font-serif italic text-gold-gradient font-normal">Sacred Literature</span>
                 </>
               ) : (
                 <>
-                  महानुभाव पंथाचे <span className="font-serif italic text-amber-900 font-normal">तत्वज्ञान व ग्रंथसंपदा</span>
+                  महानुभाव पंथाचे <span className="font-serif italic text-gold-gradient font-normal">तत्वज्ञान व ग्रंथसंपदा</span>
                 </>
               )}
             </h2>
-            <p className="text-xs sm:text-sm text-stone-600 max-w-xl mx-auto font-sans">
+            <p className="text-xs sm:text-sm text-stone-400 max-w-xl mx-auto font-sans">
               {lang === 'en'
                 ? 'The timeless spiritual philosophy propagated in the Marathi language during 13th century AD.'
                 : '१३ व्या शतकात मराठी भाषेत रचलेले अद्वितीय विचार तत्वज्ञान आणि ग्रंथ परंपरा.'}
@@ -391,56 +391,56 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
           {/* 4 Pillars Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            <div className="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-2">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold">
+            <div className="bg-[#121218] p-6 rounded-3xl border border-stone-800 shadow-lg space-y-2 text-stone-100">
+              <div className="w-10 h-10 rounded-2xl bg-amber-950/80 border border-amber-500/30 text-amber-300 flex items-center justify-center font-bold">
                 १
               </div>
-              <h3 className="text-lg font-bold font-heading text-stone-900">
+              <h3 className="text-lg font-bold font-heading text-white">
                 {lang === 'en' ? 'Monotheism (ज्ञान)' : 'एकेश्वरवाद व ज्ञान'}
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
+              <p className="text-xs text-stone-300 leading-relaxed">
                 {lang === 'en'
                   ? 'Singular supreme devotion to Parameshvara as taught in the divine aphorisms of Sutrapath.'
                   : 'परमेश्वराचे एकमेव श्रेष्ठत्व आणि सूत्रपाठातील निरपेक्ष आत्मज्ञानाचा संदेश.'}
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-2">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold">
+            <div className="bg-[#121218] p-6 rounded-3xl border border-stone-800 shadow-lg space-y-2 text-stone-100">
+              <div className="w-10 h-10 rounded-2xl bg-amber-950/80 border border-amber-500/30 text-amber-300 flex items-center justify-center font-bold">
                 २
               </div>
-              <h3 className="text-lg font-bold font-heading text-stone-900">
+              <h3 className="text-lg font-bold font-heading text-white">
                 {lang === 'en' ? 'Ahimsa (अहिंसा)' : 'सर्वभूत अहिंसा'}
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
+              <p className="text-xs text-stone-300 leading-relaxed">
                 {lang === 'en'
                   ? 'Complete non-violence towards all living creatures, birds, animals, and nature.'
                   : 'प्राणिमात्र आणि सृष्टीवर निरपेक्ष प्रेम व पूर्ण अहिंसेचे आचरण.'}
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-2">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold">
+            <div className="bg-[#121218] p-6 rounded-3xl border border-stone-800 shadow-lg space-y-2 text-stone-100">
+              <div className="w-10 h-10 rounded-2xl bg-amber-950/80 border border-amber-500/30 text-amber-300 flex items-center justify-center font-bold">
                 ३
               </div>
-              <h3 className="text-lg font-bold font-heading text-stone-900">
+              <h3 className="text-lg font-bold font-heading text-white">
                 {lang === 'en' ? 'Marathi Bhasha (मराठी)' : 'मराठी भाषा समृद्धी'}
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
+              <p className="text-xs text-stone-300 leading-relaxed">
                 {lang === 'en'
                   ? 'Elevating the mother tongue Marathi to write classical prose biographies like Lilacharitra.'
                   : 'मराठीतील पहिला चरित्रग्रंथ लीळाचरित्र रचून ज्ञानभाषेला सर्वोच्च स्थान दिले.'}
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-stone-200 shadow-sm space-y-2">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold">
+            <div className="bg-[#121218] p-6 rounded-3xl border border-stone-800 shadow-lg space-y-2 text-stone-100">
+              <div className="w-10 h-10 rounded-2xl bg-amber-950/80 border border-amber-500/30 text-amber-300 flex items-center justify-center font-bold">
                 ४
               </div>
-              <h3 className="text-lg font-bold font-heading text-stone-900">
+              <h3 className="text-lg font-bold font-heading text-white">
                 {lang === 'en' ? 'Social Equality' : 'समता व सामाजिक समभाव'}
               </h3>
-              <p className="text-xs text-stone-600 leading-relaxed">
+              <p className="text-xs text-stone-300 leading-relaxed">
                 {lang === 'en'
                   ? 'Equal spiritual authority for all human beings without distinction of caste, gender, or status.'
                   : 'स्त्री-पुरुष, वर्ण व जातीभेद विरहित सर्वांना भक्ती आणि मोक्षाचा समान अधिकार.'}
@@ -451,8 +451,8 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
 
           {/* Book Show Banner */}
           {onOpenBooking && (
-            <div className="bg-gradient-to-r from-amber-900 via-stone-900 to-amber-950 text-stone-100 rounded-3xl p-8 sm:p-10 text-center space-y-4 shadow-xl border border-amber-800/40">
-              <h3 className="text-2xl sm:text-3xl font-bold font-heading text-amber-200">
+            <div className="bg-gradient-to-r from-amber-950 via-stone-900 to-amber-950 text-stone-100 rounded-3xl p-8 sm:p-10 text-center space-y-4 shadow-2xl border border-amber-500/30 gold-glow">
+              <h3 className="text-2xl sm:text-3xl font-bold font-heading text-amber-300">
                 {lang === 'en' ? 'Organize Mahanubhav Bhajan & Abhanga Sandhya' : 'महानुभाव भक्ती संगीत व अभंग संध्या आयोजन'}
               </h3>
               <p className="text-xs sm:text-sm text-stone-300 max-w-xl mx-auto">
@@ -463,7 +463,7 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
               <div className="pt-2">
                 <button
                   onClick={onOpenBooking}
-                  className="px-6 py-3 rounded-full bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs uppercase tracking-widest shadow-lg transition-transform hover:scale-105"
+                  className="px-6 py-3 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-widest shadow-lg transition-transform hover:scale-105"
                 >
                   {lang === 'en' ? 'Book Devotional Concert' : 'कार्यक्रम बुक करा'}
                 </button>
@@ -476,14 +476,14 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
 
         {/* DEITY DETAIL MODAL */}
         {activeModalDeity && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/60 backdrop-blur-md animate-in fade-in">
-            <div className="bg-[#FDFCFB] border border-stone-200 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative text-stone-900 animate-in zoom-in-95">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+            <div className="bg-[#121218] border border-amber-500/30 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative text-stone-100 animate-in zoom-in-95">
               
               {/* Top Banner Image Header */}
               <div className={`p-6 ${activeModalDeity.colorBg} text-white relative`}>
                 <button
                   onClick={() => setActiveModalDeity(null)}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors"
+                  className="absolute top-4 right-4 p-2 rounded-full bg-black/40 hover:bg-black/70 text-white transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -507,33 +507,33 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
               <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto font-sans text-xs sm:text-sm">
                 
                 {/* Info Block */}
-                <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl space-y-1">
-                  <p className="text-stone-800 font-semibold leading-relaxed">
+                <div className="p-3.5 bg-stone-900 border border-amber-500/20 rounded-2xl space-y-1">
+                  <p className="text-stone-200 font-medium leading-relaxed">
                     {lang === 'en' ? activeModalDeity.descriptionEn : activeModalDeity.descriptionMr}
                   </p>
                 </div>
 
                 {/* Details */}
-                <div className="space-y-2 pt-2 border-t border-stone-200">
+                <div className="space-y-2 pt-2 border-t border-stone-800">
                   <div className="flex items-start gap-2">
-                    <MapPin className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+                    <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-bold text-stone-900 block">
+                      <span className="font-bold text-amber-300 block">
                         {lang === 'en' ? 'Place of birth:' : 'जन्मस्थान:'}
                       </span>
-                      <span className="text-stone-700">
+                      <span className="text-stone-300">
                         {lang === 'en' ? `${activeModalDeity.placeOfBirthEn} ${activeModalDeity.placeOfBirthDetailEn}` : activeModalDeity.placeOfBirthMr}
                       </span>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-2 pt-1">
-                    <Clock className="w-4 h-4 text-amber-800 shrink-0 mt-0.5" />
+                    <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-bold text-stone-900 block">
+                      <span className="font-bold text-amber-300 block">
                         {lang === 'en' ? 'Time of birth:' : 'जन्मवेळ व तिथी:'}
                       </span>
-                      <span className="text-stone-700">
+                      <span className="text-stone-300">
                         {lang === 'en' ? `${activeModalDeity.timeOfBirthEn} ${activeModalDeity.timeOfBirthDetailEn}` : activeModalDeity.timeOfBirthMr}
                       </span>
                     </div>
@@ -541,13 +541,13 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
                 </div>
 
                 {/* Tirthakshetra Places */}
-                <div className="space-y-1.5 pt-2 border-t border-stone-200">
-                  <span className="font-bold text-stone-900 block">
+                <div className="space-y-1.5 pt-2 border-t border-stone-800">
+                  <span className="font-bold text-amber-300 block">
                     {lang === 'en' ? 'Sacred Tirthakshetra (तीर्थक्षेत्रे):' : 'प्रमुख तीर्थक्षेत्रे:'}
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {(lang === 'en' ? activeModalDeity.tirthakshetraEn : activeModalDeity.tirthakshetraMr).map((place, idx) => (
-                      <span key={idx} className="px-2.5 py-1 rounded-full bg-stone-100 border border-stone-300 text-stone-800 text-xs font-medium">
+                      <span key={idx} className="px-2.5 py-1 rounded-full bg-stone-900 border border-amber-500/30 text-amber-200 text-xs font-medium">
                         📍 {place}
                       </span>
                     ))}
@@ -557,13 +557,13 @@ export const MahanubhavPanthaPage: React.FC<MahanubhavPanthaPageProps> = ({ onOp
               </div>
 
               {/* Modal Footer */}
-              <div className="p-4 bg-stone-100 border-t border-stone-200 flex justify-between items-center">
-                <span className="text-[11px] text-stone-500 font-semibold">
+              <div className="p-4 bg-stone-900 border-t border-stone-800 flex justify-between items-center">
+                <span className="text-[11px] text-amber-300 font-semibold">
                   {lang === 'en' ? 'Jai Krishni Sarvajnana' : '॥ जय श्रीकृष्ण सर्वज्ञ ॥'}
                 </span>
                 <button
                   onClick={() => setActiveModalDeity(null)}
-                  className="px-4 py-2 rounded-full bg-stone-900 text-white font-medium text-xs hover:bg-stone-800 transition-colors"
+                  className="px-5 py-2 rounded-full bg-gold-gradient text-black font-bold text-xs"
                 >
                   {lang === 'en' ? 'Close' : 'बंद करा'}
                 </button>

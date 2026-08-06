@@ -57,7 +57,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 border-t border-stone-200/80 backdrop-blur-md py-3 px-4 sm:px-6 text-stone-900 shadow-lg animate-in slide-in-from-bottom duration-300">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#121218]/95 border-t border-stone-800/80 backdrop-blur-md py-3 px-4 sm:px-6 text-stone-100 shadow-2xl animate-in slide-in-from-bottom duration-300">
       
       {/* Hidden HTML5 Audio Element */}
       <audio
@@ -74,12 +74,12 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           <img
             src={currentSong.coverImage}
             alt={currentSong.title}
-            className="w-11 h-11 rounded-xl object-cover border border-stone-200 shrink-0"
+            className="w-11 h-11 rounded-xl object-cover border border-amber-500/30 shrink-0 shadow-md"
             referrerPolicy="no-referrer"
           />
           <div className="truncate">
-            <h4 className="text-xs font-bold text-stone-900 truncate font-heading">{currentSong.title}</h4>
-            <p className="text-[11px] text-amber-900 truncate font-medium">{currentSong.titleDevanagari}</p>
+            <h4 className="text-xs font-bold text-white truncate font-heading">{currentSong.title}</h4>
+            <p className="text-[11px] text-amber-300 truncate font-medium">{currentSong.titleDevanagari}</p>
           </div>
         </div>
 
@@ -88,10 +88,10 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           <div className="flex items-center gap-4">
             <button
               onClick={onTogglePlay}
-              className="p-2.5 rounded-full bg-stone-900 text-stone-50 hover:bg-stone-800 transition-all transform hover:scale-105 active:scale-95"
+              className="p-2.5 rounded-full bg-gold-gradient text-black hover:opacity-90 transition-all transform hover:scale-105 active:scale-95 shadow-md"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
-              {isPlaying ? <Pause className="w-4 h-4 fill-stone-50" /> : <Play className="w-4 h-4 fill-stone-50 ml-0.5" />}
+              {isPlaying ? <Pause className="w-4 h-4 fill-black text-black" /> : <Play className="w-4 h-4 fill-black text-black ml-0.5" />}
             </button>
           </div>
 
@@ -103,7 +103,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               max="100"
               value={progress}
               onChange={handleSeek}
-              className="w-full h-1 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-stone-900"
+              className="w-full h-1 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
             />
             <span>{currentSong.duration}</span>
           </div>
@@ -114,24 +114,24 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           {currentSong.lyricsId && (
             <button
               onClick={() => onOpenLyrics(currentSong.lyricsId!)}
-              className="px-3 py-1.5 rounded-full bg-stone-100 hover:bg-stone-200 text-xs text-stone-800 font-medium border border-stone-200 flex items-center gap-1.5 transition-colors"
+              className="px-3 py-1.5 rounded-full bg-amber-950/80 hover:bg-amber-900 text-xs text-amber-300 font-bold border border-amber-500/30 flex items-center gap-1.5 transition-colors"
             >
-              <BookOpen className="w-3.5 h-3.5 text-amber-800" />
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
               <span>Lyrics</span>
             </button>
           )}
 
           <button
             onClick={toggleMute}
-            className="p-2 text-stone-500 hover:text-stone-900 transition-colors"
+            className="p-2 text-stone-400 hover:text-white transition-colors"
             aria-label="Toggle Mute"
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-red-600" /> : <Volume2 className="w-4 h-4 text-stone-600" />}
+            {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-stone-300" />}
           </button>
 
           <button
             onClick={onClosePlayer}
-            className="p-2 text-stone-400 hover:text-stone-900 transition-colors"
+            className="p-2 text-stone-400 hover:text-white transition-colors"
             aria-label="Close Player"
           >
             <X className="w-4 h-4" />

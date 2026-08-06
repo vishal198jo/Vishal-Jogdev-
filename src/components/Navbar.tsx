@@ -47,14 +47,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 shadow-md">
-      {/* Yellow Navigation Container */}
+    <header className="fixed top-0 left-0 right-0 z-50">
+      {/* Luxury Dark Glass Navigation Container */}
       <div 
-        style={{ backgroundColor: '#ffff00' }}
-        className={`transition-all duration-300 ${
+        className={`transition-all duration-300 bg-[#0c0c11]/90 backdrop-blur-md border-b border-amber-500/30 text-white shadow-2xl ${
           isScrolled 
-            ? 'text-stone-900 backdrop-blur-md border-b border-stone-200/80 py-3' 
-            : 'text-stone-900 backdrop-blur-sm border-b border-stone-200/50 py-3.5'
+            ? 'py-2.5 shadow-amber-900/10' 
+            : 'py-3.5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,21 +66,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-3 group focus:outline-none"
               aria-label="Vishal Jogdeo Homepage"
             >
-              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300 bg-stone-100 border border-stone-200">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center ring-2 ring-amber-400/80 shadow-md group-hover:scale-105 transition-transform duration-300 bg-black">
                 <img src={SINGER_PROFILE.portraitImage} alt="Vishal Jogdeo" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="font-heading font-bold text-lg sm:text-xl tracking-tight text-stone-900 group-hover:text-amber-900 transition-colors whitespace-nowrap">
-                  Vishal Jogdeo
+                <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-white group-hover:text-amber-300 transition-colors whitespace-nowrap">
+                  Vishal <span className="font-serif italic text-amber-400 font-normal">Jogdeo</span>
                 </span>
-                <span className="block text-[10px] uppercase tracking-[0.2em] text-stone-500 font-semibold whitespace-nowrap">
-                  Devotional Artist
+                <span className="block text-[9px] uppercase tracking-[0.25em] text-amber-200/80 font-bold whitespace-nowrap">
+                  Devotional Vocalist
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center space-x-1">
+            <nav className="hidden lg:flex items-center space-x-1 bg-stone-950/80 p-1.5 rounded-full border border-amber-500/20">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 const isMahanubhav = link.path === '/mahanubhav-pantha';
@@ -89,10 +88,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 ${
                       isActive 
-                        ? 'bg-stone-900 text-stone-50 shadow-sm font-semibold' 
-                        : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100/80'
+                        ? 'bg-gold-gradient text-black shadow-md font-bold scale-[1.02]' 
+                        : 'text-stone-300 hover:text-amber-300 hover:bg-white/5'
                     }`}
                   >
                     {isMahanubhav && (
@@ -111,12 +110,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Right Action Icons & Book CTA */}
             <div className="hidden sm:flex items-center gap-3">
               {/* Social Icons */}
-              <div className="flex items-center gap-1.5 pr-2 border-r border-stone-200">
+              <div className="flex items-center gap-1 pr-2 border-r border-amber-500/20">
                 <a 
                   href={SINGER_PROFILE.contact.socials.youtube} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full text-stone-500 hover:text-red-600 hover:bg-stone-100 transition-colors"
+                  className="p-2 rounded-full text-stone-300 hover:text-red-400 hover:bg-white/10 transition-colors"
                   title="YouTube Channel"
                   aria-label="YouTube Channel"
                 >
@@ -126,7 +125,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={SINGER_PROFILE.contact.socials.instagram} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full text-stone-500 hover:text-pink-600 hover:bg-stone-100 transition-colors"
+                  className="p-2 rounded-full text-stone-300 hover:text-pink-400 hover:bg-white/10 transition-colors"
                   title="Instagram Profile"
                   aria-label="Instagram Profile"
                 >
@@ -136,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={SINGER_PROFILE.contact.socials.facebook} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full text-stone-500 hover:text-blue-600 hover:bg-stone-100 transition-colors"
+                  className="p-2 rounded-full text-stone-300 hover:text-blue-400 hover:bg-white/10 transition-colors"
                   title="Facebook Page"
                   aria-label="Facebook Page"
                 >
@@ -147,9 +146,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* Book Event CTA Button */}
               <button
                 onClick={onOpenBooking}
-                className="px-5 py-2 text-xs font-medium rounded-full bg-stone-900 hover:bg-stone-800 text-stone-50 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
+                className="px-5 py-2 text-xs font-bold rounded-full bg-gold-gradient text-black hover:opacity-95 shadow-md hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 flex items-center gap-2"
               >
-                <Calendar className="w-3.5 h-3.5 text-stone-300" />
+                <Calendar className="w-3.5 h-3.5 text-black" />
                 <span>Book Event</span>
               </button>
             </div>
@@ -158,14 +157,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-2 lg:hidden">
               <button
                 onClick={onOpenBooking}
-                className="px-3.5 py-1.5 text-xs font-medium rounded-full bg-stone-900 text-stone-50 hover:bg-stone-800 transition-colors flex items-center gap-1"
+                className="px-3.5 py-1.5 text-xs font-bold rounded-full bg-gold-gradient text-black transition-colors flex items-center gap-1 shadow-sm"
               >
                 <Calendar className="w-3.5 h-3.5" />
                 <span>Book</span>
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-full text-stone-700 hover:text-stone-900 hover:bg-stone-100 transition-colors focus:outline-none"
+                className="p-2 rounded-full text-amber-200 hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
                 aria-label="Toggle Navigation Menu"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -177,8 +176,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Drawer Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#FDFCFB] border-b border-stone-200 px-4 pt-3 pb-6 mt-3 space-y-3 shadow-lg animate-in slide-in-from-top duration-200">
-            <div className="grid grid-cols-2 gap-2 pb-3 border-b border-stone-200">
+          <div className="lg:hidden bg-[#0e0e14] border-b border-amber-500/30 px-4 pt-3 pb-6 mt-3 space-y-3 shadow-2xl animate-in slide-in-from-top duration-200">
+            <div className="grid grid-cols-2 gap-2 pb-3 border-b border-amber-500/20">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
@@ -186,13 +185,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                     key={link.name}
                     to={link.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`px-3 py-2 rounded-xl text-xs font-medium transition-colors border flex items-center gap-2 ${
+                    className={`px-3 py-2 rounded-xl text-xs font-semibold transition-colors border flex items-center gap-2 ${
                       isActive
-                        ? 'bg-stone-900 text-stone-50 border-stone-900 font-semibold'
-                        : 'text-stone-800 hover:text-stone-900 hover:bg-stone-100 border-stone-200/60'
+                        ? 'bg-gold-gradient text-black border-amber-400 font-bold'
+                        : 'text-stone-200 hover:text-white hover:bg-white/5 border-stone-800'
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-amber-300' : 'bg-amber-800'}`} />
+                    <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-black' : 'bg-amber-400'}`} />
                     {link.name}
                   </Link>
                 );
@@ -205,7 +204,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={SINGER_PROFILE.contact.socials.youtube} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-stone-100 text-stone-600 hover:text-red-600"
+                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-red-400"
                   aria-label="YouTube"
                 >
                   <Youtube className="w-4 h-4" />
@@ -214,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={SINGER_PROFILE.contact.socials.instagram} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-stone-100 text-stone-600 hover:text-pink-600"
+                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-pink-400"
                   aria-label="Instagram"
                 >
                   <Instagram className="w-4 h-4" />
@@ -223,7 +222,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   href={SINGER_PROFILE.contact.socials.facebook} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-stone-100 text-stone-600 hover:text-blue-600"
+                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-blue-400"
                   aria-label="Facebook"
                 >
                   <Facebook className="w-4 h-4" />

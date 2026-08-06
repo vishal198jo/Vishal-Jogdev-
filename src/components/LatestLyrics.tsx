@@ -35,31 +35,34 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
   });
 
   return (
-    <section id="lyrics" className="py-10 sm:py-12 bg-[#FDFCFB] text-stone-900 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
+    <section id="lyrics" className="py-10 sm:py-12 bg-[#0b0b0e] text-stone-100 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         
         {/* 1. Header: Devotional Lyrics Library */}
         {!hideHeader && (
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-stone-900">
-              Devotional Lyrics Library <span className="font-serif italic font-normal text-amber-900">By Vishal Jogdeo</span>
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
+              Devotional Lyrics Library <span className="font-serif italic text-gold-gradient font-normal">By Vishal Jogdeo</span>
             </h2>
+            <p className="text-xs sm:text-sm text-stone-300">
+              Complete Marathi Devanagari transliterations with font zooming and audio previews.
+            </p>
           </div>
         )}
 
         {/* 2. Border Line */}
-        <div className="border-b border-stone-200 w-full" />
+        <div className="border-b border-stone-800 w-full" />
 
         {/* 3. Search Bar */}
         <div className="max-w-xl mx-auto w-full">
           <div className="relative">
-            <Search className="w-4 h-4 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-amber-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search song title or Marathi lyrics..."
-              className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white border border-stone-200 text-stone-900 placeholder:text-stone-400 text-xs sm:text-sm focus:outline-none focus:border-amber-800 transition-colors shadow-2xs"
+              className="w-full pl-11 pr-4 py-3 rounded-full bg-[#121218] border border-stone-800 text-stone-100 placeholder:text-stone-400 text-xs sm:text-sm focus:outline-none focus:border-amber-400 transition-colors shadow-lg"
             />
           </div>
         </div>
@@ -70,10 +73,10 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                 selectedCategory === cat
-                  ? 'bg-amber-800 text-white shadow-2xs'
-                  : 'bg-stone-100 text-stone-600 hover:text-stone-900 hover:bg-stone-200/80'
+                  ? 'bg-gold-gradient text-black shadow-md scale-105'
+                  : 'bg-[#121218] text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800'
               }`}
             >
               {cat}
@@ -89,42 +92,42 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
                 <div
                   key={lyric.id}
                   onClick={() => navigate(`/lyrics/${lyric.id}`)}
-                  className="p-4 rounded-2xl bg-white border border-stone-200/90 shadow-2xs hover:shadow-md hover:border-amber-700/50 cursor-pointer transition-all flex items-center justify-between group"
+                  className="p-4 rounded-3xl bg-[#121218] border border-stone-800 shadow-xl hover:border-amber-500/50 cursor-pointer transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-3.5 min-w-0 flex-1 pr-2">
                     <img
                       src={lyric.coverImage}
                       alt={lyric.title}
-                      className="w-14 h-14 rounded-xl object-cover shrink-0 border border-stone-200 shadow-2xs"
+                      className="w-14 h-14 rounded-2xl object-cover shrink-0 border border-amber-500/30 shadow-md"
                       referrerPolicy="no-referrer"
                     />
                     <div className="space-y-1 min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200/60">
+                        <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-950/80 border border-amber-500/30">
                           {lyric.category}
                         </span>
                         <span className="text-[11px] text-stone-400 truncate flex items-center gap-1">
-                          <Disc className="w-3 h-3 text-stone-300" />
+                          <Disc className="w-3 h-3 text-amber-400" />
                           <span>{lyric.album}</span>
                         </span>
                       </div>
-                      <h3 className="text-sm sm:text-base font-bold font-heading text-stone-900 group-hover:text-amber-900 transition-colors truncate">
+                      <h3 className="text-sm sm:text-base font-bold font-heading text-white group-hover:text-amber-300 transition-colors truncate">
                         {lyric.titleDevanagari}
                       </h3>
-                      <p className="text-xs text-stone-500 font-serif italic truncate">
+                      <p className="text-xs text-stone-400 font-serif italic truncate">
                         {lyric.title}
                       </p>
                     </div>
                   </div>
 
-                  <div className="w-8 h-8 rounded-full bg-stone-50 group-hover:bg-amber-100/80 flex items-center justify-center shrink-0 transition-colors">
-                    <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-amber-900 transition-colors" />
+                  <div className="w-8 h-8 rounded-full bg-stone-900 group-hover:bg-amber-400 flex items-center justify-center shrink-0 transition-colors border border-stone-800">
+                    <ChevronRight className="w-4 h-4 text-stone-400 group-hover:text-black transition-colors" />
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-12 text-center text-xs sm:text-sm text-stone-500 font-sans bg-white rounded-2xl border border-stone-200">
+            <div className="p-12 text-center text-xs sm:text-sm text-stone-400 font-sans bg-[#121218] rounded-3xl border border-stone-800 shadow-xl">
               No song lyrics match your search or category filter.
             </div>
           )}

@@ -23,7 +23,7 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-12 bg-[#FDFCFB] text-stone-900 relative">
+    <section id="contact" className="py-12 bg-[#0b0b0e] text-stone-100 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -32,16 +32,16 @@ export const ContactSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12 space-y-2 border-b border-stone-200 pb-6"
+          className="text-center max-w-3xl mx-auto mb-12 space-y-3 border-b border-stone-800 pb-6"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold uppercase tracking-[0.2em]">
-            <Mail className="w-3.5 h-3.5 text-amber-800" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
+            <Mail className="w-3.5 h-3.5 text-amber-400" />
             <span>Event Inquiry & Bookings</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-stone-900">
-            Get in <span className="font-serif italic font-normal text-amber-900">Touch</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
+            Get in <span className="font-serif italic text-gold-gradient font-normal">Touch</span>
           </h2>
-          <p className="text-stone-600 text-sm sm:text-base max-w-xl mx-auto font-sans">
+          <p className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto font-sans">
             Book Vishal Jogdeo for private kirtans, temple festivals, corporate cultural evenings, or international tours.
           </p>
         </motion.div>
@@ -54,41 +54,41 @@ export const ContactSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-5 space-y-8 bg-white p-6 sm:p-8 border border-stone-200"
+            className="lg:col-span-5 space-y-8 bg-[#121218] p-6 sm:p-8 rounded-3xl border border-stone-800 shadow-xl"
           >
-            <div className="space-y-6 text-xs sm:text-sm text-stone-700">
+            <div className="space-y-6 text-xs sm:text-sm text-stone-300">
               
               <div className="flex items-start gap-4">
-                <div className="w-9 h-9 bg-stone-100 border border-stone-200 flex items-center justify-center text-amber-800 shrink-0">
+                <div className="w-10 h-10 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-xs text-stone-400 font-medium">Official Email</p>
-                  <a href={`mailto:${SINGER_PROFILE.contact.email}`} className="text-stone-900 font-semibold hover:text-amber-900 transition-colors">
+                  <a href={`mailto:${SINGER_PROFILE.contact.email}`} className="text-white font-bold hover:text-amber-300 transition-colors">
                     {SINGER_PROFILE.contact.email}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-9 h-9 bg-stone-100 border border-stone-200 flex items-center justify-center text-amber-800 shrink-0">
+                <div className="w-10 h-10 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-xs text-stone-400 font-medium">Management Helpline</p>
-                  <a href={`tel:${SINGER_PROFILE.contact.phone}`} className="text-stone-900 font-semibold hover:text-amber-900 transition-colors">
+                  <a href={`tel:${SINGER_PROFILE.contact.phone}`} className="text-white font-bold hover:text-amber-300 transition-colors">
                     {SINGER_PROFILE.contact.phone}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-9 h-9 bg-stone-100 border border-stone-200 flex items-center justify-center text-amber-800 shrink-0">
+                <div className="w-10 h-10 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-xs text-stone-400 font-medium">Studio & Office Address</p>
-                  <p className="text-stone-700 font-sans">
+                  <p className="text-stone-300 font-sans">
                     {SINGER_PROFILE.contact.officeAddress}
                   </p>
                 </div>
@@ -97,18 +97,18 @@ export const ContactSection: React.FC = () => {
             </div>
 
             {/* Social Media Links */}
-            <div className="pt-4 border-t border-stone-200 space-y-3">
-              <p className="text-[10px] font-semibold text-amber-900 uppercase tracking-wider">
+            <div className="pt-4 border-t border-stone-800 space-y-3">
+              <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">
                 Follow on Social Media
               </p>
               <div className="flex items-center gap-4">
-                <a href={SINGER_PROFILE.contact.socials.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+                <a href={SINGER_PROFILE.contact.socials.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-300 hover:text-red-400 hover:bg-white/10 transition-colors">
                   <Youtube className="w-5 h-5" />
                 </a>
-                <a href={SINGER_PROFILE.contact.socials.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-600 hover:text-pink-600 hover:bg-pink-50 transition-colors">
+                <a href={SINGER_PROFILE.contact.socials.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-300 hover:text-pink-400 hover:bg-white/10 transition-colors">
                   <Instagram className="w-5 h-5" />
                 </a>
-                <a href={SINGER_PROFILE.contact.socials.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center text-stone-600 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                <a href={SINGER_PROFILE.contact.socials.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-stone-300 hover:text-blue-400 hover:bg-white/10 transition-colors">
                   <Facebook className="w-5 h-5" />
                 </a>
               </div>
@@ -122,20 +122,20 @@ export const ContactSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-7 bg-white p-6 sm:p-8 border border-stone-200"
+            className="lg:col-span-7 bg-[#121218] p-6 sm:p-8 rounded-3xl border border-stone-800 shadow-xl"
           >
             {submitted ? (
               <div className="p-8 text-center space-y-4 my-4 animate-in zoom-in duration-300">
-                <div className="w-12 h-12 mx-auto bg-emerald-100 text-emerald-700 border border-emerald-200 flex items-center justify-center">
+                <div className="w-12 h-12 mx-auto bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 rounded-full flex items-center justify-center">
                   <CheckCircle className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold font-heading text-stone-900">Inquiry Sent Successfully!</h3>
-                <p className="text-stone-600 text-xs sm:text-sm font-sans max-w-md mx-auto">
+                <h3 className="text-xl font-bold font-heading text-white">Inquiry Sent Successfully!</h3>
+                <p className="text-stone-300 text-xs sm:text-sm font-sans max-w-md mx-auto">
                   Thank you for reaching out. Vishal Jogdeo's official management team will review your details and contact you shortly.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="px-5 py-2 bg-stone-900 text-stone-50 font-medium text-xs"
+                  className="px-6 py-2.5 bg-gold-gradient text-black font-extrabold text-xs rounded-full"
                 >
                   Send Another Inquiry
                 </button>
@@ -145,7 +145,7 @@ export const ContactSection: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    <label className="block text-xs font-semibold text-stone-300 mb-1">
                       Your Full Name *
                     </label>
                     <input
@@ -154,12 +154,12 @@ export const ContactSection: React.FC = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Ramesh Kulkarni"
-                      className="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 text-stone-900 text-xs focus:outline-none focus:border-stone-900"
+                      className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    <label className="block text-xs font-semibold text-stone-300 mb-1">
                       Phone Number *
                     </label>
                     <input
@@ -168,14 +168,14 @@ export const ContactSection: React.FC = () => {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+91 98765 43210"
-                      className="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 text-stone-900 text-xs focus:outline-none focus:border-stone-900"
+                      className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    <label className="block text-xs font-semibold text-stone-300 mb-1">
                       Email Address *
                     </label>
                     <input
@@ -184,12 +184,12 @@ export const ContactSection: React.FC = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="ramesh@example.com"
-                      className="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 text-stone-900 text-xs focus:outline-none focus:border-stone-900"
+                      className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    <label className="block text-xs font-semibold text-stone-300 mb-1">
                       Location
                     </label>
                     <input
@@ -197,13 +197,13 @@ export const ContactSection: React.FC = () => {
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       placeholder="e.g. Pune / Mumbai"
-                      className="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 text-stone-900 text-xs focus:outline-none focus:border-stone-900"
+                      className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-300 mb-1">
                     Your Message / Requirements
                   </label>
                   <textarea
@@ -211,15 +211,15 @@ export const ContactSection: React.FC = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell us about the occasion, estimated audience, sound setup..."
-                    className="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 text-stone-900 text-xs focus:outline-none focus:border-stone-900"
+                    className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-stone-900 hover:bg-stone-800 text-stone-50 font-medium text-xs transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-gold-gradient text-black font-extrabold text-xs rounded-full hover:opacity-95 shadow-lg flex items-center justify-center gap-2 transition-all"
                 >
-                  <Send className="w-4 h-4 text-stone-50" />
+                  <Send className="w-4 h-4 text-black" />
                   <span>Send Booking Message</span>
                 </button>
               </form>

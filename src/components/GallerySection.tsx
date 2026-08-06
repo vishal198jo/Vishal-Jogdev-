@@ -50,7 +50,7 @@ export const GallerySection: React.FC = () => {
   }, [selectedItem, currentIndex, displayItems]);
 
   return (
-    <section id="gallery" className="py-6 bg-[#FDFCFB] text-stone-900 relative">
+    <section id="gallery" className="py-6 bg-[#0b0b0e] text-stone-100 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Navigation / Header */}
@@ -61,24 +61,24 @@ export const GallerySection: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-center space-y-2 mb-10"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold uppercase tracking-widest">
-              <Folder className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-widest">
+              <Folder className="w-3.5 h-3.5 text-amber-400" />
               <span>Folder Media Gallery</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-stone-900">
-              Photos & Video <span className="font-serif italic text-amber-900 font-normal">Folders Archive</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
+              Photos & Video <span className="font-serif italic text-gold-gradient font-normal">Folders Archive</span>
             </h1>
           </motion.div>
         ) : (
-          <div className="mb-6 flex items-center justify-between border-b border-stone-200 pb-4">
+          <div className="mb-6 flex items-center justify-between border-b border-stone-800 pb-4">
             <button 
               onClick={() => setSelectedFolderId(null)}
-              className="flex items-center gap-2 text-stone-600 hover:text-stone-900 font-medium text-sm transition-colors"
+              className="flex items-center gap-2 text-stone-300 hover:text-amber-300 font-bold text-sm transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-4 h-4 text-amber-400" />
               <span>Back to Folders</span>
             </button>
-            <h2 className="text-lg font-bold font-heading text-stone-900">
+            <h2 className="text-lg font-bold font-heading text-white">
                {activeFolder?.name}
             </h2>
           </div>
@@ -97,7 +97,7 @@ export const GallerySection: React.FC = () => {
                 onClick={() => setSelectedFolderId(folder.id)}
                 className="group cursor-pointer flex flex-col items-center gap-2"
               >
-                <div className="w-full aspect-square overflow-hidden bg-stone-100 rounded-2xl border border-stone-200 relative shadow-sm hover:shadow-md transition-all">
+                <div className="w-full aspect-square overflow-hidden bg-[#121218] rounded-2xl border border-stone-800 hover:border-amber-500/50 relative shadow-lg hover:shadow-amber-500/10 transition-all">
                   <img
                     src={folder.coverImage}
                     alt={folder.name}
@@ -106,13 +106,13 @@ export const GallerySection: React.FC = () => {
                     onContextMenu={(e) => e.preventDefault()}
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900/60" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
                   <div className="absolute bottom-2 left-2 flex items-center gap-1.5 text-white">
                     <Folder className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-bold">{folder.count}</span>
+                    <span className="text-xs font-bold text-amber-300">{folder.count}</span>
                   </div>
                 </div>
-                <h3 className="text-sm font-semibold font-heading text-stone-800 text-center line-clamp-1 group-hover:text-amber-900 px-1">
+                <h3 className="text-sm font-semibold font-heading text-stone-200 text-center line-clamp-1 group-hover:text-amber-300 px-1">
                   {folder.name}
                 </h3>
               </motion.div>
@@ -122,7 +122,7 @@ export const GallerySection: React.FC = () => {
 
         {/* Media Items Grid (When inside a selected folder) */}
         {selectedFolderId && (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-1 sm:gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2">
             {displayItems.map((item, idx) => (
               <motion.div
                 key={item.id}
@@ -130,7 +130,7 @@ export const GallerySection: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: idx * 0.03 }}
                 onClick={() => setSelectedItem(item)}
-                className="cursor-pointer relative aspect-square bg-stone-100 overflow-hidden group"
+                className="cursor-pointer relative aspect-square bg-[#121218] rounded-xl overflow-hidden border border-stone-800 hover:border-amber-500/50 group"
               >
                 <img
                   src={item.imageUrl}
@@ -143,9 +143,9 @@ export const GallerySection: React.FC = () => {
                 
                 {/* Video Play Overlay */}
                 {item.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <div className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
-                      <Play className="w-4 h-4 text-stone-900 ml-0.5" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <div className="w-8 h-8 rounded-full bg-gold-gradient flex items-center justify-center shadow-lg">
+                      <Play className="w-4 h-4 text-black ml-0.5 fill-black" />
                     </div>
                   </div>
                 )}

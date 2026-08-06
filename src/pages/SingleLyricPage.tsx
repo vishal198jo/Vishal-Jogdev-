@@ -63,32 +63,32 @@ export const SingleLyricPage: React.FC = () => {
       description={`Read complete lyrics for "${lyric.titleDevanagari}". Album: ${lyric.album}. Sung by Vishal Jogdeo.`}
       keywords={`${lyric.title}, ${lyric.titleDevanagari}, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo`}
     />
-    <div className="pt-20 pb-10 bg-[#FDFCFB] min-h-screen">
+    <div className="pt-20 pb-10 bg-[#0b0b0e] text-stone-100 min-h-screen">
       
       {/* Sleek Top Navigation Bar */}
-      <div className="border-b border-stone-200/80 py-2.5 mb-4 sticky top-16 z-30 bg-[#FDFCFB]/95 backdrop-blur-md">
+      <div className="border-b border-amber-500/20 py-2.5 mb-4 sticky top-16 z-30 bg-[#0b0b0e]/95 backdrop-blur-md">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
           <button
             onClick={() => navigate('/lyrics')}
-            className="inline-flex items-center gap-2 text-stone-700 hover:text-amber-950 font-bold text-xs sm:text-sm transition-colors"
+            className="inline-flex items-center gap-2 text-stone-300 hover:text-amber-300 font-bold text-xs sm:text-sm transition-colors"
           >
-            <ArrowLeft className="w-4 h-4 text-amber-800" />
+            <ArrowLeft className="w-4 h-4 text-amber-400" />
             <span>Back to Lyrics Library</span>
           </button>
 
           <div className="flex items-center gap-2">
             {shareSuccess && (
-              <span className="text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+              <span className="text-[11px] font-bold text-amber-300 bg-amber-950/80 px-2.5 py-0.5 rounded border border-amber-500/40">
                 Link Copied!
               </span>
             )}
             <button
               onClick={handleShare}
-              className="px-3 py-1.5 rounded-lg border border-stone-200 bg-white text-stone-700 hover:text-stone-900 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs"
+              className="px-3 py-1.5 rounded-lg border border-amber-500/30 bg-[#121218] text-stone-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-lg"
               title="Share Lyrics"
             >
-              <Share2 className="w-3.5 h-3.5 text-stone-500" />
+              <Share2 className="w-3.5 h-3.5 text-amber-400" />
               <span>Share</span>
             </button>
           </div>
@@ -99,33 +99,33 @@ export const SingleLyricPage: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
         {/* 1. DIRECT TITLE HEADER WITH CLEAN BORDER LINE */}
-        <div className="pb-4 border-b border-stone-200 space-y-2">
+        <div className="pb-4 border-b border-stone-800 space-y-2">
           <div className="flex items-center gap-4">
             <img
               src={lyric.coverImage}
               alt={lyric.title}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover border border-stone-200 shadow-2xs shrink-0"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover border border-amber-500/30 shadow-md shrink-0"
               referrerPolicy="no-referrer"
             />
 
             <div className="space-y-0.5 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-950 text-[10px] font-bold uppercase tracking-wider">
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">
                   {lyric.category}
                 </span>
-                <span className="text-stone-500 text-xs font-semibold flex items-center gap-1">
-                  <Disc className="w-3.5 h-3.5 text-stone-400" />
+                <span className="text-stone-400 text-xs font-semibold flex items-center gap-1">
+                  <Disc className="w-3.5 h-3.5 text-amber-400" />
                   <span>Album: {lyric.album}</span>
                 </span>
               </div>
 
               {/* Primary Devanagari Title */}
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-heading text-stone-900 leading-tight">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-heading text-white leading-tight">
                 {lyric.titleDevanagari}
               </h1>
 
               {/* English Transliteration */}
-              <p className="text-xs sm:text-sm font-bold text-amber-900 font-serif italic">
+              <p className="text-xs sm:text-sm font-bold text-amber-300 font-serif italic">
                 {lyric.title}
               </p>
             </div>
@@ -133,14 +133,14 @@ export const SingleLyricPage: React.FC = () => {
         </div>
 
         {/* 2. ALIGNMENT & FONT ZOOM CONTROLS */}
-        <div className="py-2 border-b border-stone-200 flex items-center justify-between gap-3">
+        <div className="py-2 border-b border-stone-800 flex items-center justify-between gap-3">
           
           {/* Alignment Controls */}
           <div className="flex items-center gap-1">
-            <span className="text-xs font-bold text-stone-500 mr-1 hidden sm:inline">Align:</span>
+            <span className="text-xs font-bold text-stone-400 mr-1 hidden sm:inline">Align:</span>
             <button
               onClick={() => setTextAlign('left')}
-              className={`p-1.5 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${textAlign === 'left' ? 'bg-amber-800 text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'}`}
+              className={`p-1.5 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${textAlign === 'left' ? 'bg-gold-gradient text-black shadow-md' : 'text-stone-400 hover:text-white'}`}
               title="Left Align"
             >
               <AlignLeft className="w-3.5 h-3.5" />
@@ -149,7 +149,7 @@ export const SingleLyricPage: React.FC = () => {
 
             <button
               onClick={() => setTextAlign('center')}
-              className={`p-1.5 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${textAlign === 'center' ? 'bg-amber-800 text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'}`}
+              className={`p-1.5 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${textAlign === 'center' ? 'bg-gold-gradient text-black shadow-md' : 'text-stone-400 hover:text-white'}`}
               title="Center Align"
             >
               <AlignCenter className="w-3.5 h-3.5" />
@@ -158,7 +158,7 @@ export const SingleLyricPage: React.FC = () => {
 
             <button
               onClick={() => setTextAlign('right')}
-              className={`p-1.5 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${textAlign === 'right' ? 'bg-amber-800 text-white shadow-2xs' : 'text-stone-600 hover:text-stone-900'}`}
+              className={`p-1.5 sm:px-3 sm:py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${textAlign === 'right' ? 'bg-gold-gradient text-black shadow-md' : 'text-stone-400 hover:text-white'}`}
               title="Right Align"
             >
               <AlignRight className="w-3.5 h-3.5" />
@@ -167,24 +167,24 @@ export const SingleLyricPage: React.FC = () => {
           </div>
 
           {/* Font Size Zoom Controls (A-, A, A+) */}
-          <div className="flex items-center gap-1 bg-stone-100/80 p-1 rounded-xl border border-stone-200/80">
+          <div className="flex items-center gap-1 bg-stone-900 p-1 rounded-xl border border-stone-800">
             <button 
               onClick={() => setFontSize('sm')} 
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${fontSize === 'sm' ? 'bg-amber-200 text-amber-950 shadow-2xs' : 'text-stone-600 hover:text-stone-900'}`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${fontSize === 'sm' ? 'bg-amber-950 text-amber-300 border border-amber-500/40' : 'text-stone-400 hover:text-white'}`}
               title="Zoom Out (A-)"
             >
               A-
             </button>
             <button 
               onClick={() => setFontSize('md')} 
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${fontSize === 'md' ? 'bg-amber-200 text-amber-950 shadow-2xs' : 'text-stone-600 hover:text-stone-900'}`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${fontSize === 'md' ? 'bg-amber-950 text-amber-300 border border-amber-500/40' : 'text-stone-400 hover:text-white'}`}
               title="Default Font Size (A)"
             >
               A
             </button>
             <button 
               onClick={() => setFontSize('lg')} 
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${fontSize === 'lg' ? 'bg-amber-200 text-amber-950 shadow-2xs' : 'text-stone-600 hover:text-stone-900'}`}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${fontSize === 'lg' ? 'bg-amber-950 text-amber-300 border border-amber-500/40' : 'text-stone-400 hover:text-white'}`}
               title="Zoom In (A+)"
             >
               A+
@@ -198,10 +198,10 @@ export const SingleLyricPage: React.FC = () => {
           
           {/* WATERMARK BACKGROUND IMAGE - VISHAL JOGDEV */}
           <div 
-            className="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden opacity-10 sm:opacity-15 z-0"
+            className="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden opacity-10 sm:opacity-20 z-0"
             aria-hidden="true"
           >
-            <div className="relative w-72 h-72 sm:w-[400px] sm:h-[400px] rounded-full overflow-hidden filter grayscale contrast-125 mix-blend-multiply border-2 border-amber-900/20">
+            <div className="relative w-72 h-72 sm:w-[400px] sm:h-[400px] rounded-full overflow-hidden filter grayscale contrast-125 border-2 border-amber-500/30">
               <img
                 src={SINGER_PROFILE.watermarkImage}
                 alt="Vishal Jogdeo Watermark"
@@ -216,11 +216,11 @@ export const SingleLyricPage: React.FC = () => {
             
             {/* Devanagari Lyrics */}
             <div className="space-y-3">
-              <div className={`font-heading text-stone-950 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
+              <div className={`font-heading text-white space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
                 {lyric.devanagariText.map((line, idx) => (
                   <p 
                     key={idx} 
-                    className={line === "" ? "h-3" : "py-0.5 text-stone-950 font-bold hover:text-amber-900 transition-colors"}
+                    className={line === "" ? "h-3" : "py-0.5 text-white font-bold hover:text-amber-300 transition-colors"}
                   >
                     {line}
                   </p>
@@ -230,12 +230,12 @@ export const SingleLyricPage: React.FC = () => {
 
             {/* Roman / English Lyrics (If available) */}
             {lyric.romanText && lyric.romanText.length > 0 && (
-              <div className="space-y-3 pt-5 border-t border-stone-200">
-                <div className={`font-sans text-stone-800 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
+              <div className="space-y-3 pt-5 border-t border-stone-800">
+                <div className={`font-sans text-stone-300 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
                   {lyric.romanText.map((line, idx) => (
                     <p 
                       key={idx} 
-                      className={line === "" ? "h-3" : "py-0.5 italic text-stone-800 font-medium hover:text-amber-900 transition-colors"}
+                      className={line === "" ? "h-3" : "py-0.5 italic text-stone-300 font-medium hover:text-amber-300 transition-colors"}
                     >
                       {line}
                     </p>
@@ -249,14 +249,14 @@ export const SingleLyricPage: React.FC = () => {
         </div>
 
         {/* 4. MORE DEVOTIONAL LYRICS WITH CLEAN BORDER */}
-        <div className="pt-6 border-t border-stone-200 space-y-3">
+        <div className="pt-6 border-t border-stone-800 space-y-3">
           <div className="flex items-center justify-between pb-1">
-            <h3 className="text-base font-bold font-heading text-stone-900">
-              More <span className="font-serif italic text-amber-900">Devotional Lyrics</span>
+            <h3 className="text-base font-bold font-heading text-white">
+              More <span className="font-serif italic text-gold-gradient">Devotional Lyrics</span>
             </h3>
             <button 
               onClick={() => navigate('/lyrics')} 
-              className="text-xs font-bold text-amber-900 hover:text-amber-950 flex items-center gap-1"
+              className="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1"
             >
               <span>View Full Library →</span>
             </button>
@@ -267,21 +267,21 @@ export const SingleLyricPage: React.FC = () => {
               <div
                 key={item.id}
                 onClick={() => navigate(`/lyrics/${item.id}`)}
-                className="p-3 rounded-2xl bg-stone-50 hover:bg-stone-100/80 border border-stone-200/80 cursor-pointer transition-all group"
+                className="p-3 rounded-2xl bg-[#121218] hover:bg-stone-900 border border-stone-800 cursor-pointer transition-all group shadow-md"
               >
                 <div className="flex items-center gap-3">
                   <img
                     src={item.coverImage}
                     alt={item.title}
-                    className="w-10 h-10 rounded-xl object-cover shrink-0 border border-stone-200"
+                    className="w-10 h-10 rounded-xl object-cover shrink-0 border border-amber-500/30"
                     referrerPolicy="no-referrer"
                   />
                   <div className="space-y-0.5 min-w-0">
-                    <span className="text-[10px] font-bold text-amber-900 uppercase block">{item.category}</span>
-                    <h4 className="text-xs font-bold text-stone-900 font-heading truncate group-hover:text-amber-900 transition-colors">
+                    <span className="text-[10px] font-bold text-amber-300 uppercase block">{item.category}</span>
+                    <h4 className="text-xs font-bold text-white font-heading truncate group-hover:text-amber-300 transition-colors">
                       {item.titleDevanagari}
                     </h4>
-                    <p className="text-[11px] text-stone-500 italic truncate">{item.title}</p>
+                    <p className="text-[11px] text-stone-400 italic truncate">{item.title}</p>
                   </div>
                 </div>
               </div>

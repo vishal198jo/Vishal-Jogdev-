@@ -61,7 +61,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="min-h-screen bg-[#FDFCFB] text-stone-900 font-sans selection:bg-amber-900 selection:text-white flex flex-col justify-between">
+      <div className="min-h-screen bg-[#0b0b0e] text-stone-100 font-sans selection:bg-amber-500 selection:text-black flex flex-col justify-between">
         
         {/* Sticky Header Navigation */}
         <Navbar
@@ -170,22 +170,22 @@ export default function App() {
 
         {/* Privacy Policy / Terms Modal */}
         {policyModalTitle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm animate-in fade-in">
-            <div className="bg-[#FDFCFB] border border-stone-200 rounded-3xl max-w-lg w-full p-6 space-y-4 text-stone-800 shadow-2xl relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+            <div className="bg-[#121218] border border-amber-500/30 rounded-3xl max-w-lg w-full p-6 space-y-4 text-stone-100 shadow-2xl relative">
               <button
                 onClick={() => setPolicyModalTitle(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-stone-100 text-stone-500 hover:text-stone-900 hover:bg-stone-200 transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full bg-stone-900 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
-              <h3 className="text-2xl font-bold font-heading text-stone-900">{policyModalTitle}</h3>
-              <p className="text-xs text-stone-600 leading-relaxed font-sans">
+              <h3 className="text-2xl font-bold font-heading text-white">{policyModalTitle}</h3>
+              <p className="text-xs text-stone-300 leading-relaxed font-sans">
                 All music compositions, recordings, lyrics transliterations, and imagery on this official portal are property of Vishal Jogdeo Sangeet and licensed partners. Unauthorized copying or commercial broadcast without prior written approval is prohibited.
               </p>
               <div className="pt-2 flex justify-end">
                 <button
                   onClick={() => setPolicyModalTitle(null)}
-                  className="px-5 py-2 rounded-full bg-stone-900 text-stone-50 hover:bg-stone-800 font-medium text-xs shadow-sm transition-all"
+                  className="px-5 py-2 rounded-full bg-gold-gradient text-black hover:opacity-95 font-extrabold text-xs shadow-md transition-all"
                 >
                   I Understand
                 </button>
