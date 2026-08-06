@@ -10,7 +10,6 @@ import {
   Calendar
 } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
-import { AnnouncementTicker } from './AnnouncementTicker';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -225,9 +224,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         )}
       </div>
-
-      {/* Fixed Announcement Ticker Bar below Navbar */}
-      <AnnouncementTicker onOpenBooking={onOpenBooking} />
     </header>
   );
 };

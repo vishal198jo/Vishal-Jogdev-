@@ -13,7 +13,7 @@ export const AboutPage: React.FC = () => {
   return (
     <>
       <SEO title="Biography & Musical Journey" description="Learn about Vishal Jogdeo's 15-year classical vocal journey, Gurukul lineage, Sant Sahitya research, and global devotional concert tours." keywords="Vishal Jogdeo Biography, Classical Music Vocalist, Sant Sahitya, Hindustani Music, Pune Singer" />
-      <div className="pt-28 sm:pt-32 space-y-10">
+      <div className="pt-20 sm:pt-24 space-y-10">
       {/* Page Header */}
       <motion.div 
         initial={{ opacity: 0, y: 15 }}

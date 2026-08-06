@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { HeroSection } from '../components/HeroSection';
+import { AnnouncementTicker } from '../components/AnnouncementTicker';
 import { FEATURED_SONGS, LATEST_LYRICS, GALLERY_FOLDERS, UPCOMING_SHOWS, SINGER_PROFILE } from '../data/mockData';
 import { Song } from '../types';
 import { SEO } from '../components/SEO';
@@ -43,7 +44,12 @@ export const HomePage: React.FC<HomePageProps> = ({
     <>
       <SEO title="Home | Devotional Classical Vocalist" description="Official Portal of Vishal Jogdeo - 15+ years classical vocalist & devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts." keywords="Vishal Jogdeo, Devotional Singer, Abhanga, Bhajan, Classical Vocalist, Marathi Devotional Music" />
       
-      <div className="pt-24 sm:pt-28 space-y-12 pb-16">
+      {/* Top Announcement Ticker Bar - Only on Home Page */}
+      <div className="pt-16 sm:pt-20">
+        <AnnouncementTicker onOpenBooking={onOpenBooking} />
+      </div>
+
+      <div className="space-y-12 pb-16">
       
       {/* Hero Section with Photo on Left, Name & About on Right */}
       <HeroSection 
