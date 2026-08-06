@@ -71,6 +71,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyModal }) => {
             <ul className="space-y-2 text-xs font-medium">
               <li><Link to="/" className="hover:text-stone-100 transition-colors">Home Page & Demos</Link></li>
               <li><Link to="/about" className="hover:text-stone-100 transition-colors">Biography & Devotional Journey</Link></li>
+              <li><Link to="/mahanubhav-pantha" className="text-amber-300 font-semibold hover:text-amber-200 transition-colors">Mahanubhav Pantha (पंचावतार)</Link></li>
               <li><Link to="/songs" className="hover:text-stone-100 transition-colors">Featured Devotional Songs</Link></li>
               <li><Link to="/lyrics" className="hover:text-stone-100 transition-colors">Song Lyrics Archive</Link></li>
               <li><Link to="/gallery" className="hover:text-stone-100 transition-colors">Photo & Video Gallery</Link></li>

@@ -59,7 +59,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
 
-        {/* 1. SONGS DEMO PREVIEW - Clean Border Section */}
+        {/* 1. SPOTIFY EMBEDDED PLAYER SECTION */}
         <motion.section 
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -67,75 +67,34 @@ export const HomePage: React.FC<HomePageProps> = ({
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="py-8 border-y border-stone-200 space-y-6"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-[11px] font-bold uppercase tracking-wider mb-2">
-                <Music2 className="w-3.5 h-3.5 text-amber-800" />
-                <span>Audio Demo</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-heading text-stone-900">
-                Popular <span className="font-serif italic text-amber-900 font-normal">Devotional Songs</span> Demo
-              </h2>
-              <p className="text-stone-600 text-xs sm:text-sm">Listen to a sample of 120+ authentic Abhangas and Bhajans by Vishal Jogdeo.</p>
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-bold uppercase tracking-wider">
+              <svg className="w-4 h-4 fill-[#1DB954]" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.48-3.26c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.281 1.24zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.18-.1.2-1.2-.42-.18-.6.18-1.2.78-1.38 4.26-1.26 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.56.36z"/>
+              </svg>
+              <span>Spotify Discography</span>
             </div>
-            
-            <Link
-              to="/songs"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-50 font-medium text-xs transition-all shrink-0 self-start sm:self-auto"
-            >
-              <span>Explore All 120+ Tracks Page</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <h2 className="text-2xl sm:text-3xl font-bold font-heading text-stone-900">
+              Top <span className="font-serif italic text-amber-900 font-normal">Vishal Jogdeo</span> Songs
+            </h2>
+            <p className="text-stone-600 text-xs sm:text-sm max-w-lg mx-auto">Listen to official Marathi Abhangas, Bhajans, and devotional tracks directly on Spotify.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {demoSongs.map((song) => {
-              const isCurrent = currentSong?.id === song.id;
-              const isCurrentPlaying = isCurrent && isPlaying;
-
-              return (
-                <div
-                  key={song.id}
-                  className={`p-4 border transition-all flex flex-col justify-between space-y-4 bg-white ${
-                    isCurrent 
-                      ? 'border-amber-800 bg-amber-50/40' 
-                      : 'border-stone-200 hover:border-stone-400'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1 min-w-0">
-                      <span className="text-[10px] font-bold uppercase text-amber-900 bg-amber-50 border border-amber-200 px-2 py-0.5">
-                        {song.category}
-                      </span>
-                      <h3 className="text-sm font-bold text-stone-900 font-heading truncate">
-                        {song.titleDevanagari || song.title}
-                      </h3>
-                      <p className="text-xs text-stone-500 truncate">{song.album}</p>
-                    </div>
-
-                    <button
-                      onClick={() => onPlaySong(song)}
-                      className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-transform active:scale-95 ${
-                        isCurrentPlaying 
-                          ? 'bg-amber-800 text-stone-50' 
-                          : 'bg-stone-900 text-stone-50 hover:bg-stone-800'
-                      }`}
-                    >
-                      {isCurrentPlaying ? (
-                        <Pause className="w-4 h-4 fill-stone-50" />
-                      ) : (
-                        <Play className="w-4 h-4 fill-stone-50 ml-0.5" />
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px] text-stone-500 font-medium pt-2 border-t border-stone-200">
-                    <span>Duration: {song.duration}</span>
-                    <span className="text-amber-900 font-semibold">{song.plays} listens</span>
-                  </div>
-                </div>
-              );
-            })}
+          {/* Responsive Spotify Player Card - Portrait on Mobile, Full-Width on Desktop */}
+          <div className="flex justify-center w-full pt-2">
+            <div className="w-full max-w-[380px] md:max-w-5xl aspect-[9/16] md:aspect-none md:h-[480px] lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl border-4 border-stone-900 bg-stone-950 p-1 sm:p-2 relative group transition-all duration-300">
+              <iframe 
+                title="Vishal Jogdeo Spotify Discography"
+                style={{ borderRadius: '20px' }}
+                src="https://open.spotify.com/embed/artist/0MNaVB2rq5LKqLSRy0IWu7?utm_source=generator&theme=0" 
+                width="100%" 
+                height="100%" 
+                frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"
+                className="w-full h-full rounded-2xl"
+              />
+            </div>
           </div>
         </motion.section>
 

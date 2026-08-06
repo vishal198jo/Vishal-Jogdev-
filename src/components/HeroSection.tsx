@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
   Play, 
@@ -216,7 +217,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
 
             {/* Name */}
             <div className="space-y-2">
-              <h1 style={{ backgroundColor: '#f7ff00' }} className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-stone-900 whitespace-nowrap">
+              <h1 style={{ backgroundColor: '#ffffff' }} className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-stone-900 whitespace-nowrap">
                 Vishal <span className="font-serif italic font-normal text-amber-900">Jogdeo</span>
               </h1>
               <p className="text-base sm:text-lg font-semibold text-stone-700 font-sans tracking-wide">
@@ -225,43 +226,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
             </div>
 
             {/* About Bio snippet on the right under the name */}
-            <div style={{ backgroundColor: '#edb90d', borderColor: '#55280c', color: '#ae6464' }} className="space-y-2 py-4 border-y">
+            <div style={{ backgroundColor: '#ffffff', borderColor: '#55280c' }} className="space-y-3 py-4 border-y">
               <h3 className="text-xs font-bold uppercase tracking-widest flex items-center justify-center lg:justify-start gap-1.5">
-                <Music2 className="w-3.5 h-3.5" />
+                <Music2 className="w-3.5 h-3.5 text-amber-800" />
                 <span style={{ color: '#000000', fontStyle: 'normal', textDecorationLine: 'none', textAlign: 'center', fontFamily: '"Times New Roman", Times, serif' }}>About Vishal Jogdeo</span>
               </h3>
               <p style={{ color: '#000000' }} className="text-sm sm:text-base font-sans leading-relaxed">
-                {SINGER_PROFILE.bio}
+                {SINGER_PROFILE.shortBio}
               </p>
+              <div className="pt-1 flex justify-center lg:justify-start">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-900 hover:bg-amber-800 text-stone-50 text-xs font-bold transition-all shadow-xs hover:scale-105"
+                >
+                  <span>Learn More</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-yellow-300" />
+                </Link>
+              </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
-              <button
-                onClick={() => handleScrollTo('songs')}
-                className="px-6 py-3 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-50 font-medium text-xs shadow-xs hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
-              >
-                <Music2 className="w-4 h-4 text-amber-200" />
-                <span>Listen Songs</span>
-              </button>
 
-              <button
-                onClick={() => handleScrollTo('lyrics')}
-                className="px-6 py-3 rounded-full bg-white hover:bg-stone-100 text-stone-800 border border-stone-300 font-medium text-xs hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-2"
-              >
-                <BookOpen className="w-4 h-4 text-stone-600" />
-                <span>Lyrics Page</span>
-              </button>
-
-              <button
-                onClick={onPlayFeaturedSong}
-                className="px-4 py-3 rounded-full bg-stone-100 hover:bg-stone-200/70 border border-stone-200 text-stone-700 text-xs font-medium transition-all flex items-center gap-2"
-                title="Play Featured Bhajan"
-              >
-                <Play className="w-3.5 h-3.5 fill-stone-800 text-stone-800" />
-                <span>Quick Audio Sample</span>
-              </button>
-            </div>
 
             {/* Quick Metrics Pills */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-stone-200 max-w-lg mx-auto lg:mx-0">

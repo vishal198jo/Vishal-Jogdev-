@@ -8,7 +8,7 @@ interface AnnouncementTickerProps {
 
 export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({ onOpenBooking }) => {
   return (
-    <div className="w-full bg-amber-900 text-stone-100 overflow-hidden shadow-md border-b border-amber-950/40 relative z-30 font-sans">
+    <div style={{ backgroundColor: '#ff0000' }} className="w-full text-stone-100 overflow-hidden shadow-md border-b border-red-950/40 relative z-30 font-sans">
       <div className="flex items-center max-w-7xl mx-auto px-2 sm:px-4">
         
         {/* Marquee Ticker Container */}

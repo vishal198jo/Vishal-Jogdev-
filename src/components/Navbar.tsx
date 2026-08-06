@@ -38,6 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
+    { name: 'Mahanubhav Pantha', path: '/mahanubhav-pantha' },
     { name: 'Songs', path: '/songs' },
     { name: 'Lyrics', path: '/lyrics' },
     { name: 'Gallery', path: '/gallery' },
@@ -83,16 +84,24 @@ export const Navbar: React.FC<NavbarProps> = ({
             <nav className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
+                const isMahanubhav = link.path === '/mahanubhav-pantha';
                 return (
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
                       isActive 
                         ? 'bg-stone-900 text-stone-50 shadow-sm font-semibold' 
                         : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100/80'
                     }`}
                   >
+                    {isMahanubhav && (
+                      <img 
+                        src="https://i.ibb.co/kVHCQ0gz/Picsart-26-08-06-09-55-05-686.png" 
+                        alt="Mahanubhav Logo" 
+                        className="w-4 h-4 rounded-full object-contain bg-white border border-amber-400"
+                      />
+                    )}
                     {link.name}
                   </Link>
                 );

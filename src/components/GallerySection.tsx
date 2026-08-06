@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Play, X, ArrowLeft, Folder } from 'lucide-react';
+import { Play, X, ArrowLeft, Folder, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GalleryItem } from '../types';
 import { GALLERY_FOLDERS, GALLERY_ITEMS } from '../data/mockData';
 
@@ -11,10 +11,43 @@ export const GallerySection: React.FC = () => {
   // Get active folder object if a folder is selected
   const activeFolder = GALLERY_FOLDERS.find(f => f.id === selectedFolderId);
 
-  // Filter items based on selected folder
+  // Filter items based on selected folder or all items if no folder selected
   const displayItems = GALLERY_ITEMS.filter(item => {
-    return selectedFolderId ? item.folderId === selectedFolderId : false;
+    return selectedFolderId ? item.folderId === selectedFolderId : true;
   });
+
+  const currentIndex = selectedItem
+    ? displayItems.findIndex(i => i.id === selectedItem.id)
+    : -1;
+
+  const handlePrev = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (displayItems.length === 0 || currentIndex === -1) return;
+    const prevIndex = (currentIndex - 1 + displayItems.length) % displayItems.length;
+    setSelectedItem(displayItems[prevIndex]);
+  };
+
+  const handleNext = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (displayItems.length === 0 || currentIndex === -1) return;
+    const nextIndex = (currentIndex + 1) % displayItems.length;
+    setSelectedItem(displayItems[nextIndex]);
+  };
+
+  useEffect(() => {
+    if (!selectedItem) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      } else if (e.key === 'Escape') {
+        setSelectedItem(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedItem, currentIndex, displayItems]);
 
   return (
     <section id="gallery" className="py-6 bg-[#FDFCFB] text-stone-900 relative">
@@ -126,24 +159,56 @@ export const GallerySection: React.FC = () => {
       {/* Lightbox Preview Modal */}
       {selectedItem && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md animate-in fade-in duration-200"
           onClick={() => setSelectedItem(null)}
           onContextMenu={(e) => e.preventDefault()}
         >
-          {/* Close Button */}
-          <button
-            onClick={(e) => { e.stopPropagation(); setSelectedItem(null); }}
-            className="absolute top-4 right-4 z-[110] p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
-          >
-            <X className="w-6 h-6" />
-          </button>
-          
+          {/* Top Bar with Title, Counter and Close Button */}
+          <div className="absolute top-4 left-4 right-4 z-[110] flex items-center justify-between text-white pointer-events-auto">
+            <div className="flex items-center gap-2 bg-stone-900/80 px-3.5 py-1.5 rounded-full border border-stone-700 text-xs font-semibold backdrop-blur-md">
+              <span className="text-amber-400 font-bold">{activeFolder?.name || 'Media'}</span>
+              <span className="text-stone-400">•</span>
+              <span>{currentIndex + 1} / {displayItems.length}</span>
+            </div>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); setSelectedItem(null); }}
+              className="p-2.5 bg-white/10 hover:bg-white/25 rounded-full text-white transition-colors shadow-lg backdrop-blur-md"
+              title="Close (Esc)"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Previous Button (<) */}
+          {displayItems.length > 1 && (
+            <button
+              onClick={handlePrev}
+              className="absolute left-2 sm:left-6 z-[110] p-3 sm:p-4 bg-stone-900/80 hover:bg-amber-600 rounded-full text-white transition-all shadow-2xl border border-stone-700/80 hover:scale-110 active:scale-95 group pointer-events-auto"
+              title="Previous Photo (Left Arrow)"
+            >
+              <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 text-stone-200 group-hover:text-white" />
+            </button>
+          )}
+
+          {/* Next Button (>) */}
+          {displayItems.length > 1 && (
+            <button
+              onClick={handleNext}
+              className="absolute right-2 sm:right-6 z-[110] p-3 sm:p-4 bg-stone-900/80 hover:bg-amber-600 rounded-full text-white transition-all shadow-2xl border border-stone-700/80 hover:scale-110 active:scale-95 group pointer-events-auto"
+              title="Next Photo (Right Arrow)"
+            >
+              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-stone-200 group-hover:text-white" />
+            </button>
+          )}
+
+          {/* Media Content Display */}
           <div 
-            className="w-full h-full p-4 md:p-8 flex items-center justify-center relative select-none"
+            className="w-full h-full p-12 sm:p-16 md:p-20 flex items-center justify-center relative select-none"
             onClick={(e) => e.stopPropagation()} 
           >
             {selectedItem.type === 'video' ? (
-              <div className="w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl relative">
+              <div className="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl relative border border-stone-800">
                 <iframe
                   src={`https://www.youtube.com/embed/${selectedItem.youtubeId || 'dQw4w9WgXcQ'}`}
                   title={selectedItem.title}
@@ -153,14 +218,21 @@ export const GallerySection: React.FC = () => {
                 />
               </div>
             ) : (
-              <img
-                src={selectedItem.imageUrl}
-                alt={selectedItem.title}
-                className="max-w-full max-h-full object-contain drop-shadow-2xl select-none pointer-events-none"
-                draggable={false}
-                onContextMenu={(e) => e.preventDefault()}
-                referrerPolicy="no-referrer"
-              />
+              <div className="flex flex-col items-center justify-center max-w-full max-h-full">
+                <img
+                  src={selectedItem.imageUrl}
+                  alt={selectedItem.title}
+                  className="max-w-full max-h-[82vh] object-contain drop-shadow-2xl select-none pointer-events-none rounded-lg"
+                  draggable={false}
+                  onContextMenu={(e) => e.preventDefault()}
+                  referrerPolicy="no-referrer"
+                />
+                {selectedItem.title && (
+                  <p className="mt-3 text-stone-300 text-xs sm:text-sm font-medium text-center bg-stone-900/70 px-4 py-1.5 rounded-full border border-stone-800 backdrop-blur-sm">
+                    {selectedItem.title}
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -168,3 +240,4 @@ export const GallerySection: React.FC = () => {
     </section>
   );
 };
+
