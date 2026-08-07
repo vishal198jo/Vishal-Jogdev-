@@ -57,7 +57,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#121218]/95 border-t border-stone-800/80 backdrop-blur-md py-3 px-4 sm:px-6 text-stone-100 shadow-2xl animate-in slide-in-from-bottom duration-300">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#121218] border-t border-stone-800/80 py-3 px-4 sm:px-6 text-stone-100 shadow-2xl gpu-layer">
       
       {/* Hidden HTML5 Audio Element */}
       <audio

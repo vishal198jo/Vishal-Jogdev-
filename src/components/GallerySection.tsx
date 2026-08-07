@@ -155,6 +155,8 @@ export const GallerySection: React.FC = () => {
                     draggable={false}
                     onContextMenu={(e) => e.preventDefault()}
                     referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
                   <div className="absolute bottom-2 left-2 flex items-center gap-1.5 text-white">
@@ -189,6 +191,8 @@ export const GallerySection: React.FC = () => {
                   draggable={false}
                   onContextMenu={(e) => e.preventDefault()}
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                 />
                 
                 {/* Video Play Overlay */}

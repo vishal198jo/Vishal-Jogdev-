@@ -84,6 +84,8 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
                     alt={song.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#121218] via-black/20 to-transparent" />
 

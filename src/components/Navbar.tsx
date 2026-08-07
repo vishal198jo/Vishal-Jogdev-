@@ -48,9 +48,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Luxury Dark Glass Navigation Container */}
+      {/* Luxury Dark Navigation Container */}
       <div 
-        className={`transition-all duration-300 bg-[#0c0c11]/90 backdrop-blur-md border-b border-amber-500/30 text-white shadow-2xl ${
+        className={`transition-all duration-300 bg-[#0c0c11] border-b border-amber-500/30 text-white shadow-2xl gpu-layer ${
           isScrolled 
             ? 'py-2.5 shadow-amber-900/10' 
             : 'py-3.5'
