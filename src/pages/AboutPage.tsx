@@ -3,16 +3,14 @@ import { motion } from 'motion/react';
 import { AboutSection } from '../components/AboutSection';
 import { StatsSection } from '../components/StatsSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
-import { Award, Music, Heart, Globe, BookOpen } from 'lucide-react';
+import { Award, Music, Heart, Globe, BookOpen, Sparkles, Mic, Trophy } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
 import { SEO } from '../components/SEO';
 
 export const AboutPage: React.FC = () => {
-  
-
   return (
     <>
-      <SEO title="Biography & Musical Journey" description="Learn about Vishal Jogdeo's 15-year classical vocal journey, Gurukul lineage, Sant Sahitya research, and global devotional concert tours." keywords="Vishal Jogdeo Biography, Classical Music Vocalist, Sant Sahitya, Hindustani Music, Pune Singer" />
+      <SEO title="विशाल जोगदेव - अधिकृत माहिती व संगीत प्रवास" description="सुप्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट विशाल जोगदेव यांची अधिकृत माहिती, २५ वर्षांची संगीत कारकीर्द, १५००+ भक्तीगीते व ५००+ महानुभाव पंथ भजने." keywords="Vishal Jogdeo Biography, महानुभाव पंथ भजनसम्राट, भक्तिगीत गायक, विशाल जोगदेव" />
       <div className="pt-20 sm:pt-24 space-y-10">
       {/* Page Header */}
       <motion.div 
@@ -24,13 +22,13 @@ export const AboutPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-widest">
             <Award className="w-3.5 h-3.5 text-amber-400" />
-            <span>Official Biography</span>
+            <span>Official Biography & Profile</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
             About <span className="font-serif italic text-gold-gradient font-normal">Vishal Jogdeo</span>
           </h1>
           <p className="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-sans">
-            A 15-year journey of classical vocal discipline, spiritual devotion, and global Maharashtrian culture promotion.
+            महाराष्ट्रातील सुप्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट विशाल जोगदेव यांचा संगीत प्रवास.
           </p>
         </div>
       </motion.div>
@@ -51,23 +49,23 @@ export const AboutPage: React.FC = () => {
           className="bg-[#121218] p-6 sm:p-10 rounded-3xl border border-amber-500/20 space-y-8 text-stone-100 shadow-xl"
         >
           <div className="text-center max-w-2xl mx-auto space-y-1.5 border-b border-amber-500/20 pb-4">
-            <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">Gharana & Musical Foundation</span>
+            <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">विशेष योगदान व वैशिष्ट्ये</span>
             <h2 className="text-2xl sm:text-3xl font-bold font-heading text-white">
-              Classical Discipline & <span className="font-serif italic text-gold-gradient font-normal">Spiritual Lineage</span>
+              संगीत क्षेत्रातील <span className="font-serif italic text-gold-gradient font-normal">प्रमुख टप्पे</span>
             </h2>
             <p className="text-stone-300 text-xs sm:text-sm">
-              Trained rigorously in Hindustani classical music with a focus on devotional voice modulation.
+              २००१ पासून आजतागायत १५००+ हून अधिक भक्तीगीते आणि ५००+ महानुभाव पंथ भजने.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-5 bg-stone-900/90 rounded-2xl border border-stone-800 space-y-2.5">
               <div className="w-9 h-9 bg-amber-950/80 border border-amber-500/30 rounded-lg text-amber-300 flex items-center justify-center font-bold">
-                <Music className="w-4 h-4 text-amber-400" />
+                <Mic className="w-4 h-4 text-amber-400" />
               </div>
-              <h3 className="text-base font-bold text-white font-heading">Hindustani Vocal Training</h3>
+              <h3 className="text-base font-bold text-white font-heading">१५००+ भक्तिगीते रेकॉर्डिंग</h3>
               <p className="text-xs text-stone-300 font-sans leading-relaxed">
-                Over 12 years of intensive Riyaz in Khyal gayaki, voice modulation, and octave transitions under venerable gurus in Pune and Mumbai.
+                T-Series, कृणाल म्युझिक, HMV म्युझिक, SAREGAMA यांसारख्या कंपन्यांसाठी मराठी व हिंदी भक्तीगीते रेकॉर्ड केली.
               </p>
             </div>
 
@@ -75,19 +73,19 @@ export const AboutPage: React.FC = () => {
               <div className="w-9 h-9 bg-amber-950/80 border border-amber-500/30 rounded-lg text-amber-300 flex items-center justify-center font-bold">
                 <BookOpen className="w-4 h-4 text-amber-400" />
               </div>
-              <h3 className="text-base font-bold text-white font-heading">Sant Sahitya Archival Work</h3>
+              <h3 className="text-base font-bold text-white font-heading">महानुभाव पंथ सेवा</h3>
               <p className="text-xs text-stone-300 font-sans leading-relaxed">
-                Dedicated research into the authentic composition meters of Sant Dnyaneshwar, Sant Tukaram, Sant Namdev, and Sant Janabai.
+                महानुभाव पंथासाठी ५००+ भजने, श्लोक, आरत्या, दत्तात्रेय कवच, पंचावतार मंत्र - ज्याने त्यांना "महानुभाव पंथ भजनसम्राट" ही उपाधी मिळवून दिली.
               </p>
             </div>
 
             <div className="p-5 bg-stone-900/90 rounded-2xl border border-stone-800 space-y-2.5">
               <div className="w-9 h-9 bg-amber-950/80 border border-amber-500/30 rounded-lg text-amber-300 flex items-center justify-center font-bold">
-                <Globe className="w-4 h-4 text-amber-400" />
+                <Trophy className="w-4 h-4 text-amber-400" />
               </div>
-              <h3 className="text-base font-bold text-white font-heading">Global Performance Tours</h3>
+              <h3 className="text-base font-bold text-white font-heading">यूट्यूब सिल्वर प्ले बटण</h3>
               <p className="text-xs text-stone-300 font-sans leading-relaxed">
-                Conducted over 450+ live concerts in India, USA, UK, UAE, and Singapore, connecting the Indian diaspora with spiritual melody.
+                केंद्रीय मंत्री नितीन गडकरी यांच्या हस्ते नागपूर येथे विदर्भातील पहिला YouTube Silver Play Button पुरस्कार प्रदान करण्यात आला.
               </p>
             </div>
           </div>
@@ -100,4 +98,5 @@ export const AboutPage: React.FC = () => {
   </>
   );
 };
+
 

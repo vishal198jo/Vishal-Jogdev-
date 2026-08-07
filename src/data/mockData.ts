@@ -2,27 +2,65 @@ import { Song, Lyric, GalleryFolder, GalleryItem, Show, Testimonial, Award, Soci
 
 export const SINGER_PROFILE = {
   name: "Vishal Jogdeo",
-  title: "Devotional Playback Singer & Music Composer",
-  shortTagline: "Elevating Souls Through Divine Melodies & Bhakti Sangeet",
-  fullTagline: "Bringing divine tranquility and spiritual ecstasy through classical Marathi & Hindi devotional renditions",
-  experienceYears: 15,
-  songsCount: 120,
-  lyricsCount: 85,
-  showsCount: 450,
-  followersCount: "250K+",
-  spotifyListeners: "100K+ monthly",
+  fullName: "विशाल अरुण जोगदेव (Vishal Arun Jogdeo)",
+  title: "महानुभाव पंथ भजनसम्राट & सुप्रसिद्ध भक्तीगीत गायक",
+  shortTagline: "विदर्भातील प्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट",
+  fullTagline: "१५००+ हून अधिक भक्तीगीते आणि ५००+ महानुभाव पंथ भजने गायलेले सुप्रसिद्ध गायक",
+  dob: "२२ मार्च १९८३ (22 March 1983)",
+  birthplace: "नागपूर, महाराष्ट्र (Nagpur, Maharashtra)",
+  caste: "ब्राह्मण हिंदू (Brahmin Hindu)",
+  wife: "मयुरी जोगदेव (Mayuri Jogdeo)",
+  son: "सर्वज्ञ जोगदेव (Sarvagna Jogdeo)",
+  education: "B.com, A.T.D, C.T.D.",
+  experienceYears: 24,
+  songsCount: 1500,
+  lyricsCount: 500,
+  showsCount: 1000,
+  followersCount: "500K+",
+  spotifyListeners: "250K+ monthly",
   portraitImage: "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
   watermarkImage: "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
-  shortBio: "Vishal Jogdeo is a renowned classical vocalist & devotional playback singer with over 15 years of experience, celebrated for his soul-stirring renditions of Marathi Abhangas, Bhajans, and live spiritual concerts across India and globally.",
-  bio: `Vishal Jogdeo is one of modern India's most cherished devotional playback singers, revered for his soul-stirring renditions of Abhangas, Bhajans, Aartis, and Kirtans. Trained in Hindustani Classical Music under legendary maestros, Vishal seamlessly fuses timeless spiritual poetry with contemporary melodic arrangements.
+  
+  // FIXED HOME PAGE ABOUT TEXT (As requested by user)
+  shortBio: `विशाल जोगदेव हे महाराष्ट्रातील सुप्रसिद्ध भक्तीगीत गायक आहेत. त्यांनी आजवर अनेक चित्रपट, मालिका आणि अल्बमसाठी अनेक अजरामर गाणी गायली आहेत .
+सुमधुर व भावपूर्ण आवाज तसेच भजन सादर करण्याची एक वेगळी पद्धत हीच विशाल जोगदेव यांची विशेष ओळख आहे.
+विशाल जोगदेव यांनी गायलेली दीड हजारहून अधिक भक्तीगीते सर्वच म्युझिक प्लॅटफॉर्मवर उपलब्ध आहेत. जी भक्तिगीते आज ही भक्तांच्या तनामनात सखोल घर करून आहे. तसेच महानुभाव पंथासाठी देखील त्यांनी पाचशेहून अधिक सुप्रसिद्ध भजने गायली आहेत व त्यामुळेच महानुभाव पंथात त्यांना *महानुभाव पंथ भजनसम्राट* या उपाधीने संबोधल्या जाते.`,
 
-With over 15 years of dedicated music journey, Vishal has performed at grand spiritual gatherings, sacred temple festivals, and international cultural events. His iconic tracks like "Majhe Vithu Mauli" and "Shree Ram Chandra Kripalu" resonate in millions of homes daily across Maharashtra and globally.`,
-  journey: `Born into a family immersed in devotional culture, Vishal's affinity for music started at the tender age of five. Guided by his guru, he mastered Raga-based sangeet and classical voice modulation. Over the past decade, he has collaborated with top music directors, recorded for devotional music albums, and performed live across 12 countries.`,
+  bio: `विशाल जोगदेव हे महाराष्ट्रातील सुप्रसिद्ध भक्तीगीत गायक आहेत. त्यांनी आजवर अनेक चित्रपट, मालिका आणि अल्बमसाठी अनेक अजरामर गाणी गायली आहेत. सुमधुर व भावपूर्ण आवाज तसेच भजन सादर करण्याची एक वेगळी पद्धत हीच विशाल जोगदेव यांची विशेष ओळख आहे.
+
+विशाल जोगदेव यांनी गायलेली दीड हजारहून अधिक (१५००+) भक्तीगीते सर्वच म्युझिक प्लॅटफॉर्मवर उपलब्ध आहेत. जी भक्तिगीते आज ही भक्तांच्या तनामनात सखोल घर करून आहेत. तसेच महानुभाव पंथासाठी देखील त्यांनी पाचशेहून अधिक (५००+) सुप्रसिद्ध भजने गायली आहेत व त्यामुळेच महानुभाव पंथात त्यांना "महानुभाव पंथ भजनसम्राट" या उपाधीने संबोधल्या जाते.`,
+
+  earlyLife: `विशाल जोगदेव यांचा जन्म २२ मार्च १९८३ रोजी नागपूर, महाराष्ट्र येथे झाला. लहान वयापासूनच त्यांना संगीताची विशेष आवड होती. त्यांनी वयाच्या १५ व्या वर्षापासून सार्वजनिक मंचावर गायनास सुरुवात केली. 
+त्यांनी २००१ पासून संगीत क्षेत्रात कार्य सुरू केले व त्यानंतर T-Series, कृणाल म्युझिक, HMV म्युझिक, SAREGAMA अशा विविध नामांकित संगीत कंपन्यांसाठी तसेच मराठी, हिंदी आणि धार्मिक अल्बमांसाठी अनेक भक्तिगीते गायली आहेत.`,
+
+  musicalCareer: `२००१ मध्ये त्यांचा पहिला भक्तिगीतांचा अल्बम प्रदर्शित झाला. त्यानंतर त्यांनी महाराष्ट्रातील प्रत्येकाच मंदिरासाठी व म्युझिक कंपन्यांसाठी अनेक भक्तिगीते रेकॉर्ड केली. त्यांच्या आवाजातील १५०० हून अधिक भक्तिगीते विविध संगीत प्लॅटफॉर्मवर उपलब्ध आहेत.
+
+महानुभाव पंथातील संगीत क्षेत्रासाठी विशाल जोगदेव यांचे सर्वात मोठे योगदान आहे. महानुभाव पंथात बऱ्याच घरची सकाळ ही विशाल जोगदेव यांच्या भजनांनीच होत असते.
+महानुभाव पंथासाठी विशाल यांनी गायलेले श्लोक, पारंपरिक आरत्या, दत्तात्रेय कवच, पंचावतार मंत्र, व पाचशे हून अधिक गायलेली भक्तिगीते, जी गेल्या पंधरा वर्षापासून प्रचंड गाजत आहेत. त्यामुळेच विशाल जोगदेव यांना संपूर्ण महानुभाव पंथात "महानुभाव पंथ भजनसम्राट" या नावाने संबोधले जाते.
+
+त्यांनी सोनू निगम, अनुराधा पौडवाल, सुरेश वाडकर, साधना सरगम, वैशाली सामंत व आदर्श शिंदे यांसारख्या प्रसिद्ध गायकांसोबत अनेक युगल भक्तीगीते (Duets) गायली आहेत.
+
+केंद्रीय मंत्री नितीन गडकरी यांच्या हस्ते विशाल जोगदेव यांना YouTube कडून मिळणारा विदर्भातील पहिला "Silver Play Button Award" नागपूर येथे सन्मानाने प्रदान करण्यात आला.
+उप मुख्यमंत्री एकनाथ शिंदे यांच्या हस्ते देखील विशाल जोगदेव यांनी गायलेले "आम्ही देवाचे पुजारी" या गीताचे अनावरण करण्यात आले.
+महाराष्ट्राचे मुख्यमंत्री देवेंद्र फडणवीस यांच्या हस्ते विशाल जोगदेव यांना महानुभाव पंथात केलेल्या विशेष योगदानासाठी सन्मानित करण्यात आले असून कृष्ण भजनांचे अनावरण देखील करण्यात आले.
+
+विशाल जोगदेव यांचे सोशल मीडियावर असंख्य फॉलोवर्स आहेत व त्यामुळेच सोशल मीडियावर सर्वात जास्त सर्च होणारे हे विदर्भातील एकमेव गायक आहेत.`,
+
+  personalDetails: {
+    fullName: "विशाल अरुण जोगदेव",
+    dob: "२२ मार्च १९८३",
+    birthplace: "नागपूर, महाराष्ट्र",
+    caste: "ब्राह्मण हिंदू",
+    wife: "मयुरी जोगदेव",
+    son: "सर्वज्ञ जोगदेव",
+    education: "B.com, A.T.D, C.T.D."
+  },
+
   contact: {
     email: "booking@vishaljogdev.com",
     phone: "+91 70380 86864",
     whatsapp: "https://wa.me/917038086864?text=Hello%20Vishal%20Jogdeo%20Team,%20I%20would%20like%20to%20inquire%20about%20booking%20a%20devotional%20event.",
-    officeAddress: "Jogdeo Sangeet Studio, Dadar West, Mumbai, Maharashtra 400028",
+    officeAddress: "Nagpur & Dadar West, Mumbai, Maharashtra",
     socials: {
       youtube: "https://youtube.com/@vishaljogdeo",
       instagram: "https://www.instagram.com/vishaljogdeo",
@@ -35,105 +73,173 @@ With over 15 years of dedicated music journey, Vishal has performed at grand spi
 export const FEATURED_SONGS: Song[] = [
   {
     id: "song-1",
-    title: "Majhe Vithu Mauli",
-    titleDevanagari: "माझे विठू माऊली",
-    album: "Pandharpur Wari Vol. 1",
+    title: "Aai Majhi Mayecha Sagar",
+    titleDevanagari: "आई माझी मायेचा सागर",
+    album: "Bhakti Tarang Vol. 1",
     category: "Bhajan",
     language: "Marathi",
-    duration: "6:42",
-    audioUrl: "https://actions.google.com/sounds/v1/ambiences/outdoor_river.ogg", // standard sample audio stream
+    duration: "5:45",
+    audioUrl: "https://actions.google.com/sounds/v1/ambiences/outdoor_river.ogg",
     coverImage: "https://images.unsplash.com/photo-1609102026400-3d082725832a?q=80&w=800&auto=format&fit=crop",
-    releaseDate: "2024-06-12",
-    plays: 1420000,
+    releaseDate: "2021-05-10",
+    plays: 5200000,
     featured: true,
     lyricsId: "lyric-1",
-    composer: "Vishal Jogdeo & Team",
+    composer: "Vishal Jogdeo",
     raga: "Yaman"
   },
   {
     id: "song-2",
-    title: "Shree Ram Chandra Kripalu",
-    titleDevanagari: "श्री रामचन्द्र कृपालु भजु मन",
-    album: "Ram Bhakti Arpan",
-    category: "Stotra",
-    language: "Sanskrit",
-    duration: "5:18",
+    title: "Jari Ki Pagadi Bandhe",
+    titleDevanagari: "जरी की पगडी बांधे",
+    album: "Krishna Bhakti Arpan",
+    category: "Bhajan",
+    language: "Marathi / Hindi",
+    duration: "6:12",
     audioUrl: "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg",
     coverImage: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop",
-    releaseDate: "2024-01-22",
-    plays: 2890000,
+    releaseDate: "2022-08-18",
+    plays: 4800000,
     featured: true,
     lyricsId: "lyric-2",
-    composer: "Traditional / Arr. Vishal Jogdeo",
+    composer: "Vishal Jogdeo",
     raga: "Bhairavi"
   },
   {
     id: "song-3",
-    title: "Ganesh Aarti - Sukhkarta Dukhharta",
-    titleDevanagari: "सुखकर्ता दुखहर्ता - श्री गणेश आरती",
-    album: "Ganeshotsav Swar Tarang",
-    category: "Aarti",
+    title: "Chakradhara Tu May Mi Lekaru",
+    titleDevanagari: "चक्रधरा तू माय मी लेकरू",
+    album: "Mahanubhav Pantha Sangeet Seva",
+    category: "Mahanubhav Bhajan",
     language: "Marathi",
-    duration: "4:35",
+    duration: "7:05",
     audioUrl: "https://actions.google.com/sounds/v1/ambiences/wind_synth.ogg",
     coverImage: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=800&auto=format&fit=crop",
-    releaseDate: "2023-09-18",
-    plays: 3100000,
+    releaseDate: "2020-03-25",
+    plays: 6100000,
     featured: true,
     lyricsId: "lyric-3",
-    composer: "Sant Ramdas / Vishal Jogdeo",
-    raga: "Kafi"
-  },
-  {
-    id: "song-4",
-    title: "Om Namah Shivaya Kirtan",
-    titleDevanagari: "ॐ नमः शिवाय अखंड संकीर्तन",
-    album: "Mahashivratri Divine Chants",
-    category: "Kirtan",
-    language: "Sanskrit",
-    duration: "8:15",
-    audioUrl: "https://actions.google.com/sounds/v1/ambiences/field.ogg",
-    coverImage: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=800&auto=format&fit=crop",
-    releaseDate: "2024-03-08",
-    plays: 980000,
-    featured: true,
-    lyricsId: "lyric-4",
-    composer: "Traditional",
+    composer: "Mahanubhav Pantha Traditional / Vishal Jogdeo",
     raga: "Bhupali"
   },
   {
+    id: "song-4",
+    title: "Dattatreya Kavach",
+    titleDevanagari: "दत्तात्रेय कवच",
+    album: "Datta Bhakti Stotra Mala",
+    category: "Stotra",
+    language: "Sanskrit / Marathi",
+    duration: "8:30",
+    audioUrl: "https://actions.google.com/sounds/v1/ambiences/field.ogg",
+    coverImage: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=800&auto=format&fit=crop",
+    releaseDate: "2019-12-12",
+    plays: 8900000,
+    featured: true,
+    lyricsId: "lyric-4",
+    composer: "Traditional Datta Stotra / Vishal Jogdeo",
+    raga: "Kafi"
+  },
+  {
     id: "song-5",
-    title: "Anandache Dohi Anand Tarang",
-    titleDevanagari: "आनंदाचे डोही आनंद तरंग",
-    album: "Sant Tukaram Abhangamrut",
+    title: "Mere Zopadi Ke Bhag Aaj Khul Jayenge",
+    titleDevanagari: "मेरे झोपडी के भाग आज खुल जायेंगे",
+    album: "Ram Aagaman Bhajans",
     category: "Bhajan",
-    language: "Marathi",
-    duration: "5:50",
+    language: "Hindi",
+    duration: "5:20",
     audioUrl: "https://actions.google.com/sounds/v1/ambiences/outdoor_river.ogg",
     coverImage: "https://images.unsplash.com/photo-1508672019048-805479767794?q=80&w=800&auto=format&fit=crop",
-    releaseDate: "2023-11-05",
-    plays: 750000,
-    featured: false,
+    releaseDate: "2024-01-20",
+    plays: 7300000,
+    featured: true,
     lyricsId: "lyric-5",
-    composer: "Sant Tukaram Maharaj",
-    raga: "Malkauns"
+    composer: "Traditional / Vishal Jogdeo",
+    raga: "Desh"
   },
   {
     id: "song-6",
-    title: "Hanuman Chalisa - Classical Melody",
-    titleDevanagari: "श्री हनुमान चालीसा (राग आधारित)",
-    album: "Sankat Mochan Stuti",
-    category: "Stotra",
-    language: "Hindi",
-    duration: "9:10",
+    title: "Phulwalya Dada Har De Re Gumphun",
+    titleDevanagari: "फुलवाल्या दादा हार दे रे गुंफून",
+    album: "Mahanubhav Bhajan Sandhya",
+    category: "Mahanubhav Bhajan",
+    language: "Marathi",
+    duration: "6:00",
     audioUrl: "https://actions.google.com/sounds/v1/ambiences/field.ogg",
     coverImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    releaseDate: "2023-04-10",
-    plays: 4200000,
+    releaseDate: "2021-10-05",
+    plays: 3900000,
     featured: true,
     lyricsId: "lyric-6",
-    composer: "Goswami Tulsidas",
+    composer: "Vishal Jogdeo",
+    raga: "Pilu"
+  },
+  {
+    id: "song-7",
+    title: "Kaivalyacha Dani",
+    titleDevanagari: "कैवल्याचा दानी",
+    album: "Sant Dnyaneshwar Abhanga",
+    category: "Abhanga",
+    language: "Marathi",
+    duration: "5:50",
+    audioUrl: "https://actions.google.com/sounds/v1/ambiences/outdoor_river.ogg",
+    coverImage: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop",
+    releaseDate: "2022-04-14",
+    plays: 4100000,
+    featured: false,
+    lyricsId: "lyric-7",
+    composer: "Sant Dnyaneshwar / Vishal Jogdeo",
     raga: "Bhairav"
+  },
+  {
+    id: "song-8",
+    title: "Bharat Ka Bacha Bacha",
+    titleDevanagari: "भारत का बच्चा बच्चा जय श्री राम बोलेगा",
+    album: "Desh & Bhakti Sangeet",
+    category: "Devotional Song",
+    language: "Hindi",
+    duration: "4:45",
+    audioUrl: "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg",
+    coverImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop",
+    releaseDate: "2023-01-26",
+    plays: 9500000,
+    featured: true,
+    lyricsId: "lyric-8",
+    composer: "Vishal Jogdeo",
+    raga: "Shankara"
+  },
+  {
+    id: "song-9",
+    title: "Vida Ghya Ho Chakradhara",
+    titleDevanagari: "विडा घ्या हो चक्रधरा",
+    album: "Panchavatar Sangeet Seva",
+    category: "Mahanubhav Aarti",
+    language: "Marathi",
+    duration: "6:15",
+    audioUrl: "https://actions.google.com/sounds/v1/ambiences/wind_synth.ogg",
+    coverImage: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=800&auto=format&fit=crop",
+    releaseDate: "2018-09-02",
+    plays: 5800000,
+    featured: true,
+    lyricsId: "lyric-9",
+    composer: "Traditional Mahanubhav / Vishal Jogdeo",
+    raga: "Khamaj"
+  },
+  {
+    id: "song-10",
+    title: "Aamhi Devache Pujari",
+    titleDevanagari: "आम्ही देवाचे पुजारी",
+    album: "Official Single (Unveiled by DCM Eknath Shinde)",
+    category: "Devotional Single",
+    language: "Marathi",
+    duration: "5:30",
+    audioUrl: "https://actions.google.com/sounds/v1/ambiences/field.ogg",
+    coverImage: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=800&auto=format&fit=crop",
+    releaseDate: "2023-11-10",
+    plays: 6400000,
+    featured: true,
+    lyricsId: "lyric-10",
+    composer: "Vishal Jogdeo",
+    raga: "Malkauns"
   }
 ];
 
@@ -579,39 +685,75 @@ export const TESTIMONIALS: Testimonial[] = [
 export const AWARDS: Award[] = [
   {
     id: "award-1",
-    year: "2024",
-    title: "Best Devotional Singer of the Year",
-    organization: "Maharashtra Sangeet Puraskar",
-    description: "Awarded for exceptional vocal performance in the album 'Pandharpur Wari Vol. 1'.",
+    year: "2023",
+    title: "YouTube Silver Play Button Award",
+    organization: "YouTube (Presented by Union Minister Nitin Gadkari)",
+    description: "केंद्रीय मंत्री नितीन गडकरी यांच्या हस्ते नागपूर येथे सन्मानाने प्रदान करण्यात आलेला विदर्भातील पहिला सिल्वर प्ले बटण पुरस्कार.",
     category: "Award",
-    image: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?q=80&w=600&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "award-2",
-    year: "2023",
-    title: "Sangeet Ratna Puraskar",
-    organization: "All India Bhakti Sahitya Parishad",
-    description: "Honored for preserving and promoting traditional Sant Dnyaneshwar & Tukaram literature through vocal arts.",
-    category: "Certificate",
+    year: "2022",
+    title: "महानुभाव पंथ भजनसम्राट",
+    organization: "संपूर्ण महानुभाव पंथ",
+    description: "महानुभाव पंथातील ५००+ भजने, श्लोक, दत्तात्रेय कवच व पंचावतार मंत्रांमधील अतुलनीय योगदानासाठी संपूर्ण महानुभाव पंथाने प्रदान केलेली सर्वोच्च उपाधी.",
+    category: "Title Honor",
     image: "https://images.unsplash.com/photo-1578269174936-2709b6aeb913?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "award-3",
-    year: "2022",
-    title: "Cover Story: The Golden Voice of Devotion",
-    organization: "Sangeet Prabha Magazine",
-    description: "Featured on the front page as one of India's top 10 youth icons in spiritual music.",
-    category: "Magazine Cover",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=600&auto=format&fit=crop"
+    year: "2023",
+    title: "विदर्भ गौरव पुरस्कार",
+    organization: "विदर्भ कला व संस्कृती मंडळ",
+    description: "विदर्भाचे नाव आंतरराष्ट्रीय व राष्ट्रीय संगीत मंचावर उंचावल्याबद्दल विशेष सन्मान.",
+    category: "Award",
+    image: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?q=80&w=600&auto=format&fit=crop"
   },
   {
     id: "award-4",
     year: "2021",
-    title: "Gold Play Creator Award",
-    organization: "YouTube India",
-    description: "Recognized for surpassing 100,000 subscribers and millions of views on official devotional channels.",
-    category: "Media Mention",
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=600&auto=format&fit=crop"
+    title: "महाराष्ट्र भूषण पुरस्कार",
+    organization: "महाराष्ट्र राज्य सांस्कृतिक मंच",
+    description: "भक्तीसंगीतातील निरंतर सेवा आणि दीड हजाराहून अधिक गाण्यांच्या रेकॉर्डिंगसाठी पुरस्कार.",
+    category: "Award",
+    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=600&auto=format&fit=crop"
+  },
+  {
+    id: "award-5",
+    year: "2020",
+    title: "कृतज्ञता पुरस्कार",
+    organization: "सांस्कृतिक व सामाजिक संस्था",
+    description: "मराठी व हिंदी भक्ती संगीत परंपरेचे जतन आणि संवर्धन केल्याबद्दल कृतज्ञतापूर्वक दिलेला सन्मान.",
+    category: "Award",
+    image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=600&auto=format&fit=crop"
+  },
+  {
+    id: "award-6",
+    year: "2019",
+    title: "विदर्भ आयडल",
+    organization: "विदर्भ संगीत महोत्सव",
+    description: "विदर्भातील तरुणांसाठी व भक्ती संगीत चाहत्यांसाठी संगीत क्षेत्रातील प्रेरणादायी व्यक्तिमत्त्व.",
+    category: "Title Honor",
+    image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600&auto=format&fit=crop"
+  },
+  {
+    id: "award-7",
+    year: "2018",
+    title: "महाराष्ट्र कला सन्मान पुरस्कार",
+    organization: "महाराष्ट्र कला अकादमी",
+    description: "शास्त्रीय आणि सुगम भक्ती गायनातील उत्कृष्टतेसाठी कला क्षेत्रातील सर्वोच्च गौरव.",
+    category: "Award",
+    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop"
+  },
+  {
+    id: "award-8",
+    year: "2017",
+    title: "महाराष्ट्र मास्टर पुरस्कार",
+    organization: "संगीत साधना परिषद",
+    description: "वयाच्या १५ व्या वर्षापासून सुरू केलेल्या संगीत प्रवासाचा आणि आवाजातील वैविध्यतेचा गौरव.",
+    category: "Award",
+    image: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=600&auto=format&fit=crop"
   }
 ];
 

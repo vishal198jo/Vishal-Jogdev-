@@ -1,43 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-// Import images
-import heroImg1 from '../assets/images/vishal_jogdev_hero_1785893999710.jpg';
-import heroImg2 from '../assets/images/devotional_stage_concert_1785894013298.jpg';
-import heroImg3 from '../assets/images/vishal_concert_slide3_1786025115221.jpg';
 
 export interface SlideItem {
   id: number;
-  title: string;
   image: string;
+  altText: string;
 }
 
 export const HERO_SLIDES: SlideItem[] = [
   {
     id: 1,
-    title: "Vishal Jogdeo Live Concert",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsxRke2ViwYLU9CrGBQA6JdUud4Lo36yg6g6uoMqo-og&s=10",
+    image: "https://i.ibb.co/tTqHDwC3/IMG-3759.png",
+    altText: "Vishal Jogdeo Devotional Banner 1",
   },
   {
     id: 2,
-    title: "Devotional Performance - Vishal Jogdeo",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRty3hAYC4U2OFt6JWf0STNOB9zWEBqxtEF2epU3opVBwEznIzheJQZCggU&s=10",
+    image: "https://i.ibb.co/r2hX0c9G/IMG-2042.png",
+    altText: "Vishal Jogdeo Devotional Banner 2",
   },
   {
     id: 3,
-    title: "Grand Devotional Concerts - Vishal Jogdeo",
-    image: heroImg2,
+    image: "https://i.ibb.co/q8dD001/IMG-3773.png",
+    altText: "Vishal Jogdeo Devotional Banner 3",
   },
   {
     id: 4,
-    title: "Vishal Jogdeo Live - Playback Singer",
-    image: heroImg1,
+    image: "https://i.ibb.co/nN8b2pCt/IMG-3789.png",
+    altText: "Vishal Jogdeo Devotional Banner 4",
   },
-  {
-    id: 5,
-    title: "Bhakti Sangeet & Classical Vocal Seva",
-    image: heroImg3,
-  }
 ];
 
 interface HeroSliderProps {
@@ -45,81 +36,122 @@ interface HeroSliderProps {
   onPlayFeaturedSong?: () => void;
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? '100%' : '-100%',
+    opacity: 1,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? '100%' : '-100%',
+    opacity: 1,
+  }),
+};
+
 export const HeroSlider: React.FC<HeroSliderProps> = () => {
-  const [activeSlide, setActiveSlide] = useState<number>(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(true);
+  const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
 
+  // Preload all banner images immediately on mount for zero lag / zero flicker
   useEffect(() => {
-    if (!isAutoPlaying) return;
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+    HERO_SLIDES.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
 
-  const handleNext = () => {
-    setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  const activeIndex = ((page % HERO_SLIDES.length) + HERO_SLIDES.length) % HERO_SLIDES.length;
+
+  const paginate = (newDirection: number) => {
+    setPage(([prevPage]) => [prevPage + newDirection, newDirection]);
   };
 
-  const handlePrev = () => {
-    setActiveSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-  };
+  // Smooth auto-play every 3 seconds that resets timer on manual interaction
+  useEffect(() => {
+    const timer = setInterval(() => {
+      paginate(1);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [page]);
 
-  const currentSlide = HERO_SLIDES[activeSlide];
+  const currentSlide = HERO_SLIDES[activeIndex];
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
 
   return (
     <div 
-      className="w-full relative overflow-hidden rounded-2xl border border-stone-800 bg-black shadow-2xl group"
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
+      className="w-full relative overflow-hidden rounded-2xl border border-stone-800/80 bg-black shadow-2xl group"
     >
-      {/* 16:9 YouTube Thumbnail Aspect Ratio Container */}
-      <div className="relative w-full aspect-[16/9] overflow-hidden flex items-center bg-black">
+      {/* Container aspect ratio adapted for full view on mobile without cropping */}
+      <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] min-h-[200px] sm:min-h-[340px] md:min-h-[420px] overflow-hidden flex items-center justify-center bg-black">
         
-        {/* Simple Slide Image without Fade In/Out Animation */}
-        <img
-          key={currentSlide.id}
-          src={currentSlide.image}
-          alt={currentSlide.title}
-          className="w-full h-full object-cover object-center"
-          referrerPolicy="no-referrer"
-        />
-
-        {/* 2 Left / Right Simple Icon Buttons */}
-        <button
-          onClick={handlePrev}
-          className="absolute left-2 sm:left-4 z-30 p-2.5 sm:p-3.5 rounded-full bg-black/70 hover:bg-amber-400 hover:text-black text-amber-300 border border-amber-500/40 transition-colors shadow-xl"
-          aria-label="Previous Slide"
-        >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
-        </button>
-
-        <button
-          onClick={handleNext}
-          className="absolute right-2 sm:right-4 z-30 p-2.5 sm:p-3.5 rounded-full bg-black/70 hover:bg-amber-400 hover:text-black text-amber-300 border border-amber-500/40 transition-colors shadow-xl"
-          aria-label="Next Slide"
-        >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
-        </button>
-
-        {/* Bottom Simple Dots Indicator */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-black/80 px-3 py-1.5 rounded-full border border-stone-800 shadow-md">
-          {HERO_SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveSlide(idx)}
-              className={`h-2 rounded-full transition-all ${
-                idx === activeSlide 
-                  ? 'w-6 bg-amber-400' 
-                  : 'w-2 bg-stone-600 hover:bg-stone-400'
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
+        {/* Animated Slide Transition with Touch Swipe support & Hardware Acceleration */}
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={page}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
+              opacity: { duration: 0.3 }
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
+            }}
+            className="absolute inset-0 w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing select-none transform-gpu"
+          >
+            {/* Display complete uncropped banner on mobile (object-contain) and full bleed on desktop */}
+            <img
+              src={currentSlide.image}
+              alt={currentSlide.altText}
+              className="w-full h-full object-contain sm:object-cover object-center pointer-events-none"
+              referrerPolicy="no-referrer"
+              loading="eager"
             />
-          ))}
-        </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Left Navigation Button */}
+        <button
+          onClick={() => paginate(-1)}
+          className="absolute left-2 sm:left-4 z-30 p-2 sm:p-3 text-white/90 hover:text-amber-300 bg-black/50 hover:bg-black/80 rounded-full transition-all hover:scale-110 drop-shadow-md border border-white/20"
+          aria-label="Previous Banner"
+        >
+          <ChevronLeft className="w-5 h-5 sm:w-8 sm:h-8 stroke-[2.5]" />
+        </button>
+
+        {/* Right Navigation Button */}
+        <button
+          onClick={() => paginate(1)}
+          className="absolute right-2 sm:right-4 z-30 p-2 sm:p-3 text-white/90 hover:text-amber-300 bg-black/50 hover:bg-black/80 rounded-full transition-all hover:scale-110 drop-shadow-md border border-white/20"
+          aria-label="Next Banner"
+        >
+          <ChevronRight className="w-5 h-5 sm:w-8 sm:h-8 stroke-[2.5]" />
+        </button>
 
       </div>
     </div>
   );
 };
+
+
+
 

@@ -3,8 +3,8 @@ export interface Song {
   title: string;
   titleDevanagari: string;
   album: string;
-  category: 'Bhajan' | 'Aarti' | 'Mantra' | 'Kirtan' | 'Stotra' | 'Dhun';
-  language: 'Marathi' | 'Hindi' | 'Sanskrit';
+  category: 'Bhajan' | 'Aarti' | 'Mantra' | 'Kirtan' | 'Stotra' | 'Dhun' | 'Abhanga' | 'Mahanubhav Bhajan' | 'Mahanubhav Aarti' | 'Devotional Song' | 'Devotional Single' | string;
+  language: 'Marathi' | 'Hindi' | 'Sanskrit' | 'Marathi / Hindi' | 'Sanskrit / Marathi' | string;
   duration: string;
   audioUrl: string;
   coverImage: string;
@@ -22,8 +22,8 @@ export interface Lyric {
   title: string;
   titleDevanagari: string;
   album: string;
-  category: 'Bhajan' | 'Aarti' | 'Mantra' | 'Kirtan' | 'Stotra' | 'Dhun';
-  language: 'Marathi' | 'Hindi' | 'Sanskrit';
+  category: 'Bhajan' | 'Aarti' | 'Mantra' | 'Kirtan' | 'Stotra' | 'Dhun' | 'Abhanga' | 'Mahanubhav Bhajan' | 'Mahanubhav Aarti' | 'Devotional Song' | 'Devotional Single' | string;
+  language: 'Marathi' | 'Hindi' | 'Sanskrit' | 'Marathi / Hindi' | 'Sanskrit / Marathi' | string;
   publishedDate: string;
   coverImage: string;
   raga?: string;
@@ -89,7 +89,7 @@ export interface Award {
   title: string;
   organization: string;
   description: string;
-  category: 'Award' | 'Certificate' | 'Media Mention' | 'Magazine Cover';
+  category: 'Award' | 'Certificate' | 'Media Mention' | 'Magazine Cover' | 'Title Honor' | string;
   image: string;
 }
 

@@ -228,21 +228,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
             <div className="grid grid-cols-3 gap-4 pt-4 max-w-lg mx-auto lg:mx-0">
               <div className="text-center lg:text-left p-3 rounded-2xl bg-stone-900/80 border border-amber-500/20">
                 <p className="text-2xl sm:text-3xl font-extrabold font-heading text-amber-300">
-                  <CountUpNumber end={120} suffix="+" />
+                  <CountUpNumber end={1500} suffix="+" />
                 </p>
-                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.15em]">Tracks Recorded</p>
+                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.15em]">भक्तीगीते (Songs)</p>
               </div>
               <div className="text-center lg:text-left p-3 rounded-2xl bg-stone-900/80 border border-amber-500/20">
                 <p className="text-2xl sm:text-3xl font-extrabold font-heading text-amber-300">
-                  <CountUpNumber end={450} suffix="+" />
+                  <CountUpNumber end={500} suffix="+" />
                 </p>
-                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.15em]">Live Concerts</p>
+                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.15em]">महानुभाव भजने</p>
               </div>
               <div className="text-center lg:text-left p-3 rounded-2xl bg-stone-900/80 border border-amber-500/20">
                 <p className="text-2xl sm:text-3xl font-extrabold font-heading text-amber-300">
-                  <CountUpNumber end={15} suffix="+" />
+                  <CountUpNumber end={24} suffix="+" />
                 </p>
-                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.15em]">Years Exp.</p>
+                <p className="text-[10px] text-stone-400 font-bold uppercase tracking-[0.15em]">वर्षे कारकीर्द (Exp)</p>
               </div>
             </div>
 

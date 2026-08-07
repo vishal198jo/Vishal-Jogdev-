@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   Share2, 
-  Disc,
   AlignLeft,
   AlignCenter,
   AlignRight
@@ -17,8 +16,6 @@ export const SingleLyricPage: React.FC = () => {
 
   // Find lyric by id or songId
   const lyric = LATEST_LYRICS.find(l => l.id === lyricId || l.songId === lyricId) || LATEST_LYRICS[0];
-
-
 
   // Reader States
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
@@ -60,7 +57,7 @@ export const SingleLyricPage: React.FC = () => {
   {/* Dynamic SEO setup for this specific song lyric */}
   <SEO
       title={`${lyric.titleDevanagari} (${lyric.title}) - Full Lyrics | Vishal Jogdeo`}
-      description={`Read complete lyrics for "${lyric.titleDevanagari}". Album: ${lyric.album}. Sung by Vishal Jogdeo.`}
+      description={`Read complete lyrics for "${lyric.titleDevanagari}". Sung by Vishal Jogdeo.`}
       keywords={`${lyric.title}, ${lyric.titleDevanagari}, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo`}
     />
     <div className="pt-20 pb-10 bg-[#0b0b0e] text-stone-100 min-h-screen">
@@ -98,35 +95,21 @@ export const SingleLyricPage: React.FC = () => {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-        {/* 1. DIRECT TITLE HEADER WITH CLEAN BORDER LINE */}
-        <div className="pb-4 border-b border-stone-800 space-y-2">
-          <div className="flex items-center gap-4">
-            <img
-              src={lyric.coverImage}
-              alt={lyric.title}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover border border-amber-500/30 shadow-md shrink-0"
-              referrerPolicy="no-referrer"
-            />
+        {/* 1. DIRECT TITLE & SINGER HEADER (NO IMAGE, NO CATEGORY/ALBUM BADGES) */}
+        <div className="pb-5 border-b border-stone-800 space-y-3">
+          <div className="space-y-2">
+            {/* Primary Devanagari Title */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white leading-tight">
+              {lyric.titleDevanagari}
+            </h1>
 
-            <div className="space-y-0.5 min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">
-                  {lyric.category}
-                </span>
-                <span className="text-stone-400 text-xs font-semibold flex items-center gap-1">
-                  <Disc className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Album: {lyric.album}</span>
-                </span>
-              </div>
-
-              {/* Primary Devanagari Title */}
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold font-heading text-white leading-tight">
-                {lyric.titleDevanagari}
-              </h1>
-
-              {/* English Transliteration */}
+            {/* English Title & Singer Name */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-stone-800/60">
               <p className="text-xs sm:text-sm font-bold text-amber-300 font-serif italic">
                 {lyric.title}
+              </p>
+              <p className="text-xs font-bold text-amber-400">
+                गायक: <span className="text-white">विशाल जोगदेव (Vishal Jogdeo)</span>
               </p>
             </div>
           </div>
@@ -267,23 +250,15 @@ export const SingleLyricPage: React.FC = () => {
               <div
                 key={item.id}
                 onClick={() => navigate(`/lyrics/${item.id}`)}
-                className="p-3 rounded-2xl bg-[#121218] hover:bg-stone-900 border border-stone-800 cursor-pointer transition-all group shadow-md"
+                className="p-3.5 rounded-2xl bg-[#121218] hover:bg-stone-900 border border-stone-800 cursor-pointer transition-all group shadow-md space-y-1"
               >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={item.coverImage}
-                    alt={item.title}
-                    className="w-10 h-10 rounded-xl object-cover shrink-0 border border-amber-500/30"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="space-y-0.5 min-w-0">
-                    <span className="text-[10px] font-bold text-amber-300 uppercase block">{item.category}</span>
-                    <h4 className="text-xs font-bold text-white font-heading truncate group-hover:text-amber-300 transition-colors">
-                      {item.titleDevanagari}
-                    </h4>
-                    <p className="text-[11px] text-stone-400 italic truncate">{item.title}</p>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-amber-400">गायक: विशाल जोगदेव</span>
                 </div>
+                <h4 className="text-xs font-bold text-white font-heading truncate group-hover:text-amber-300 transition-colors">
+                  {item.titleDevanagari}
+                </h4>
+                <p className="text-[11px] text-stone-400 italic truncate">{item.title}</p>
               </div>
             ))}
           </div>
