@@ -55,6 +55,7 @@ const slideVariants = {
 
 export const HeroSlider: React.FC<HeroSliderProps> = () => {
   const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
 
   // Preload all banner images immediately on mount for zero lag / zero flicker
   useEffect(() => {
@@ -70,13 +71,14 @@ export const HeroSlider: React.FC<HeroSliderProps> = () => {
     setPage(([prevPage]) => [prevPage + newDirection, newDirection]);
   };
 
-  // Smooth auto-play every 3 seconds that resets timer on manual interaction
+  // Smooth auto-play every 3 seconds, pauses when user clicks/touches and holds to read
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(() => {
       paginate(1);
     }, 3000);
     return () => clearInterval(timer);
-  }, [page]);
+  }, [page, isPaused]);
 
   const currentSlide = HERO_SLIDES[activeIndex];
 
@@ -87,7 +89,11 @@ export const HeroSlider: React.FC<HeroSliderProps> = () => {
 
   return (
     <div 
-      className="w-full relative overflow-hidden rounded-2xl border border-stone-800/80 bg-black shadow-2xl group"
+      className="w-full relative overflow-hidden rounded-2xl border border-stone-800/80 bg-black shadow-2xl group active:cursor-grabbing select-none"
+      onPointerDown={() => setIsPaused(true)}
+      onPointerUp={() => setIsPaused(false)}
+      onPointerLeave={() => setIsPaused(false)}
+      onPointerCancel={() => setIsPaused(false)}
     >
       {/* Container aspect ratio adapted for full view on mobile without cropping */}
       <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] min-h-[200px] sm:min-h-[340px] md:min-h-[420px] overflow-hidden flex items-center justify-center bg-black">

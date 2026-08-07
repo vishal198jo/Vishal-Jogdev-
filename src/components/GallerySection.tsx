@@ -221,59 +221,26 @@ export const GallerySection: React.FC = () => {
             <X className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
 
-          {/* Floating Zoom Controls (Bottom Right - Subtle) */}
+          {/* Floating Zoom Control (Only Zoom Icon - No Prev/Next Buttons) */}
           {currentItem.type === 'photo' && (
-            <div className="absolute bottom-6 right-6 z-[100000] flex items-center gap-2 bg-black/60 p-1.5 rounded-full border border-white/10 backdrop-blur-md">
+            <div className="absolute bottom-6 right-6 z-[100000] flex items-center bg-black/60 p-1.5 rounded-full border border-white/15 backdrop-blur-md shadow-2xl">
               <button
-                onClick={zoomIn}
-                className="p-2 hover:bg-white/20 rounded-full text-white transition-colors"
-                title="Zoom In"
+                onClick={toggleZoom}
+                className="p-2.5 hover:bg-white/20 rounded-full text-white transition-all active:scale-90"
+                title={zoomScale > 1 ? "Zoom Out" : "Zoom In"}
+                aria-label="Toggle Zoom"
               >
-                <ZoomIn className="w-5 h-5" />
+                {zoomScale > 1 ? (
+                  <ZoomOut className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <ZoomIn className="w-5 h-5 text-white" />
+                )}
               </button>
-              <button
-                onClick={zoomOut}
-                className="p-2 hover:bg-white/20 rounded-full text-white transition-colors"
-                title="Zoom Out"
-              >
-                <ZoomOut className="w-5 h-5" />
-              </button>
-              {zoomScale > 1 && (
-                <button
-                  onClick={() => setZoomScale(1)}
-                  className="p-2 hover:bg-white/20 rounded-full text-amber-400 transition-colors"
-                  title="Reset Zoom"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                </button>
-              )}
             </div>
           )}
 
-          {/* Left Arrow Button for Desktop / Click Navigation */}
-          {displayItems.length > 1 && (
-            <button
-              onClick={(e) => { e.stopPropagation(); paginate(-1); }}
-              className="absolute left-2 sm:left-6 z-[100000] p-3 sm:p-4 bg-black/40 hover:bg-black/80 rounded-full text-white/80 hover:text-white transition-all border border-white/10 backdrop-blur-md hover:scale-110 active:scale-95"
-              aria-label="Previous Photo"
-            >
-              <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
-            </button>
-          )}
-
-          {/* Right Arrow Button for Desktop / Click Navigation */}
-          {displayItems.length > 1 && (
-            <button
-              onClick={(e) => { e.stopPropagation(); paginate(1); }}
-              className="absolute right-2 sm:right-6 z-[100000] p-3 sm:p-4 bg-black/40 hover:bg-black/80 rounded-full text-white/80 hover:text-white transition-all border border-white/10 backdrop-blur-md hover:scale-110 active:scale-95"
-              aria-label="Next Photo"
-            >
-              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
-            </button>
-          )}
-
-          {/* Full Screen Media Display with Touch Swipe & Zoom */}
-          <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
+          {/* Full Screen Media Display with Touch Swipe & Constrained Zoom */}
+          <div className="w-full h-full flex items-center justify-center relative overflow-hidden p-2 sm:p-4">
             {currentItem.type === 'video' ? (
               <div className="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl relative border border-stone-800">
                 <iframe
@@ -298,8 +265,8 @@ export const GallerySection: React.FC = () => {
                     opacity: { duration: 0.2 }
                   }}
                   drag={zoomScale === 1 ? 'x' : true}
-                  dragConstraints={zoomScale === 1 ? { left: 0, right: 0 } : false}
-                  dragElastic={zoomScale === 1 ? 0.3 : 0.8}
+                  dragConstraints={zoomScale === 1 ? { left: 0, right: 0 } : { left: -150, right: 150, top: -150, bottom: 150 }}
+                  dragElastic={zoomScale === 1 ? 0.3 : 0.2}
                   onDragEnd={(e, { offset, velocity }) => {
                     if (zoomScale === 1) {
                       const swipe = swipePower(offset.x, velocity.x);
@@ -311,14 +278,14 @@ export const GallerySection: React.FC = () => {
                     }
                   }}
                   onDoubleClick={toggleZoom}
-                  className="absolute inset-0 w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing transform-gpu"
+                  className="absolute inset-0 w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing transform-gpu p-2 sm:p-4 overflow-hidden"
                 >
                   <motion.img
                     src={currentItem.imageUrl}
                     alt={currentItem.title}
                     animate={{ scale: zoomScale }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    className="w-full h-full object-contain pointer-events-none select-none max-w-full max-h-full"
+                    className="max-w-full max-h-full object-contain pointer-events-none select-none drop-shadow-2xl rounded-sm"
                     draggable={false}
                     onContextMenu={(e) => e.preventDefault()}
                     referrerPolicy="no-referrer"
