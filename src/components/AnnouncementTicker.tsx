@@ -1,46 +1,99 @@
 import React from 'react';
-import { Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { Calendar, AlertCircle } from 'lucide-react';
 
 interface AnnouncementTickerProps {
-  notifications?: Array<{ id: string; text: string }>;
-  shows?: Array<{ id: string; title: string; venue: string; date: string }>;
+  notifications?: Array<{ id: string; text: string; link?: string; active?: boolean }>;
+  shows?: Array<{ 
+    id: string; 
+    title: string; 
+    city: string; 
+    venue: string; 
+    date: string; 
+    time: string; 
+    showInNotification?: boolean | string;
+    ticketLink?: string;
+  }>;
   onOpenBooking?: () => void;
 }
 
-export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({ notifications = [], shows = [], onOpenBooking }) => {
-  // Format dates nicely for the ticker
-  const formatTickerDate = (dateStr: string) => {
+export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({ 
+  notifications = [], 
+  shows = [], 
+  onOpenBooking 
+}) => {
+  // Date formatter for upcoming shows
+  const formatShowDate = (dateStr: string) => {
     if (!dateStr) return '';
-    if (dateStr === 'ALERT' || dateStr === 'WELCOME') return dateStr;
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleString('default', { month: 'short', day: 'numeric' }).toUpperCase();
+    return d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
   };
 
-  // Only display shows explicitly flagged by the admin for the ticker
-  const actualTickerShows = shows.filter(
-    s => s.showInNotification === true || (s as any).showInNotification === 'true'
-  );
+  // 1. Custom Notification Texts: get max 10 active custom notifications
+  const activeNotifications = notifications.filter(n => n.active !== false).slice(0, 10);
 
-  let tickerItems = [
-    ...notifications.map(n => ({ id: n.id, text: n.text, date: 'ALERT', venue: '' })),
-    ...actualTickerShows.map(s => ({ id: s.id, text: s.title, date: formatTickerDate(s.date), venue: s.venue }))
-  ];
+  // 2. Upcoming Shows: get upcoming shows explicitly flagged for ticker display or nearest upcoming shows (max 10)
+  const flaggedShows = shows.filter(s => s.showInNotification === true || (s as any).showInNotification === 'true');
+  const upcomingShowsToDisplay = (flaggedShows.length > 0 ? flaggedShows : shows).slice(0, 10);
 
-  // If there are absolutely no custom notifications and no shows flagged for the ticker,
-  // we display a clean official welcoming line rather than showing mock/dummy events.
+  const tickerItems: Array<{
+    id: string;
+    text: string;
+    badge: string;
+    isCustom: boolean;
+    link?: string;
+  }> = [];
+
+  // Add custom notifications (up to 10)
+  activeNotifications.forEach(n => {
+    tickerItems.push({
+      id: n.id,
+      text: n.text,
+      badge: 'ALERT',
+      isCustom: true,
+      link: n.link
+    });
+  });
+
+  // Add upcoming shows (up to 10)
+  upcomingShowsToDisplay.forEach(show => {
+    const showText = `${show.title} - ${formatShowDate(show.date)} - ${show.city} - ${show.venue || show.time}`;
+    tickerItems.push({
+      id: show.id,
+      text: showText,
+      badge: 'UPCOMING',
+      isCustom: false
+    });
+  });
+
+  // Fallback if absolutely nothing is active
   if (tickerItems.length === 0) {
-    tickerItems = [
-      {
-        id: 'welcome',
-        text: 'Official Portal of Vishal Jogdeo - Devotional Classical Vocalist & Marathi Abhanga Singer',
-        date: 'WELCOME',
-        venue: 'Live Concerts & Spiritual Events'
-      }
-    ];
+    tickerItems.push({
+      id: 'welcome',
+      text: 'Official Portal of Vishal Jogdeo - Devotional Classical Vocalist & Devotional Singer',
+      badge: 'WELCOME',
+      isCustom: false
+    });
   }
 
-  const loopItems = [...tickerItems, ...tickerItems, ...tickerItems];
+  // Loop items to ensure beautiful continuous scrolling marquee
+  const loopItems = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
+
+  const handleItemClick = (item: typeof tickerItems[0]) => {
+    if (item.isCustom && item.link && item.link.trim() !== '') {
+      let url = item.link.trim();
+      if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('/')) {
+        url = 'https://' + url;
+      }
+      if (url.startsWith('/')) {
+        window.location.href = url;
+      } else {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    } else {
+      onOpenBooking?.();
+    }
+  };
 
   return (
     <div className="w-full bg-gradient-to-r from-[#140b0b] via-[#200e0e] to-[#140b0b] text-stone-100 overflow-hidden shadow-xl border-b border-amber-500/30 relative z-30 font-sans">
@@ -52,36 +105,28 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({ notifica
             {loopItems.map((item, idx) => (
               <div 
                 key={`${item.id}-${idx}`}
-                onClick={onOpenBooking}
+                onClick={() => handleItemClick(item)}
                 className="inline-flex items-center gap-2.5 text-stone-200 hover:text-amber-300 transition-colors"
               >
-                <span className="inline-flex items-center gap-1 font-bold text-amber-300 bg-amber-950/90 px-2.5 py-0.5 rounded-full text-[11px] border border-amber-500/40 shadow-sm">
-                  <Calendar className="w-3 h-3 text-amber-400" />
-                  {item.date}
+                <span className={`inline-flex items-center gap-1 font-bold px-2.5 py-0.5 rounded-full text-[11px] border shadow-sm ${
+                  item.badge === 'ALERT'
+                    ? 'text-red-400 bg-red-950/90 border-red-500/40'
+                    : 'text-amber-300 bg-amber-950/90 border-amber-500/40'
+                }`}>
+                  {item.badge === 'ALERT' ? (
+                    <AlertCircle className="w-3 h-3 text-red-400" />
+                  ) : (
+                    <Calendar className="w-3 h-3 text-amber-400" />
+                  )}
+                  {item.badge}
                 </span>
                 <span className="font-extrabold text-white tracking-wide">{item.text}</span>
-                {item.venue && (
-                  <span className="text-amber-200/90 text-xs flex items-center gap-1 font-semibold">
-                    <MapPin className="w-3 h-3 text-amber-400 inline" />
-                    {item.venue}
-                  </span>
-                )}
                 <span className="text-amber-500/80 text-xs px-2">•</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right CTA Button */}
-        {onOpenBooking && (
-          <button
-            onClick={onOpenBooking}
-            className="hidden sm:flex items-center gap-1.5 ml-3 px-3.5 py-1 bg-gold-gradient hover:opacity-90 text-black font-extrabold text-xs uppercase tracking-wider whitespace-nowrap shrink-0 transition-all rounded-full shadow-md hover:scale-105 active:scale-95"
-          >
-            <span>Book Show</span>
-            <ArrowRight className="w-3.5 h-3.5 text-black" />
-          </button>
-        )}
       </div>
     </div>
   );

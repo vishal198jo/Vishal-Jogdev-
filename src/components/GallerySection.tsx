@@ -336,7 +336,7 @@ export const GallerySection: React.FC = () => {
 
                 {/* Realtime Views Badge Overlay */}
                 <div className="absolute bottom-1.5 left-1.5 bg-black/75 border border-stone-800/40 text-[9px] font-bold text-stone-300 px-1.5 py-0.5 rounded-md flex items-center backdrop-blur-sm z-10 select-none">
-                  <span>{item.views || 0} Reads</span>
+                  <span>{item.views || 0}</span>
                 </div>
                 
                 {/* Video Play Overlay */}
