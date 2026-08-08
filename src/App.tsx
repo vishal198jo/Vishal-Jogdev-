@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
-import { MahanubhavPanthaPage } from './pages/MahanubhavPanthaPage';
 import { SongsPage } from './pages/SongsPage';
 import { LyricsPage } from './pages/LyricsPage';
 import { SingleLyricPage } from './pages/SingleLyricPage';
@@ -110,7 +109,6 @@ export default function App() {
 
             {/* Dedicated Pages for each section */}
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/mahanubhav-pantha" element={<MahanubhavPanthaPage onOpenBooking={() => setBookingModalOpen(true)} />} />
             
             <Route 
               path="/songs" 

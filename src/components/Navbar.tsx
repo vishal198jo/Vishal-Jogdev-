@@ -39,7 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Mahanubhav Pantha', path: '/mahanubhav-pantha' },
     { name: 'Songs', path: '/songs' },
     { name: 'Lyrics', path: '/lyrics' },
     { name: 'Gallery', path: '/gallery' },
@@ -75,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   Vishal <span className="font-serif italic text-amber-400 font-normal">Jogdeo</span>
                 </span>
                 <span className="block text-[9px] uppercase tracking-[0.25em] text-amber-200/80 font-bold whitespace-nowrap">
-                  Devotional Vocalist
+                  Devotional Singer
                 </span>
               </div>
             </Link>
@@ -84,7 +83,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <nav className="hidden lg:flex items-center space-x-1 bg-stone-950/80 p-1.5 rounded-full border border-amber-500/20">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
-                const isMahanubhav = link.path === '/mahanubhav-pantha';
                 return (
                   <Link
                     key={link.name}
@@ -95,13 +93,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                         : 'text-stone-300 hover:text-amber-300 hover:bg-white/5'
                     }`}
                   >
-                    {isMahanubhav && (
-                      <img 
-                        src="https://i.ibb.co/kVHCQ0gz/Picsart-26-08-06-09-55-05-686.png" 
-                        alt="Mahanubhav Logo" 
-                        className="w-4 h-4 rounded-full object-contain bg-white border border-amber-400"
-                      />
-                    )}
                     {link.name}
                   </Link>
                 );

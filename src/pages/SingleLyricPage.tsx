@@ -207,12 +207,6 @@ export const SingleLyricPage: React.FC = () => {
                 {lyric.title}
               </p>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                {matchedFirestore && typeof matchedFirestore.views === 'number' && (
-                  <span className="text-[11px] font-bold text-stone-400 flex items-center gap-1.5 bg-[#121218] border border-stone-800 px-2.5 py-1 rounded-xl shadow-md">
-                    <Eye className="w-3.5 h-3.5 text-amber-500" />
-                    <span>{matchedFirestore.views} Reads</span>
-                  </span>
-                )}
                 <p className="text-xs font-bold text-amber-400">
                   गायक: <span className="text-white">विशाल जोगदेव (Vishal Jogdeo)</span>
                 </p>

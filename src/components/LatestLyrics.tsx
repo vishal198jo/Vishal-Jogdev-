@@ -115,8 +115,7 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
                       </div>
                       {typeof lyric.views === 'number' && lyric.views > 0 && (
                         <div className="text-stone-400 flex items-center gap-1">
-                          <Eye className="w-3.5 h-3.5 text-amber-500" />
-                          <span>{lyric.views} reads</span>
+                          <span>{lyric.views} Reads</span>
                         </div>
                       )}
                     </div>

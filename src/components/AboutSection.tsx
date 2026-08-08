@@ -147,21 +147,6 @@ export const AboutSection: React.FC = () => {
                 </a>
 
                 <a
-                  href="https://youtube.com/@mahanubhavpanthbhajansandhya?si=yqs0sWokbBPXZi2c"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-red-500/50 hover:bg-red-950/10 transition-all duration-300 group"
-                >
-                  <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 shrink-0 group-hover:scale-110 transition-transform">
-                    <Youtube className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">महानुभाव पंथ भजन संध्या</p>
-                    <p className="text-[10px] text-stone-400 font-sans">Bhajan Sandhya</p>
-                  </div>
-                </a>
-
-                <a
                   href="https://youtube.com/@vishaljogdeosong?si=qVfckl16L0VrpmEW"
                   target="_blank"
                   rel="noopener noreferrer"

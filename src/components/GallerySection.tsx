@@ -292,9 +292,8 @@ export const GallerySection: React.FC = () => {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
-                  <div className="absolute bottom-2 left-2 flex items-center gap-1.5 text-white">
-                    <Folder className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-bold text-amber-300">{folder.count}</span>
+                  <div className="absolute bottom-2 left-2 bg-black/60 px-2 py-0.5 rounded-md border border-stone-800/40 text-xs font-bold text-stone-200 backdrop-blur-sm">
+                    {folder.count}
                   </div>
                 </div>
                 <h3 className="text-sm font-semibold font-heading text-stone-200 text-center line-clamp-1 group-hover:text-amber-300 px-1">
@@ -336,9 +335,8 @@ export const GallerySection: React.FC = () => {
                 />
 
                 {/* Realtime Views Badge Overlay */}
-                <div className="absolute bottom-1.5 left-1.5 bg-black/75 border border-stone-800/40 text-[9px] font-bold text-stone-300 px-1.5 py-0.5 rounded-md flex items-center gap-1 backdrop-blur-sm z-10 select-none">
-                  <Eye className="w-2.5 h-2.5 text-amber-500" />
-                  <span>{item.views || 0}</span>
+                <div className="absolute bottom-1.5 left-1.5 bg-black/75 border border-stone-800/40 text-[9px] font-bold text-stone-300 px-1.5 py-0.5 rounded-md flex items-center backdrop-blur-sm z-10 select-none">
+                  <span>{item.views || 0} Reads</span>
                 </div>
                 
                 {/* Video Play Overlay */}
@@ -371,11 +369,7 @@ export const GallerySection: React.FC = () => {
             <X className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
 
-          {/* Realtime Views Indicator (Bottom Left) */}
-          <div className="absolute bottom-6 left-6 z-[100000] flex items-center bg-black/60 px-3 py-1.5 rounded-full border border-white/15 backdrop-blur-md shadow-2xl text-stone-200 text-xs font-bold gap-1.5 select-none">
-            <Eye className="w-4 h-4 text-amber-500" />
-            <span>{currentItem.views || 0} Views</span>
-          </div>
+
 
           {/* Floating Zoom Control (Only Zoom Icon - No Prev/Next Buttons) */}
           {currentItem.type === 'photo' && (

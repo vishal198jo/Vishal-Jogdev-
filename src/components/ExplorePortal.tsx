@@ -6,15 +6,6 @@ import { Music, BookOpen, Mic, Calendar, Trophy, Image as ImageIcon, PhoneCall, 
 export const ExplorePortal: React.FC = () => {
   const portalSections = [
     {
-      title: 'महानुभाव पंथ संगीत दालन',
-      subtitle: 'Mahanubhav Pantha Bhajan Portal',
-      description: '५००+ सुप्रसिद्ध भजने, श्लोक, पारंपरिक आरत्या, दत्तात्रेय कवच आणि पंचावतार मंत्र.',
-      path: '/mahanubhav-pantha',
-      badge: '५००+ भजने',
-      icon: BookOpen,
-      color: 'border-amber-500/40 bg-gradient-to-br from-[#1a120b] to-[#121218]',
-    },
-    {
       title: 'अजरामर भक्तीगीते दालन',
       subtitle: 'Devotional Songs & Discography',
       description: 'T-Series, SAREGAMA, HMV व Krunal Music द्वारे प्रदर्शित १५००+ भक्तीगीतांचा संग्रह.',
