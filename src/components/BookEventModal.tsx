@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { X, Calendar, MapPin, Send, CheckCircle2, MessageSquare } from 'lucide-react';
 import { Show } from '../types';
 import { SINGER_PROFILE } from '../data/mockData';
+import { db, COLLECTIONS } from '../lib/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 interface BookEventModalProps {
   isOpen: boolean;
@@ -28,10 +30,32 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      await addDoc(collection(db, COLLECTIONS.INQUIRIES), {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        eventType: formData.eventType,
+        eventDate: formData.eventDate,
+        city: formData.city,
+        budgetRange: formData.budgetRange,
+        notes: formData.notes,
+        createdAt: new Date().toISOString(),
+        status: 'new'
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting booking inquiry:', error);
+      alert('Failed to submit booking request. Please try again or contact via WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -164,10 +188,11 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
             <div className="pt-2 flex flex-col gap-2">
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-full bg-gold-gradient hover:opacity-95 text-black font-extrabold text-xs shadow-lg transition-all flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-full bg-gold-gradient hover:opacity-95 disabled:opacity-50 text-black font-extrabold text-xs shadow-lg transition-all flex items-center justify-center gap-2"
               >
-                <Send className="w-4 h-4 text-black" />
-                <span>Submit Event Inquiry</span>
+                <Send className="w-4 h-4 text-black animate-pulse" />
+                <span>{isSubmitting ? 'Submitting request...' : 'Submit Event Inquiry'}</span>
               </button>
 
               <a

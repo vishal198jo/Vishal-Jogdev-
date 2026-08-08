@@ -5,18 +5,38 @@ import { Show } from '../types';
 import { UPCOMING_SHOWS } from '../data/mockData';
 
 interface UpcomingShowsProps {
+  shows?: Show[];
   onOpenBookingForShow: (show: Show) => void;
+  loading?: boolean;
 }
 
-export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ onOpenBookingForShow }) => {
+export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ shows, onOpenBookingForShow, loading = false }) => {
   const [selectedCity, setSelectedCity] = useState<string>('All');
   const [selectedShowDetails, setSelectedShowDetails] = useState<Show | null>(null);
 
-  const cities = ['All', 'Mumbai', 'Pune', 'Nashik', 'San Jose, CA'];
+  const activeShowsList = (shows && shows.length > 0) ? shows : [];
+
+  const cities = ['All', ...Array.from(new Set(activeShowsList.map(s => s.city)))];
 
   const filteredShows = selectedCity === 'All'
-    ? UPCOMING_SHOWS
-    : UPCOMING_SHOWS.filter(s => s.city.toLowerCase().includes(selectedCity.toLowerCase()));
+    ? activeShowsList
+    : activeShowsList.filter(s => s.city.toLowerCase().includes(selectedCity.toLowerCase()));
+
+  if (loading) {
+    return (
+      <section id="shows" className="py-12 bg-[#0b0b0e] text-stone-100 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          <div className="h-6 bg-stone-900 border border-stone-800 rounded-full w-40 mx-auto animate-pulse"></div>
+          <div className="h-10 bg-stone-900 rounded-xl w-72 mx-auto animate-pulse"></div>
+          <div className="space-y-4 pt-10">
+            <div className="h-24 bg-[#121218] border border-stone-800 rounded-3xl animate-pulse"></div>
+            <div className="h-24 bg-[#121218] border border-stone-800 rounded-3xl animate-pulse"></div>
+            <div className="h-24 bg-[#121218] border border-stone-800 rounded-3xl animate-pulse"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="shows" className="py-12 bg-[#0b0b0e] text-stone-100 relative">
@@ -59,10 +79,26 @@ export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ onOpenBookingForSh
         {filteredShows.length > 0 ? (
           <div className="space-y-4">
             {filteredShows.map((show, idx) => {
-              const showDate = new Date(show.date);
-              const dayStr = showDate.getDate();
-              const monthStr = showDate.toLocaleString('default', { month: 'short' }).toUpperCase();
-              const yearStr = showDate.getFullYear();
+              let dayStr = '--';
+              let monthStr = 'EVENT';
+              let yearStr = '2026';
+              let showDateObj = new Date();
+
+              if (show.date) {
+                const showDate = new Date(show.date);
+                if (!isNaN(showDate.getTime())) {
+                  dayStr = String(showDate.getDate());
+                  monthStr = showDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+                  yearStr = String(showDate.getFullYear());
+                }
+                const parsedDateObj = new Date(`${show.date}T23:59:59`);
+                if (!isNaN(parsedDateObj.getTime())) {
+                  showDateObj = parsedDateObj;
+                }
+              }
+
+              const now = new Date();
+              const isUpcoming = showDateObj >= now;
 
               return (
                 <motion.div
@@ -89,16 +125,22 @@ export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ onOpenBookingForSh
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-black/20" />
-                    <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md bg-black/80 border border-amber-500/40 text-amber-300 text-[10px] font-bold">
-                      {show.status}
-                    </span>
+                    {isUpcoming ? (
+                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md bg-black/80 border border-amber-500/40 text-amber-300 text-[10px] font-bold">
+                        Upcoming
+                      </span>
+                    ) : (
+                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md bg-stone-900/90 border border-stone-800 text-stone-400 text-[10px] font-medium">
+                        Past Show
+                      </span>
+                    )}
                   </div>
 
                   {/* Show Details */}
                   <div className="flex-1 space-y-2 w-full text-center md:text-left">
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                       <span className="text-xs font-semibold text-amber-300 bg-amber-950/80 px-2.5 py-0.5 rounded-full border border-amber-500/30">
-                        {show.city}, {show.state}
+                        {show.city}{show.state ? `, ${show.state}` : ''}
                       </span>
                       {show.isOrganizedByTrust && (
                         <span className="text-[10px] text-emerald-300 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium">

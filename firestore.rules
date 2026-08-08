@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default rule: Deny everything unless explicitly allowed
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Public read, authenticated write rules for all collections
+    match /lyrics/{lyricId} {
+      allow read: if true;
+      allow create, delete: if isSignedIn();
+      allow update: if isSignedIn() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']));
+    }
+
+    match /gallery_folders/{folderId} {
+      allow read: if true;
+      allow write, create, update, delete: if isSignedIn();
+    }
+
+    match /gallery_photos/{photoId} {
+      allow read: if true;
+      allow create, delete: if isSignedIn();
+      allow update: if isSignedIn() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']));
+    }
+
+    match /stats/{statId} {
+      allow read, write: if true;
+    }
+
+    match /shows/{showId} {
+      allow read: if true;
+      allow write, create, update, delete: if isSignedIn();
+    }
+
+    match /hero_slides/{slideId} {
+      allow read: if true;
+      allow write, create, update, delete: if isSignedIn();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if true;
+      allow write, create, update, delete: if isSignedIn();
+    }
+
+    match /inquiries/{inquiryId} {
+      allow create: if true;
+      allow read, update, delete: if isSignedIn();
+    }
+  }
+}

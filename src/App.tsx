@@ -10,15 +10,20 @@ import { SingleLyricPage } from './pages/SingleLyricPage';
 import { GalleryPage } from './pages/GalleryPage';
 import { ShowsPage } from './pages/ShowsPage';
 import { ContactPage } from './pages/ContactPage';
+import { AdminPage } from './pages/AdminPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsPage } from './pages/TermsPage';
 import { Footer } from './components/Footer';
 import { AudioPlayerBar } from './components/AudioPlayerBar';
 import { BookEventModal } from './components/BookEventModal';
+import { LoadingScreen } from './components/LoadingScreen';
+import { useFirestoreData } from './hooks/useFirestoreData';
 
 import { Song, Show } from './types';
 import { FEATURED_SONGS } from './data/mockData';
 import { X } from 'lucide-react';
+import { db } from './lib/firebase';
+import { doc, setDoc, increment } from 'firebase/firestore';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -30,6 +35,26 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const { loading } = useFirestoreData();
+
+  // Track unique website visited users strictly
+  useEffect(() => {
+    const trackingKey = 'vj_visited_user_strictly';
+    if (!localStorage.getItem(trackingKey)) {
+      const incrementVisitor = async () => {
+        try {
+          localStorage.setItem(trackingKey, 'true');
+          await setDoc(doc(db, 'stats', 'global'), {
+            visitedUsers: increment(1)
+          }, { merge: true });
+        } catch (e) {
+          console.warn("Failed to increment visited users:", e);
+        }
+      };
+      incrementVisitor();
+    }
+  }, []);
+
   // Audio state
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -140,6 +165,9 @@ export default function App() {
                 />
               } 
             />
+
+            {/* Admin Panel Route */}
+            <Route path="/admin" element={<AdminPage />} />
 
             {/* Legal Pages */}
             <Route path="/privacy" element={<PrivacyPolicyPage />} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Award, CheckCircle, User, Calendar, Mic, Trophy } from 'lucide-react';
+import { Award, CheckCircle, User, Calendar, Mic, Trophy, Youtube, Facebook } from 'lucide-react';
 import concertImage from '../assets/images/devotional_stage_concert_1785894013298.jpg';
 
 export const AboutSection: React.FC = () => {
@@ -106,6 +106,90 @@ export const AboutSection: React.FC = () => {
               <div className="p-3 bg-stone-900/90 rounded-2xl border border-stone-800 text-center space-y-0.5">
                 <p className="text-xl font-bold text-amber-300 font-heading">1000+</p>
                 <p className="text-[10px] text-stone-400 font-bold uppercase">लाइव्ह शो</p>
+              </div>
+            </div>
+
+            {/* अधिकृत सोशल मीडिया प्लॅटफॉर्म्स (Official Social Media Platforms) */}
+            <div className="space-y-3 pt-5 border-t border-stone-800/80">
+              <p className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                अधिकृत सोशल मीडिया प्लॅटफॉर्म्स
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <a
+                  href="https://youtube.com/channel/UC4VL0F50tmB15hp_1xcAqbQ?si=B17lL_GVWyFPycFu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-red-500/50 hover:bg-red-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 shrink-0 group-hover:scale-110 transition-transform">
+                    <Youtube className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">मुख्य युट्यूब चॅनेल</p>
+                    <p className="text-[10px] text-stone-400 font-sans">Official YouTube Channel</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://youtube.com/@vishaljogdeo?si=qgvJLr_mIlxl7GCx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-red-500/50 hover:bg-red-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 shrink-0 group-hover:scale-110 transition-transform">
+                    <Youtube className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">विशाल जोगदेव अधिकृत</p>
+                    <p className="text-[10px] text-stone-400 font-sans">@vishaljogdeo</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://youtube.com/@mahanubhavpanthbhajansandhya?si=yqs0sWokbBPXZi2c"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-red-500/50 hover:bg-red-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 shrink-0 group-hover:scale-110 transition-transform">
+                    <Youtube className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">महानुभाव पंथ भजन संध्या</p>
+                    <p className="text-[10px] text-stone-400 font-sans">Bhajan Sandhya</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://youtube.com/@vishaljogdeosong?si=qVfckl16L0VrpmEW"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-red-500/50 hover:bg-red-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 shrink-0 group-hover:scale-110 transition-transform">
+                    <Youtube className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">विशाल जोगदेव गाणी चॅनेल</p>
+                    <p className="text-[10px] text-stone-400 font-sans">@vishaljogdeosong</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://www.facebook.com/share/1AMnZnHGyd/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-blue-500/50 hover:bg-blue-950/10 transition-all duration-300 group sm:col-span-2 lg:col-span-1"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0 group-hover:scale-110 transition-transform">
+                    <Facebook className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors">अधिकृत फेसबुक पेज</p>
+                    <p className="text-[10px] text-stone-400 font-sans">Official Facebook Profile</p>
+                  </div>
+                </a>
               </div>
             </div>
 

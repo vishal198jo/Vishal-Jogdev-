@@ -21,11 +21,13 @@ import { CountUpNumber } from './CountUpNumber';
 import { HeroSlider } from './HeroSlider';
 
 interface HeroSectionProps {
+  slides?: Array<{ id: string | number; image: string; altText?: string }>;
   onPlayFeaturedSong: () => void;
   onOpenBooking: () => void;
+  loading?: boolean;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, onOpenBooking }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeaturedSong, onOpenBooking, loading = false }) => {
   const handleScrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -92,7 +94,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPlayFeaturedSong, on
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <HeroSlider onOpenBooking={onOpenBooking} onPlayFeaturedSong={onPlayFeaturedSong} />
+          <HeroSlider slides={slides} onOpenBooking={onOpenBooking} onPlayFeaturedSong={onPlayFeaturedSong} loading={loading} />
         </motion.div>
 
         {/* Main Hero Profile Row */}

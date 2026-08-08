@@ -57,14 +57,14 @@ export const SINGER_PROFILE = {
   },
 
   contact: {
-    email: "booking@vishaljogdev.com",
+    email: "vishaljogdeo22@gmail.com",
     phone: "+91 70380 86864",
     whatsapp: "https://wa.me/917038086864?text=Hello%20Vishal%20Jogdeo%20Team,%20I%20would%20like%20to%20inquire%20about%20booking%20a%20devotional%20event.",
-    officeAddress: "Nagpur & Dadar West, Mumbai, Maharashtra",
+    officeAddress: "Nagpur, Maharashtra",
     socials: {
       youtube: "https://youtube.com/@vishaljogdeo",
       instagram: "https://www.instagram.com/vishaljogdeo",
-      facebook: "https://www.facebook.com/share/1BzgF5bs76/",
+      facebook: "https://www.facebook.com/share/1AMnZnHGyd/",
       spotify: "https://open.spotify.com/artist/vishaljogdev"
     }
   }

@@ -32,6 +32,8 @@ export interface Lyric {
   meaningSummary: string;
   devanagariText: string[];
   romanText: string[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 export interface GalleryFolder {
@@ -65,8 +67,8 @@ export interface Show {
   time: string;
   city: string;
   venue: string;
-  state: string;
-  status: 'Upcoming' | 'Completed' | 'Sold Out' | 'Free Entry';
+  state?: string;
+  status?: 'Upcoming' | 'Completed' | 'Sold Out' | 'Free Entry';
   bannerImage: string;
   description: string;
   ticketLink?: string;

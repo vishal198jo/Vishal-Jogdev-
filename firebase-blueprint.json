@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "Lyric": {
+      "title": "Lyric",
+      "description": "Song lyrics and metadata for devotional compositions",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the song/lyric" },
+        "singerName": { "type": "string", "description": "Singer or composer name" },
+        "titleDevanagari": { "type": "string", "description": "Devanagari title" },
+        "album": { "type": "string", "description": "Album or collection name" },
+        "category": { "type": "string", "description": "Category (Bhajan, Aarti, Abhanga, etc.)" },
+        "language": { "type": "string", "description": "Language of the lyrics" },
+        "publishedDate": { "type": "string", "description": "Publication date" },
+        "coverImage": { "type": "string", "description": "Cover image URL stored in R2" },
+        "raga": { "type": "string", "description": "Classical Raga if applicable" },
+        "taal": { "type": "string", "description": "Classical Taal if applicable" },
+        "meaningSummary": { "type": "string", "description": "Short explanation or meaning" },
+        "devanagariText": { "type": "string", "description": "Lyrics text in Devanagari script" },
+        "romanText": { "type": "string", "description": "Lyrics text in Roman transliteration" },
+        "metaTitle": { "type": "string", "description": "SEO Meta Title" },
+        "metaDescription": { "type": "string", "description": "SEO Meta Description" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp when created" }
+      },
+      "required": ["title", "devanagariText"]
+    },
+    "GalleryFolder": {
+      "title": "GalleryFolder",
+      "description": "Folder grouping photo items in the gallery",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Folder name" },
+        "coverImage": { "type": "string", "description": "Folder cover image URL" },
+        "description": { "type": "string", "description": "Folder description" },
+        "count": { "type": "number", "description": "Photo count in folder" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["name"]
+    },
+    "GalleryPhoto": {
+      "title": "GalleryPhoto",
+      "description": "Photo item inside a gallery folder",
+      "type": "object",
+      "properties": {
+        "folderId": { "type": "string", "description": "Target folder ID" },
+        "folderName": { "type": "string", "description": "Name of the target folder" },
+        "imageUrl": { "type": "string", "description": "Photo URL stored in R2" },
+        "title": { "type": "string", "description": "Photo title" },
+        "category": { "type": "string", "description": "Category" },
+        "description": { "type": "string", "description": "Photo caption" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["folderId", "imageUrl"]
+    },
+    "Show": {
+      "title": "Show",
+      "description": "Upcoming or past concert show item",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Show title" },
+        "city": { "type": "string", "description": "City name" },
+        "venue": { "type": "string", "description": "Venue address" },
+        "state": { "type": "string", "description": "State" },
+        "date": { "type": "string", "description": "Show Date (YYYY-MM-DD)" },
+        "time": { "type": "string", "description": "Show Time" },
+        "bannerImage": { "type": "string", "description": "Banner image URL" },
+        "description": { "type": "string", "description": "Show overview" },
+        "ticketLink": { "type": "string", "description": "Booking pass or ticket link" },
+        "isOrganizedByTrust": { "type": "boolean", "description": "Whether organized by trust" },
+        "showInNotification": { "type": "boolean", "description": "Whether to feature in homepage notification bar" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["title", "date", "venue"]
+    },
+    "HeroSlide": {
+      "title": "HeroSlide",
+      "description": "Homepage Hero Banner slide image",
+      "type": "object",
+      "properties": {
+        "image": { "type": "string", "description": "Hero slide image URL stored in R2" },
+        "altText": { "type": "string", "description": "Alt text or title" },
+        "order": { "type": "number", "description": "Display order" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["image"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "Announcement bar notification ticker item",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "Announcement text" },
+        "link": { "type": "string", "description": "Target CTA link" },
+        "active": { "type": "boolean", "description": "Is active" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["text"]
+    }
+  },
+  "firestore": {
+    "/lyrics/{lyricId}": {
+      "schema": { "$ref": "#/entities/Lyric" },
+      "description": "Collection of lyrics"
+    },
+    "/gallery_folders/{folderId}": {
+      "schema": { "$ref": "#/entities/GalleryFolder" },
+      "description": "Collection of gallery folders"
+    },
+    "/gallery_photos/{photoId}": {
+      "schema": { "$ref": "#/entities/GalleryPhoto" },
+      "description": "Collection of gallery photos"
+    },
+    "/shows/{showId}": {
+      "schema": { "$ref": "#/entities/Show" },
+      "description": "Collection of upcoming and past shows"
+    },
+    "/hero_slides/{slideId}": {
+      "schema": { "$ref": "#/entities/HeroSlide" },
+      "description": "Collection of hero banner slides"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "Collection of ticker notifications"
+    }
+  }
+}

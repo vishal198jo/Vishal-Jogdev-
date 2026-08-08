@@ -1,26 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   Share2, 
   AlignLeft,
   AlignCenter,
-  AlignRight
+  AlignRight,
+  Eye
 } from 'lucide-react';
 import { LATEST_LYRICS, SINGER_PROFILE } from '../data/mockData';
 import { SEO } from '../components/SEO';
+import { useFirestoreData } from '../hooks/useFirestoreData';
+import { db } from '../lib/firebase';
+import { doc, setDoc, updateDoc, increment } from 'firebase/firestore';
 
 export const SingleLyricPage: React.FC = () => {
   const { lyricId } = useParams<{ lyricId: string }>();
   const navigate = useNavigate();
+  const { lyrics: firestoreLyrics } = useFirestoreData();
 
-  // Find lyric by id or songId
-  const lyric = LATEST_LYRICS.find(l => l.id === lyricId || l.songId === lyricId) || LATEST_LYRICS[0];
+  // Increment view/reading counter once per user session
+  useEffect(() => {
+    if (!lyricId) return;
+    
+    const sessionKey = `viewed_lyric_${lyricId}`;
+    if (!sessionStorage.getItem(sessionKey)) {
+      const incrementReading = async () => {
+        try {
+          sessionStorage.setItem(sessionKey, 'true');
+          
+          // Increment lyric-specific reads
+          await updateDoc(doc(db, 'lyrics', lyricId), {
+            views: increment(1)
+          });
+          
+          // Increment global read stats
+          await setDoc(doc(db, 'stats', 'global'), {
+            totalLyricsRead: increment(1)
+          }, { merge: true });
+        } catch (e) {
+          console.warn("Failed to increment lyric reads:", e);
+        }
+      };
+      incrementReading();
+    }
+  }, [lyricId]);
+
+  // Find lyric in Firestore
+  const matchedFirestore = firestoreLyrics.find(l => l.id === lyricId);
+  
+  const lyric = matchedFirestore ? {
+    id: matchedFirestore.id,
+    title: matchedFirestore.title,
+    titleDevanagari: matchedFirestore.titleDevanagari || matchedFirestore.title,
+    composer: matchedFirestore.singerName || 'Vishal Jogdeo',
+    devanagariText: typeof matchedFirestore.devanagariText === 'string' ? matchedFirestore.devanagariText.split('\n') : (Array.isArray(matchedFirestore.devanagariText) ? matchedFirestore.devanagariText : []),
+    romanText: typeof matchedFirestore.romanText === 'string' ? matchedFirestore.romanText.split('\n') : (Array.isArray(matchedFirestore.romanText) ? matchedFirestore.romanText : []),
+    metaTitle: matchedFirestore.metaTitle,
+    metaDescription: matchedFirestore.metaDescription
+  } : null;
 
   // Reader States
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
   const [shareSuccess, setShareSuccess] = useState(false);
+
+  if (!lyric) {
+    return (
+      <div className="pt-28 pb-16 min-h-screen bg-[#0b0b0e] text-white flex flex-col items-center justify-center p-4">
+        <h2 className="text-xl font-bold font-heading mb-2">Lyric Not Found</h2>
+        <p className="text-stone-400 text-sm mb-6">The requested lyric could not be found or has been removed.</p>
+        <button
+          onClick={() => navigate('/lyrics')}
+          className="px-5 py-2.5 bg-gold-gradient text-black font-extrabold text-xs rounded-full"
+        >
+          Browse Lyrics Library
+        </button>
+      </div>
+    );
+  }
 
   // Share helper
   const handleShare = () => {
@@ -49,15 +107,24 @@ export const SingleLyricPage: React.FC = () => {
     right: 'text-right items-end'
   };
 
-  // Related lyrics
-  const relatedLyrics = LATEST_LYRICS.filter(l => l.id !== lyric.id).slice(0, 3);
+  // Related lyrics from Firestore
+  const rawRelatedList = firestoreLyrics;
+
+  const relatedLyrics = rawRelatedList
+    .filter(l => l.id !== lyric.id)
+    .map(fl => ({
+      id: fl.id,
+      title: fl.title,
+      titleDevanagari: fl.titleDevanagari || fl.title
+    }))
+    .slice(0, 3);
 
   return (
     <>
   {/* Dynamic SEO setup for this specific song lyric */}
   <SEO
-      title={`${lyric.titleDevanagari} (${lyric.title}) - Full Lyrics | Vishal Jogdeo`}
-      description={`Read complete lyrics for "${lyric.titleDevanagari}". Sung by Vishal Jogdeo.`}
+      title={lyric.metaTitle || `${lyric.titleDevanagari} (${lyric.title}) - Full Lyrics | Vishal Jogdeo`}
+      description={lyric.metaDescription || `Read complete lyrics for "${lyric.titleDevanagari}". Sung by Vishal Jogdeo.`}
       keywords={`${lyric.title}, ${lyric.titleDevanagari}, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo`}
     />
     <div className="pt-20 pb-10 bg-[#0b0b0e] text-stone-100 min-h-screen">
@@ -108,9 +175,17 @@ export const SingleLyricPage: React.FC = () => {
               <p className="text-xs sm:text-sm font-bold text-amber-300 font-serif italic">
                 {lyric.title}
               </p>
-              <p className="text-xs font-bold text-amber-400">
-                गायक: <span className="text-white">विशाल जोगदेव (Vishal Jogdeo)</span>
-              </p>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+                {matchedFirestore && typeof matchedFirestore.views === 'number' && (
+                  <span className="text-[11px] font-bold text-stone-400 flex items-center gap-1.5 bg-[#121218] border border-stone-800 px-2.5 py-1 rounded-xl shadow-md">
+                    <Eye className="w-3.5 h-3.5 text-amber-500" />
+                    <span>{matchedFirestore.views} Reads</span>
+                  </span>
+                )}
+                <p className="text-xs font-bold text-amber-400">
+                  गायक: <span className="text-white">विशाल जोगदेव (Vishal Jogdeo)</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -232,37 +307,39 @@ export const SingleLyricPage: React.FC = () => {
         </div>
 
         {/* 4. MORE DEVOTIONAL LYRICS WITH CLEAN BORDER */}
-        <div className="pt-6 border-t border-stone-800 space-y-3">
-          <div className="flex items-center justify-between pb-1">
-            <h3 className="text-base font-bold font-heading text-white">
-              More <span className="font-serif italic text-gold-gradient">Devotional Lyrics</span>
-            </h3>
-            <button 
-              onClick={() => navigate('/lyrics')} 
-              className="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1"
-            >
-              <span>View Full Library →</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {relatedLyrics.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => navigate(`/lyrics/${item.id}`)}
-                className="p-3.5 rounded-2xl bg-[#121218] hover:bg-stone-900 border border-stone-800 cursor-pointer transition-all group shadow-md space-y-1"
+        {relatedLyrics.length > 0 && (
+          <div className="pt-6 border-t border-stone-800 space-y-3">
+            <div className="flex items-center justify-between pb-1">
+              <h3 className="text-base font-bold font-heading text-white">
+                More <span className="font-serif italic text-gold-gradient">Devotional Lyrics</span>
+              </h3>
+              <button 
+                onClick={() => navigate('/lyrics')} 
+                className="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1"
               >
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-amber-400">गायक: विशाल जोगदेव</span>
+                <span>View Full Library →</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {relatedLyrics.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => navigate(`/lyrics/${item.id}`)}
+                  className="p-3.5 rounded-2xl bg-[#121218] hover:bg-stone-900 border border-stone-800 cursor-pointer transition-all group shadow-md space-y-1"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-amber-400">गायक: विशाल जोगदेव</span>
+                  </div>
+                  <h4 className="text-xs font-bold text-white font-heading truncate group-hover:text-amber-300 transition-colors">
+                    {item.titleDevanagari}
+                  </h4>
+                  <p className="text-[11px] text-stone-400 italic truncate">{item.title}</p>
                 </div>
-                <h4 className="text-xs font-bold text-white font-heading truncate group-hover:text-amber-300 transition-colors">
-                  {item.titleDevanagari}
-                </h4>
-                <p className="text-[11px] text-stone-400 italic truncate">{item.title}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
     </div>

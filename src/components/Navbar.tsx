@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Music, 
   Menu, 
@@ -21,6 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -145,21 +146,21 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* Book Event CTA Button */}
               <button
-                onClick={onOpenBooking}
-                className="px-5 py-2 text-xs font-bold rounded-full bg-gold-gradient text-black hover:opacity-95 shadow-md hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 flex items-center gap-2"
+                onClick={() => navigate('/contact')}
+                className="px-4 py-1.5 text-[11px] font-extrabold rounded-full bg-gold-gradient text-black hover:opacity-95 shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 flex items-center gap-1.5"
               >
-                <Calendar className="w-3.5 h-3.5 text-black" />
-                <span>Book Event</span>
+                <Calendar className="w-3 h-3 text-black" />
+                <span>Book Now</span>
               </button>
             </div>
 
             {/* Mobile Menu Toggle Button */}
             <div className="flex items-center gap-2 lg:hidden">
               <button
-                onClick={onOpenBooking}
-                className="px-3.5 py-1.5 text-xs font-bold rounded-full bg-gold-gradient text-black transition-colors flex items-center gap-1 shadow-sm"
+                onClick={() => navigate('/contact')}
+                className="px-3 py-1 text-[11px] font-extrabold rounded-full bg-gold-gradient text-black transition-colors flex items-center gap-1 shadow-sm shrink-0"
               >
-                <Calendar className="w-3.5 h-3.5" />
+                <Calendar className="w-3 h-3" />
                 <span>Book</span>
               </button>
               <button

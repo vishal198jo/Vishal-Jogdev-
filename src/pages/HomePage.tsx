@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { HeroSection } from '../components/HeroSection';
 import { AnnouncementTicker } from '../components/AnnouncementTicker';
@@ -8,6 +8,7 @@ import { FEATURED_SONGS } from '../data/mockData';
 import { Song } from '../types';
 import { SEO } from '../components/SEO';
 import { Calendar } from 'lucide-react';
+import { useFirestoreData } from '../hooks/useFirestoreData';
 
 interface HomePageProps {
   currentSong: Song | null;
@@ -20,21 +21,26 @@ export const HomePage: React.FC<HomePageProps> = ({
   onPlaySong,
   onOpenBooking
 }) => {
+  const { heroSlides, notifications, shows, loading } = useFirestoreData();
+  const navigate = useNavigate();
+
   return (
     <>
       <SEO title="Home | Devotional Classical Vocalist" description="Official Portal of Vishal Jogdeo - 15+ years classical vocalist & devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts." keywords="Vishal Jogdeo, Devotional Singer, Abhanga, Bhajan, Classical Vocalist, Marathi Devotional Music" />
       
       {/* Top Announcement Ticker Bar */}
       <div className="pt-16 sm:pt-20">
-        <AnnouncementTicker onOpenBooking={onOpenBooking} />
+        <AnnouncementTicker notifications={notifications} shows={shows} onOpenBooking={() => navigate('/contact')} />
       </div>
 
       <div className="space-y-12 pb-16">
       
         {/* Main 16:9 Hero Slider & Artist Profile Section */}
         <HeroSection 
+          slides={heroSlides}
           onPlayFeaturedSong={() => onPlaySong(FEATURED_SONGS[0])}
-          onOpenBooking={onOpenBooking}
+          onOpenBooking={() => navigate('/contact')}
+          loading={loading}
         />
 
         {/* WEBSITE NAVIGATION / EXPLORE PORTAL SECTIONS */}
@@ -102,19 +108,13 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
               <button
-                onClick={onOpenBooking}
+                onClick={() => navigate('/contact')}
                 className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-gold-gradient hover:opacity-95 text-black font-extrabold text-xs transition-all shadow-lg hover:scale-105 active:scale-95"
               >
                 Book Event Show
               </button>
-              <Link
-                to="/contact"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-stone-900/80 hover:bg-stone-800 text-amber-200 font-semibold text-xs border border-amber-500/30 transition-all text-center hover:scale-105"
-              >
-                View Contact Page
-              </Link>
             </div>
           </motion.section>
 

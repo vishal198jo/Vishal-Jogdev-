@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { SliderSkeleton } from './SkeletonLoader';
 
 export interface SlideItem {
   id: number;
@@ -32,8 +33,10 @@ export const HERO_SLIDES: SlideItem[] = [
 ];
 
 interface HeroSliderProps {
+  slides?: Array<{ id: string | number; image: string; altText?: string }>;
   onOpenBooking?: () => void;
   onPlayFeaturedSong?: () => void;
+  loading?: boolean;
 }
 
 const slideVariants = {
@@ -53,19 +56,42 @@ const slideVariants = {
   }),
 };
 
-export const HeroSlider: React.FC<HeroSliderProps> = () => {
+export const HeroSlider: React.FC<HeroSliderProps> = ({ slides, loading = false }) => {
+  const activeSlides = (slides && slides.length > 0) ? slides : [];
   const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
   // Preload all banner images immediately on mount for zero lag / zero flicker
   useEffect(() => {
-    HERO_SLIDES.forEach((slide) => {
-      const img = new Image();
-      img.src = slide.image;
+    activeSlides.forEach((slide) => {
+      if (slide.image) {
+        const img = new Image();
+        img.src = slide.image;
+      }
     });
-  }, []);
+  }, [activeSlides]);
 
-  const activeIndex = ((page % HERO_SLIDES.length) + HERO_SLIDES.length) % HERO_SLIDES.length;
+  if (loading) {
+    return <SliderSkeleton />;
+  }
+
+  if (activeSlides.length === 0) {
+    return (
+      <div className="w-full relative overflow-hidden rounded-2xl border border-stone-800/80 bg-gradient-to-r from-stone-950 via-amber-950/40 to-stone-950 shadow-2xl p-8 text-center flex flex-col items-center justify-center min-h-[220px] sm:min-h-[340px]">
+        <span className="px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest mb-3">
+          Official Artist Portal
+        </span>
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-white font-heading mb-2">
+          Vishal Jogdeo
+        </h2>
+        <p className="text-stone-300 text-xs sm:text-sm max-w-lg font-sans">
+          Devotional Classical Vocalist & Marathi Abhanga Singer.
+        </p>
+      </div>
+    );
+  }
+
+  const activeIndex = ((page % activeSlides.length) + activeSlides.length) % activeSlides.length;
 
   const paginate = (newDirection: number) => {
     setPage(([prevPage]) => [prevPage + newDirection, newDirection]);
@@ -78,9 +104,9 @@ export const HeroSlider: React.FC<HeroSliderProps> = () => {
       paginate(1);
     }, 3000);
     return () => clearInterval(timer);
-  }, [page, isPaused]);
+  }, [page, isPaused, activeSlides]);
 
-  const currentSlide = HERO_SLIDES[activeIndex];
+  const currentSlide = activeSlides[activeIndex] || activeSlides[0];
 
   const swipeConfidenceThreshold = 10000;
   const swipePower = (offset: number, velocity: number) => {

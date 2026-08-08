@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Play, BookOpen, Music, Disc, Filter, Volume2, Share2, Heart } from 'lucide-react';
 import { Song } from '../types';
-import { FEATURED_SONGS } from '../data/mockData';
+import { FEATURED_SONGS, SINGER_PROFILE } from '../data/mockData';
 
 interface FeaturedSongsProps {
   onPlaySong: (song: Song) => void;
@@ -22,9 +22,7 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
 
   const categories = ['All', 'Bhajan', 'Aarti', 'Stotra', 'Kirtan'];
 
-  const filteredSongs = selectedCategory === 'All' 
-    ? FEATURED_SONGS 
-    : FEATURED_SONGS.filter(s => s.category === selectedCategory);
+  const filteredSongs: Song[] = [];
 
   const toggleLike = (songId: string) => {
     setLikedSongIds(prev => ({
@@ -177,6 +175,46 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
             );
           })}
         </div>
+
+        {/* Official Releases Call-to-Action Empty State */}
+        {filteredSongs.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="py-12 px-6 text-center max-w-xl mx-auto space-y-5 bg-[#121218] border border-stone-800 rounded-3xl shadow-xl"
+          >
+            <div className="w-14 h-14 mx-auto bg-stone-900 border border-stone-800 rounded-2xl flex items-center justify-center text-amber-400 shadow-md">
+              <Music className="w-6 h-6 text-amber-400" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-white font-heading">Official Devotional Streams</h3>
+              <p className="text-xs sm:text-sm text-stone-300 font-sans leading-relaxed">
+                Stream the complete collection of professionally recorded classical bhajans, Abhangas, and stotras performed by <strong>Vishal Jogdeo</strong> on your preferred music networks.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
+              <a 
+                href={SINGER_PROFILE.contact.socials.spotify} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg transition-colors scale-100 hover:scale-105 active:scale-95"
+              >
+                <Disc className="w-4 h-4 animate-spin-slow" />
+                <span>Listen on Spotify</span>
+              </a>
+              <a 
+                href={SINGER_PROFILE.contact.socials.youtube} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg transition-colors scale-100 hover:scale-105 active:scale-95"
+              >
+                <Play className="w-4 h-4 fill-white" />
+                <span>Watch on YouTube</span>
+              </a>
+            </div>
+          </motion.div>
+        )}
 
       </div>
     </section>

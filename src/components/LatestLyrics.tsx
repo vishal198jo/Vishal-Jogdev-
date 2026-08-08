@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Search, 
-  ChevronRight
+  ChevronRight,
+  Eye
 } from 'lucide-react';
 import { Lyric } from '../types';
 import { LATEST_LYRICS } from '../data/mockData';
+import { useFirestoreData } from '../hooks/useFirestoreData';
+import { LyricsSkeleton } from './SkeletonLoader';
 
 interface LatestLyricsProps {
   onSelectLyric?: (lyric: Lyric) => void;
@@ -19,8 +22,27 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { lyrics: firestoreLyrics, loading } = useFirestoreData();
 
-  const filteredLyrics = LATEST_LYRICS.filter((item) => {
+  // Map Firestore lyrics or fallback to empty if Firestore is empty
+  const rawLyricsList = firestoreLyrics;
+
+  const activeLyrics = rawLyricsList.map(fl => ({
+    id: fl.id,
+    title: fl.title,
+    titleDevanagari: fl.titleDevanagari || fl.title,
+    composer: fl.singerName || 'Vishal Jogdeo',
+    category: fl.category || 'Abhanga',
+    language: fl.language || 'Marathi',
+    publishedDate: fl.publishedDate || '',
+    coverImage: fl.coverImage || 'https://images.unsplash.com/photo-1609102026400-3d082725832a?q=80&w=800&auto=format&fit=crop',
+    meaningSummary: fl.meaningSummary || fl.metaDescription || '',
+    devanagariText: typeof fl.devanagariText === 'string' ? fl.devanagariText.split('\n') : (Array.isArray(fl.devanagariText) ? fl.devanagariText : []),
+    romanText: typeof fl.romanText === 'string' ? fl.romanText.split('\n') : (Array.isArray(fl.romanText) ? fl.romanText : []),
+    views: typeof fl.views === 'number' ? fl.views : 0,
+  }));
+
+  const filteredLyrics = activeLyrics.filter((item) => {
     return (
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.titleDevanagari.toLowerCase().includes(searchTerm.toLowerCase())
@@ -60,9 +82,15 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
           </div>
         </div>
 
-        {/* 4. Lyrics Content Cards Grid (No Images, No Categories/Albums, Title & Singer Name, Direct Click) */}
+        {/* 4. Lyrics Content Cards Grid */}
         <div className="pt-2">
-          {filteredLyrics.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <LyricsSkeleton />
+              <LyricsSkeleton />
+              <LyricsSkeleton />
+            </div>
+          ) : filteredLyrics.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredLyrics.map((lyric) => (
                 <div
@@ -80,9 +108,17 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
                       </p>
                     </div>
 
-                    <div className="pt-1 flex items-center gap-1.5 text-xs font-bold text-amber-400">
-                      <span>गायक:</span>
-                      <span className="text-stone-200">विशाल जोगदेव (Vishal Jogdeo)</span>
+                    <div className="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold">
+                      <div className="text-amber-400 flex items-center gap-1.5">
+                        <span>गायक:</span>
+                        <span className="text-stone-200">विशाल जोगदेव</span>
+                      </div>
+                      {typeof lyric.views === 'number' && lyric.views > 0 && (
+                        <div className="text-stone-400 flex items-center gap-1">
+                          <Eye className="w-3.5 h-3.5 text-amber-500" />
+                          <span>{lyric.views} reads</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
