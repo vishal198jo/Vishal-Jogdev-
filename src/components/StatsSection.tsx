@@ -1,13 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Disc, BookOpen, Calendar, Clock, Eye, Users, FileText } from 'lucide-react';
+import { Disc, BookOpen, Calendar, Clock } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
 import { CountUpNumber } from './CountUpNumber';
-import { useFirestoreData } from '../hooks/useFirestoreData';
 
 export const StatsSection: React.FC = () => {
-  const { globalStats } = useFirestoreData();
-
   const stats = [
     {
       label: 'Songs Released',
@@ -75,52 +72,6 @@ export const StatsSection: React.FC = () => {
             );
           })}
         </div>
-
-        {/* Real-time Global Activity Analytics (Small and elegant) */}
-        {globalStats && (
-          <div className="pt-8 mt-8 border-t border-stone-800/80 space-y-4">
-            <div className="text-center">
-              <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest bg-amber-950/40 border border-amber-500/30 px-3 py-1 rounded-full select-none">
-                Live Portal Activity
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-3 max-w-2xl mx-auto">
-              <div className="p-3 bg-[#121218] rounded-xl border border-stone-800/50 text-center space-y-0.5">
-                <div className="flex items-center justify-center gap-1.5 text-stone-400 text-[11px] font-bold">
-                  <Users className="w-3.5 h-3.5 text-amber-500" />
-                  <span className="hidden sm:inline">Visited Users</span>
-                  <span className="sm:hidden">Visitors</span>
-                </div>
-                <div className="text-sm sm:text-base font-black text-white font-heading">
-                  {globalStats.visitedUsers || 0}
-                </div>
-              </div>
-
-              <div className="p-3 bg-[#121218] rounded-xl border border-stone-800/50 text-center space-y-0.5">
-                <div className="flex items-center justify-center gap-1.5 text-stone-400 text-[11px] font-bold">
-                  <FileText className="w-3.5 h-3.5 text-amber-500" />
-                  <span className="hidden sm:inline">Lyrics Readings</span>
-                  <span className="sm:hidden">Reads</span>
-                </div>
-                <div className="text-sm sm:text-base font-black text-white font-heading">
-                  {globalStats.totalLyricsRead || 0}
-                </div>
-              </div>
-
-              <div className="p-3 bg-[#121218] rounded-xl border border-stone-800/50 text-center space-y-0.5">
-                <div className="flex items-center justify-center gap-1.5 text-stone-400 text-[11px] font-bold">
-                  <Eye className="w-3.5 h-3.5 text-amber-500" />
-                  <span className="hidden sm:inline">Photo Views</span>
-                  <span className="sm:hidden">Views</span>
-                </div>
-                <div className="text-sm sm:text-base font-black text-white font-heading">
-                  {globalStats.totalPhotoViews || 0}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
     </section>

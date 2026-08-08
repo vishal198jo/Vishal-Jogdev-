@@ -61,6 +61,10 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ slides, loading = false 
   const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
+  const paginate = (newDirection: number) => {
+    setPage(([prevPage]) => [prevPage + newDirection, newDirection]);
+  };
+
   // Preload all banner images immediately on mount for zero lag / zero flicker
   useEffect(() => {
     activeSlides.forEach((slide) => {
@@ -70,6 +74,15 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ slides, loading = false 
       }
     });
   }, [activeSlides]);
+
+  // Smooth auto-play every 3 seconds, pauses when user clicks/touches and holds to read
+  useEffect(() => {
+    if (isPaused || activeSlides.length === 0 || loading) return;
+    const timer = setInterval(() => {
+      paginate(1);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [page, isPaused, activeSlides, loading]);
 
   if (loading) {
     return <SliderSkeleton />;
@@ -92,19 +105,6 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ slides, loading = false 
   }
 
   const activeIndex = ((page % activeSlides.length) + activeSlides.length) % activeSlides.length;
-
-  const paginate = (newDirection: number) => {
-    setPage(([prevPage]) => [prevPage + newDirection, newDirection]);
-  };
-
-  // Smooth auto-play every 3 seconds, pauses when user clicks/touches and holds to read
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      paginate(1);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [page, isPaused, activeSlides]);
 
   const currentSlide = activeSlides[activeIndex] || activeSlides[0];
 
