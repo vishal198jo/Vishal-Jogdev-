@@ -17,7 +17,7 @@ import { doc, setDoc, updateDoc, increment } from 'firebase/firestore';
 export const SingleLyricPage: React.FC = () => {
   const { lyricId } = useParams<{ lyricId: string }>();
   const navigate = useNavigate();
-  const { lyrics: firestoreLyrics } = useFirestoreData();
+  const { lyrics: firestoreLyrics, loading } = useFirestoreData();
 
   // Increment view/reading counter once per user session
   useEffect(() => {
@@ -64,6 +64,37 @@ export const SingleLyricPage: React.FC = () => {
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
   const [shareSuccess, setShareSuccess] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="pt-28 pb-16 min-h-screen bg-[#0b0b0e] text-stone-100 flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full text-center space-y-6">
+          <div className="relative flex items-center justify-center">
+            {/* outer rotating ring */}
+            <div className="w-16 h-16 rounded-full border-4 border-amber-500/20 border-t-amber-500 animate-spin"></div>
+            {/* inner icon (traditional oil lamp) */}
+            <div className="absolute text-amber-400 text-xl animate-pulse">
+              🪔
+            </div>
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold text-white tracking-wide font-heading">Loading Devotional Lyrics...</h3>
+            <p className="text-xs text-stone-400">Please wait while we fetch the official abhanga text</p>
+          </div>
+          {/* Simulated skeleton preview */}
+          <div className="bg-[#121218]/40 border border-stone-800/60 p-6 rounded-3xl space-y-3.5 max-w-sm mx-auto animate-pulse">
+            <div className="h-4 bg-stone-800/80 rounded w-2/3 mx-auto"></div>
+            <div className="h-3 bg-stone-900/60 rounded w-1/2 mx-auto"></div>
+            <div className="pt-4 space-y-2.5">
+              <div className="h-3 bg-stone-900/40 rounded w-full"></div>
+              <div className="h-3 bg-stone-900/40 rounded w-5/6 mx-auto"></div>
+              <div className="h-3 bg-[#121218] rounded w-4/6 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!lyric) {
     return (
