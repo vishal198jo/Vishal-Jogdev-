@@ -223,6 +223,14 @@ export const GallerySection: React.FC = () => {
     seoKeywords = `Vishal Jogdeo ${activeFolder.name}, ${activeFolder.name} photos, ${activeFolder.name} gallery, ${activeFolder.name} videos`;
   }
 
+  // Format view numbers nicely (e.g. 1.2K, 15, 1.5M)
+  const formatViews = (count: number) => {
+    if (!count || count < 0) return '0';
+    if (count >= 1000000) return (count / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (count >= 1000) return (count / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return count.toLocaleString();
+  };
+
   return (
     <>
       <SEO title={seoTitle} description={seoDescription} keywords={seoKeywords} />
@@ -291,9 +299,12 @@ export const GallerySection: React.FC = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80" />
-                  <div className="absolute bottom-2 left-2 bg-black/60 px-2 py-0.5 rounded-md border border-stone-800/40 text-xs font-bold text-stone-200 backdrop-blur-sm">
-                    {folder.count}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
+                  
+                  {/* Folder Icon & Count Badge */}
+                  <div className="absolute bottom-2 left-2 bg-black/40 border border-white/20 text-xs font-bold text-amber-300 px-2.5 py-0.5 rounded-lg backdrop-blur-md flex items-center gap-1.5 shadow-md">
+                    <Folder className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20" />
+                    <span>{folder.count}</span>
                   </div>
                 </div>
                 <h3 className="text-sm font-semibold font-heading text-stone-200 text-center line-clamp-1 group-hover:text-amber-300 px-1">
@@ -334,14 +345,19 @@ export const GallerySection: React.FC = () => {
                   decoding="async"
                 />
 
-                {/* Realtime Views Badge Overlay */}
-                <div className="absolute bottom-1.5 left-1.5 bg-black/75 border border-stone-800/40 text-[9px] font-bold text-stone-300 px-1.5 py-0.5 rounded-md flex items-center backdrop-blur-sm z-10 select-none">
-                  <span>{item.views || 0}</span>
+                {/* Instagram Style Transparent Realtime Views Meter */}
+                <div className="absolute bottom-1.5 left-1.5 bg-black/30 backdrop-blur-md border border-white/20 text-[10px] font-extrabold text-white px-2 py-0.5 rounded-full flex items-center gap-1 z-10 select-none shadow-lg">
+                  {item.type === 'video' ? (
+                    <Play className="w-2.5 h-2.5 text-white fill-white" />
+                  ) : (
+                    <Eye className="w-3 h-3 text-white" />
+                  )}
+                  <span className="tracking-tight drop-shadow">{formatViews(item.views || 0)}</span>
                 </div>
                 
                 {/* Video Play Overlay */}
                 {item.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                     <div className="w-8 h-8 rounded-full bg-gold-gradient flex items-center justify-center shadow-lg">
                       <Play className="w-4 h-4 text-black ml-0.5 fill-black" />
                     </div>

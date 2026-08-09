@@ -61,7 +61,7 @@ export const SingleLyricPage: React.FC = () => {
   } : null;
 
   // Reader States
-  const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
+  const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('sm');
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
   const [shareSuccess, setShareSuccess] = useState(false);
 
@@ -276,57 +276,73 @@ export const SingleLyricPage: React.FC = () => {
 
         </div>
 
-        {/* 3. MAIN LYRICS CONTENT DIRECTLY ON PAGE WITH WATERMARK */}
-        <div className="py-4 relative">
+        {/* 3. MAIN LYRICS CONTENT - CLEAN PROFESSIONAL CONTAINER WITH Subtle WATERMARK */}
+        <div className="relative my-6 rounded-2xl bg-[#121110] border border-amber-500/30 p-6 sm:p-10 shadow-2xl overflow-hidden">
           
-          {/* WATERMARK BACKGROUND IMAGE - VISHAL JOGDEV */}
+          {/* Subtle WATERMARK BACKGROUND IMAGE */}
           <div 
-            className="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden opacity-10 sm:opacity-20 z-0"
+            className="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden z-0"
             aria-hidden="true"
           >
-            <div className="relative w-72 h-72 sm:w-[400px] sm:h-[400px] rounded-full overflow-hidden filter grayscale contrast-125 border-2 border-amber-500/30">
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden opacity-15 filter contrast-125 brightness-110">
               <img
                 src={SINGER_PROFILE.watermarkImage}
                 alt="Vishal Jogdeo Watermark"
-                className="w-full h-full object-cover scale-105"
+                className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
             </div>
           </div>
 
-          {/* LYRICS CONTENT */}
+          {/* LYRICS CONTENT (HIGH CONTRAST & CLEAN READABILITY) */}
           <div className="relative z-10 space-y-6">
             
             {/* Devanagari Lyrics */}
             <div className="space-y-3">
-              <div className={`font-heading text-white space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
+              <div className={`font-heading text-stone-100 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
                 {lyric.devanagariText.map((line, idx) => (
-                  <p 
-                    key={idx} 
-                    className={line === "" ? "h-3" : "py-0.5 text-white font-bold hover:text-amber-300 transition-colors"}
-                  >
-                    {line}
-                  </p>
+                  line === "" ? (
+                    <div key={idx} className="my-3 h-2" />
+                  ) : (
+                    <p 
+                      key={idx} 
+                      className="py-0.5 text-stone-100 font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors"
+                    >
+                      {line}
+                    </p>
+                  )
                 ))}
               </div>
             </div>
 
             {/* Roman / English Lyrics (If available) */}
             {lyric.romanText && lyric.romanText.length > 0 && (
-              <div className="space-y-3 pt-5 border-t border-stone-800">
+              <div className="space-y-3 pt-5 border-t border-stone-800/80">
                 <div className={`font-sans text-stone-300 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
                   {lyric.romanText.map((line, idx) => (
-                    <p 
-                      key={idx} 
-                      className={line === "" ? "h-3" : "py-0.5 italic text-stone-300 font-medium hover:text-amber-300 transition-colors"}
-                    >
-                      {line}
-                    </p>
+                    line === "" ? (
+                      <div key={idx} className="my-2 h-2" />
+                    ) : (
+                      <p 
+                        key={idx} 
+                        className="py-0.5 italic text-stone-300 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors"
+                      >
+                        {line}
+                      </p>
+                    )
                   ))}
                 </div>
               </div>
             )}
 
+          </div>
+
+          {/* SIMPLE PROFESSIONAL FOOTER */}
+          <div className="relative z-10 pt-5 mt-6 border-t border-stone-800/80 flex items-center justify-between text-xs font-semibold text-stone-400">
+            <span className="flex items-center gap-1.5 text-amber-400">
+              <i className="fa-solid fa-microphone text-amber-400 text-xs"></i>
+              <span>Singer: {lyric.composer || "Vishal Jogdeo"}</span>
+            </span>
           </div>
 
         </div>
