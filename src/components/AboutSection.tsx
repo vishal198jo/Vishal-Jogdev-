@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Award, CheckCircle, User, Calendar, Mic, Trophy, Youtube, Facebook } from 'lucide-react';
+import { Award, CheckCircle, User, Calendar, Mic, Trophy, Youtube, Facebook, Instagram } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import concertImage from '../assets/images/devotional_stage_concert_1785894013298.jpg';
 
 export const AboutSection: React.FC = () => {
@@ -165,14 +166,44 @@ export const AboutSection: React.FC = () => {
                   href="https://www.facebook.com/share/1AMnZnHGyd/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-blue-500/50 hover:bg-blue-950/10 transition-all duration-300 group sm:col-span-2 lg:col-span-1"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-blue-500/50 hover:bg-blue-950/10 transition-all duration-300 group"
                 >
                   <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0 group-hover:scale-110 transition-transform">
                     <Facebook className="w-4 h-4" />
                   </div>
                   <div>
                     <p className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors">अधिकृत फेसबुक पेज</p>
-                    <p className="text-[10px] text-stone-400 font-sans">Official Facebook Profile</p>
+                    <p className="text-[10px] text-stone-400 font-sans">Facebook Profile</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://wa.me/917038086864?text=नमस्कार,%20मला%20विशाल%20जोगदेव%20यांच्या%20अधिकृत%20माहिती%20आणि%20अपडेट्सबद्दल%20संपर्क%20करायचा%20आहे."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-emerald-500/50 hover:bg-emerald-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 group-hover:scale-110 transition-transform">
+                    <WhatsAppIcon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">अधिकृत व्हॉट्सॲप</p>
+                    <p className="text-[10px] text-stone-400 font-sans">WhatsApp Direct Contact</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://www.instagram.com/vishaljogdeo"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-pink-500/50 hover:bg-pink-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 shrink-0 group-hover:scale-110 transition-transform">
+                    <Instagram className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-pink-400 transition-colors">अधिकृत इन्स्टाग्राम</p>
+                    <p className="text-[10px] text-stone-400 font-sans">@vishaljogdeo</p>
                   </div>
                 </a>
               </div>

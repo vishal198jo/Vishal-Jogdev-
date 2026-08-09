@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { X, Calendar, MapPin, Send, CheckCircle2, MessageSquare } from 'lucide-react';
+import { X, Calendar, MapPin, Send, CheckCircle2 } from 'lucide-react';
 import { Show } from '../types';
 import { SINGER_PROFILE } from '../data/mockData';
 import { db, COLLECTIONS } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface BookEventModalProps {
   isOpen: boolean;
@@ -201,7 +202,7 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
                 rel="noopener noreferrer"
                 className="w-full py-2.5 rounded-full bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 border border-emerald-500/30"
               >
-                <MessageSquare className="w-4 h-4 text-emerald-300" />
+                <WhatsAppIcon className="w-4 h-4 text-emerald-300" />
                 <span>Instant WhatsApp Inquiry</span>
               </a>
             </div>
