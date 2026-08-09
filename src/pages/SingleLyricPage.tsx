@@ -6,7 +6,8 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
-  Eye
+  Eye,
+  Lock
 } from 'lucide-react';
 import { LATEST_LYRICS, SINGER_PROFILE } from '../data/mockData';
 import { SEO } from '../components/SEO';
@@ -64,6 +65,40 @@ export const SingleLyricPage: React.FC = () => {
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('sm');
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
   const [shareSuccess, setShareSuccess] = useState(false);
+
+  // Silent Anti-Copy Event Handlers
+  const handleSilentPrevent = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Block Ctrl+C, Cmd+C, Ctrl+A, Cmd+A, Ctrl+U, Ctrl+S, Ctrl+P, F12
+      if (
+        ((e.ctrlKey || e.metaKey) && ['c', 'C', 'a', 'A', 'u', 'U', 's', 'S', 'p', 'P'].includes(e.key)) ||
+        e.key === 'F12'
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    const handleSelectStart = (e: Event) => {
+      e.preventDefault();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('contextmenu', handleContextMenu);
+    window.addEventListener('selectstart', handleSelectStart);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('contextmenu', handleContextMenu);
+      window.removeEventListener('selectstart', handleSelectStart);
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -276,8 +311,14 @@ export const SingleLyricPage: React.FC = () => {
 
         </div>
 
-        {/* 3. MAIN LYRICS CONTENT - CLEAN PROFESSIONAL CONTAINER WITH Subtle WATERMARK */}
-        <div className="relative my-6 rounded-2xl bg-[#121110] border border-amber-500/30 p-6 sm:p-10 shadow-2xl overflow-hidden">
+        {/* 3. MAIN LYRICS CONTENT - STRICT COPY PROTECTED CONTAINER WITH SUBTLE WATERMARK */}
+        <div 
+          onContextMenu={handleSilentPrevent}
+          onCopy={handleSilentPrevent}
+          onCut={handleSilentPrevent}
+          onDragStart={handleSilentPrevent}
+          className="strict-no-copy select-none relative my-6 rounded-2xl bg-[#121110] border border-amber-500/30 p-6 sm:p-10 shadow-2xl overflow-hidden"
+        >
           
           {/* Subtle WATERMARK BACKGROUND IMAGE */}
           <div 
@@ -294,8 +335,8 @@ export const SingleLyricPage: React.FC = () => {
             </div>
           </div>
 
-          {/* LYRICS CONTENT (HIGH CONTRAST & CLEAN READABILITY) */}
-          <div className="relative z-10 space-y-6">
+          {/* LYRICS CONTENT (STRICT NO COPY, HIGH CONTRAST & CLEAN READABILITY) */}
+          <div className="relative z-10 space-y-6 strict-no-copy select-none">
             
             {/* Devanagari Lyrics */}
             <div className="space-y-3">
@@ -306,7 +347,7 @@ export const SingleLyricPage: React.FC = () => {
                   ) : (
                     <p 
                       key={idx} 
-                      className="py-0.5 text-stone-100 font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors"
+                      className="py-0.5 text-stone-100 font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors select-none"
                     >
                       {line}
                     </p>
@@ -325,7 +366,7 @@ export const SingleLyricPage: React.FC = () => {
                     ) : (
                       <p 
                         key={idx} 
-                        className="py-0.5 italic text-stone-300 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors"
+                        className="py-0.5 italic text-stone-300 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors select-none"
                       >
                         {line}
                       </p>
@@ -337,11 +378,15 @@ export const SingleLyricPage: React.FC = () => {
 
           </div>
 
-          {/* SIMPLE PROFESSIONAL FOOTER */}
-          <div className="relative z-10 pt-5 mt-6 border-t border-stone-800/80 flex items-center justify-between text-xs font-semibold text-stone-400">
+          {/* SIMPLE PROFESSIONAL FOOTER & COPY PROTECTION NOTICE */}
+          <div className="relative z-10 pt-5 mt-6 border-t border-stone-800/80 flex flex-col sm:flex-row items-center justify-between text-xs font-semibold text-stone-400 gap-2">
             <span className="flex items-center gap-1.5 text-amber-400">
               <i className="fa-solid fa-microphone text-amber-400 text-xs"></i>
               <span>Singer: {lyric.composer || "Vishal Jogdeo"}</span>
+            </span>
+            <span className="flex items-center gap-1.5 text-amber-500/80 text-[11px]">
+              <Lock className="w-3 h-3 text-amber-400" />
+              <span>Copyright Protected • Copying Restricted</span>
             </span>
           </div>
 

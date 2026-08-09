@@ -19,6 +19,7 @@ import {
 import { SINGER_PROFILE } from '../data/mockData';
 import { CountUpNumber } from './CountUpNumber';
 import { HeroSlider } from './HeroSlider';
+import { ServicesBookingSection } from './ServicesBookingSection';
 
 interface HeroSectionProps {
   slides?: Array<{ id: string | number; image: string; altText?: string }>;
@@ -251,6 +252,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
           </motion.div>
 
         </div>
+
+        {/* SERVICES & SHOW BOOKING SECTION (3 DEV CONTAINERS) */}
+        <ServicesBookingSection />
 
         {/* Short Page Summaries Grid */}
         <motion.div 

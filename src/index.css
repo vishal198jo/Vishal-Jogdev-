@@ -36,6 +36,23 @@ html {
   }
 }
 
+/* Anti-Copy Protection Utilities for Devotional Lyrics */
+.strict-no-copy {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.strict-no-copy * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
 /* High performance GPU Utilities */
 .gpu-layer {
   transform: translateZ(0);

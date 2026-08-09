@@ -57,18 +57,112 @@ export const ContactSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-12 space-y-3 border-b border-stone-800 pb-6"
+          className="text-center max-w-3xl mx-auto mb-10 space-y-3 border-b border-stone-800 pb-6"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
             <Mail className="w-3.5 h-3.5 text-amber-400" />
-            <span>Event Inquiry & Bookings</span>
+            <span>भजनसंध्या व शो बुकिंग - थेट संपर्क</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
             Get in <span className="font-serif italic text-gold-gradient font-normal">Touch</span>
           </h2>
           <p className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto font-sans">
-            Book Vishal Jogdeo for private kirtans, temple festivals, corporate cultural evenings, or international tours.
+            लाइव्ह शो, महानुभाव पंथीय भजनसंध्या व स्टुडिओ रेकॉर्डिंगसाठी खालील माहितीनुसार थेट संपर्क साधा.
           </p>
+        </motion.div>
+
+        {/* POINT-TO-POINT BOOKING SERVICES HIGHLIGHT BOX */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-10 bg-[#121218] border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+        >
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-stone-800 pb-4 mb-6 gap-3">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-bold font-heading text-white flex items-center gap-2">
+                <span className="text-amber-400">🚩</span> भजनसंध्या व शो बुकिंग सर्व्हिसेस
+              </h3>
+              <p className="text-xs text-stone-400 mt-1">
+                खालीलपैकी कोणत्याही सेवा आणि कार्यक्रमांसाठी थेट संपर्क करा
+              </p>
+            </div>
+            <a 
+              href="https://wa.me/917038086864?text=नमस्कार,%20मला%20भजनसंध्या%20आणि%20शो%20बुकिंगबद्दल%20माहिती%20हवी%20आहे."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition-all"
+            >
+              <WhatsAppIcon className="w-4 h-4" />
+              <span>WhatsApp Direct Message</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-stone-200 text-xs sm:text-sm">
+            {/* Point 1 */}
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl space-y-3 hover:border-amber-500/40 transition-colors">
+              <div className="flex items-center gap-2 text-amber-400 font-extrabold text-sm">
+                <span className="w-6 h-6 rounded-full bg-amber-950 border border-amber-500/40 flex items-center justify-center text-xs">१</span>
+                <h4>भजन रेकॉर्डिंग (विशाल जोगदेव यांच्या आवाजात)</h4>
+              </div>
+              <p className="text-stone-300 leading-relaxed">
+                तुम्हाला अशा प्रकारचे तुमचे कुठले भजन विशाल जोगदेव यांच्या आवाजात रेकॉर्ड करायचे असल्यास तुम्ही खालील नंबरवर थेट संपर्क करू शकता.
+              </p>
+              <a 
+                href="https://wa.me/917038086864?text=नमस्कार,%20मला%20विशाल%20जोगदेव%20यांच्या%20आवाजात%20भजन%20रेकॉर्डिंगबद्दल%20संपर्क%20करायचा%20आहे."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-bold hover:underline pt-1"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5" />
+                <span>रेकॉर्डिंगसाठी WhatsApp करा</span>
+              </a>
+            </div>
+
+            {/* Point 2 */}
+            <div className="bg-stone-900/80 border border-amber-500/30 p-5 rounded-2xl space-y-3 hover:border-amber-400 transition-colors relative">
+              <span className="absolute -top-2.5 right-4 bg-amber-500 text-black font-extrabold text-[9px] uppercase px-2 py-0.5 rounded-full">
+                Popular
+              </span>
+              <div className="flex items-center gap-2 text-amber-300 font-extrabold text-sm">
+                <span className="w-6 h-6 rounded-full bg-amber-900 border border-amber-400 flex items-center justify-center text-xs text-amber-300">२</span>
+                <h4>महानुभाव पंथीय भजनसंध्या (लाइव्ह शो व कार्यक्रम)</h4>
+              </div>
+              <p className="text-stone-300 leading-relaxed">
+                महानुभाव पंथीय भजनसंध्या हेतू संपर्क.. विशाल जोगदेव यांचा सुमधुर आवाज सोबतच असंख्य नयनरम्य झाक्या व नामवंत कलाकारांचा एक मात्र महानुभाव पंथीय संच.
+              </p>
+              <a 
+                href="https://wa.me/917038086864?text=नमस्कार,%20मला%20महानुभाव%20पंथीय%20भजनसंध्या%20लाइव्ह%20शो%20बुकिंगबद्दल%20माहिती%20हवी%20आहे."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-bold hover:underline pt-1"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5" />
+                <span>लाइव्ह शोसाठी WhatsApp करा</span>
+              </a>
+            </div>
+
+            {/* Point 3 */}
+            <div className="bg-stone-900/80 border border-stone-800 p-5 rounded-2xl space-y-3 hover:border-amber-500/40 transition-colors">
+              <div className="flex items-center gap-2 text-amber-400 font-extrabold text-sm">
+                <span className="w-6 h-6 rounded-full bg-amber-950 border border-amber-500/40 flex items-center justify-center text-xs">३</span>
+                <h4>देवी जागरण व धार्मिक कार्यक्रम</h4>
+              </div>
+              <p className="text-stone-300 leading-relaxed">
+                भव्य देवी जागरण, गोंधळ, तुळजापूर व कोल्हापूर आई भवानी जागरण, अखंड नामसप्ताह आणि कौटुंबिक धार्मिक उत्सवांसाठी सुमधुर भजनांच्या कार्यक्रमाकरिता संपर्क करा.
+              </p>
+              <a 
+                href="https://wa.me/917038086864?text=नमस्कार,%20मला%20देवी%20जागरण%20व%20धार्मिक%20कार्यक्रमासाठी%20संपर्क%20करायचा%20आहे."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-bold hover:underline pt-1"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5" />
+                <span>जागरण कार्यक्रमासाठी WhatsApp करा</span>
+              </a>
+            </div>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
