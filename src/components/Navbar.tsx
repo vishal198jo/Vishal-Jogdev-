@@ -10,6 +10,8 @@ import {
   Calendar
 } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
+import { SpotifyIcon } from './SpotifyIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -133,6 +135,26 @@ export const Navbar: React.FC<NavbarProps> = ({
                 >
                   <Facebook className="w-4 h-4" />
                 </a>
+                <a 
+                  href="https://wa.me/917038086864" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-full text-stone-300 hover:text-emerald-400 hover:bg-white/10 transition-colors"
+                  title="WhatsApp Contact"
+                  aria-label="WhatsApp Contact"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                </a>
+                <a 
+                  href={SINGER_PROFILE.contact.socials.spotify} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-full text-stone-300 hover:text-emerald-400 hover:bg-white/10 transition-colors"
+                  title="Spotify Profile"
+                  aria-label="Spotify Profile"
+                >
+                  <SpotifyIcon className="w-4 h-4" />
+                </a>
               </div>
 
               {/* Book Event CTA Button */}
@@ -218,6 +240,24 @@ export const Navbar: React.FC<NavbarProps> = ({
                   aria-label="Facebook"
                 >
                   <Facebook className="w-4 h-4" />
+                </a>
+                <a 
+                  href="https://wa.me/917038086864" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-emerald-400"
+                  aria-label="WhatsApp"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                </a>
+                <a 
+                  href={SINGER_PROFILE.contact.socials.spotify} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2.5 rounded-full bg-stone-900 border border-stone-800 text-stone-300 hover:text-emerald-400"
+                  aria-label="Spotify"
+                >
+                  <SpotifyIcon className="w-4 h-4" />
                 </a>
               </div>
             </div>

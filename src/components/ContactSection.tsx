@@ -5,6 +5,7 @@ import { SINGER_PROFILE } from '../data/mockData';
 import { db, COLLECTIONS } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { SpotifyIcon } from './SpotifyIcon';
 
 export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -284,6 +285,15 @@ export const ContactSection: React.FC = () => {
                   title="Facebook"
                 >
                   <Facebook className="w-5 h-5" />
+                </a>
+                <a 
+                  href={SINGER_PROFILE.contact.socials.spotify} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-emerald-400 hover:text-white hover:bg-emerald-500 transition-all duration-300"
+                  title="Spotify"
+                >
+                  <SpotifyIcon className="w-5 h-5" />
                 </a>
               </div>
             </div>

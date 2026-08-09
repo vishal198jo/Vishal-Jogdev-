@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Youtube, Instagram, Facebook, ArrowUp, ExternalLink } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
+import { SpotifyIcon } from './SpotifyIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface FooterProps {
   onOpenPrivacyModal?: (title: string) => void;
@@ -61,6 +63,24 @@ export const Footer: React.FC<FooterProps> = () => {
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href="https://wa.me/917038086864"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-stone-900 text-stone-300 hover:text-emerald-400 hover:bg-stone-800 border border-stone-800 transition-colors"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon className="w-4 h-4" />
+              </a>
+              <a
+                href={SINGER_PROFILE.contact.socials.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-stone-900 text-stone-300 hover:text-emerald-400 hover:bg-stone-800 border border-stone-800 transition-colors"
+                aria-label="Spotify"
+              >
+                <SpotifyIcon className="w-4 h-4" />
               </a>
             </div>
           </div>

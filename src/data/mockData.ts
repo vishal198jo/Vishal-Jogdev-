@@ -65,7 +65,7 @@ export const SINGER_PROFILE = {
       youtube: "https://youtube.com/@vishaljogdeo",
       instagram: "https://www.instagram.com/vishaljogdeo",
       facebook: "https://www.facebook.com/share/1AMnZnHGyd/",
-      spotify: "https://open.spotify.com/artist/vishaljogdev"
+      spotify: "https://open.spotify.com/playlist/2LgZXXcDdeKV7CVa1DIQBq"
     }
   }
 };

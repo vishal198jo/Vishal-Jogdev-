@@ -73,9 +73,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="flex justify-center w-full pt-2">
               <div className="w-full max-w-[380px] md:max-w-5xl aspect-[9/16] md:aspect-none md:h-[480px] lg:h-[520px] rounded-3xl overflow-hidden shadow-2xl border-2 border-amber-500/30 bg-[#121218] p-1 sm:p-2 relative group transition-all duration-300 gold-glow">
                 <iframe 
-                  title="Vishal Jogdeo Spotify Discography"
+                  title="Vishal Jogdeo Spotify Playlist"
                   style={{ borderRadius: '20px' }}
-                  src="https://open.spotify.com/embed/artist/0MNaVB2rq5LKqLSRy0IWu7?utm_source=generator&theme=0" 
+                  src="https://open.spotify.com/embed/playlist/2LgZXXcDdeKV7CVa1DIQBq?utm_source=generator&theme=0" 
                   width="100%" 
                   height="100%" 
                   frameBorder="0" 

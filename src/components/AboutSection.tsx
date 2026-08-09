@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Award, CheckCircle, User, Calendar, Mic, Trophy, Youtube, Facebook, Instagram } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { SpotifyIcon } from './SpotifyIcon';
 import concertImage from '../assets/images/devotional_stage_concert_1785894013298.jpg';
 
 export const AboutSection: React.FC = () => {
@@ -204,6 +205,21 @@ export const AboutSection: React.FC = () => {
                   <div>
                     <p className="text-xs font-bold text-white group-hover:text-pink-400 transition-colors">अधिकृत इन्स्टाग्राम</p>
                     <p className="text-[10px] text-stone-400 font-sans">@vishaljogdeo</p>
+                  </div>
+                </a>
+
+                <a
+                  href="https://open.spotify.com/playlist/2LgZXXcDdeKV7CVa1DIQBq"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-stone-900 border border-stone-800 hover:border-emerald-500/50 hover:bg-emerald-950/10 transition-all duration-300 group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0 group-hover:scale-110 transition-transform">
+                    <SpotifyIcon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">अधिकृत स्पॉटिफाय</p>
+                    <p className="text-[10px] text-stone-400 font-sans">Spotify Playlist</p>
                   </div>
                 </a>
               </div>
