@@ -26,7 +26,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <>
-      <SEO title="Home | Devotional Classical Vocalist" description="Official Portal of Vishal Jogdeo - 15+ years classical vocalist & devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts." keywords="Vishal Jogdeo, Devotional Singer, Abhanga, Bhajan, Classical Vocalist, Marathi Devotional Music" />
+      <SEO 
+        title="Vishal Jogdeo | Official Website – Devotional Singer & Songs Portal" 
+        description="Official Portal of Vishal Jogdeo (Vishal Jogdev) - 15+ years classical vocalist & devotional singer. Discover Vishal Jogdeo songs, lyrics, music playlist, lifestyle biography, and live shows." 
+        keywords="Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Devotional Singer, Marathi Devotional Music, Vishal Jogdeo Live Show" 
+      />
       
       {/* Top Announcement Ticker Bar */}
       <div className="pt-16 sm:pt-20">

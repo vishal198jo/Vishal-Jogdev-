@@ -9,7 +9,11 @@ interface ContactPageProps {
 export const ContactPage: React.FC<ContactPageProps> = () => {
   return (
     <>
-      <SEO title="Official Booking & Contact Management" description="Inquire about booking Vishal Jogdeo for Abhanga Sandhya, temple programs, devotional concerts, and music recording projects." keywords="Book Vishal Jogdeo, Abhanga Sandhya Booking, Devotional Singer Inquiry, Contact Management" />
+      <SEO 
+        title="Book Vishal Jogdeo | Official Contact & Event Inquiries" 
+        description="Book devotional singer Vishal Jogdeo (Vishal Jogdev) for Abhanga Sandhya concerts, temple programs, weddings, and music recordings. Get official contact details." 
+        keywords="Book Vishal Jogdeo, Vishal Jogdeo Contact, Vishal Jogdeo Phone Number, Vishal Jogdeo Event Booking, Abhanga Sandhya Booking, Vishal Jogdev Contact" 
+      />
       <div className="pt-20 space-y-8 pb-16 bg-[#0b0b0e] text-stone-100 min-h-screen">
       <ContactSection />
     </div>

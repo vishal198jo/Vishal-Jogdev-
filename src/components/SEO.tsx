@@ -33,10 +33,10 @@ export const SEO: React.FC<SEOProps> = ({
     }
   }
   
-  const defaultDesc = "Official portal of Vishal Jogdeo, classical vocalist and devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts globally.";
+  const defaultDesc = "Official portal of Vishal Jogdeo (Vishal Jogdev) - classical vocalist and devotional singer. Listen to Vishal Jogdeo songs, read lyrics, explore lifestyle biography, photos, and book live shows.";
   const metaDesc = description || defaultDesc;
   
-  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, Abhanga, Devotional Singer, Marathi Bhajan, Sant Sahitya, Classical Vocalist, Kirtan, Devotional Lyrics, Mahanubhav Panth Bhajan";
+  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos";
   const metaKeywords = keywords || defaultKeywords;
   
   const siteUrl = "https://vishaljogdeo.com";

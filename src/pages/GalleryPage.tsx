@@ -5,7 +5,11 @@ import { SEO } from '../components/SEO';
 export const GalleryPage: React.FC = () => {
   return (
     <>
-      <SEO title="HD Media & Photo Gallery Archive" description="Browse high-definition photos and concert video highlights of Vishal Jogdeo categorized into Live Concerts, Temple Seva, Lifestyle, and Studio sessions." keywords="Vishal Jogdeo Photos, Concert Gallery, Abhanga Sandhya Photos, Devotional Singer Gallery" />
+      <SEO 
+        title="Vishal Jogdeo Photos & Lifestyle Gallery | HD Images Archive" 
+        description="Browse high-definition photos and video highlights of Vishal Jogdeo (Vishal Jogdev). Explore concert images, lifestyle photos, studio sessions, and temple performances." 
+        keywords="Vishal Jogdeo Photos, Vishal Jogdeo Lifestyle, Vishal Jogdeo HD Images, Vishal Jogdeo Gallery, Vishal Jogdeo Concert Pictures, Vishal Jogdev Photos" 
+      />
       <div className="pt-20 space-y-8 pb-16 bg-[#0b0b0e] text-stone-100 min-h-screen">
       <GallerySection />
     </div>

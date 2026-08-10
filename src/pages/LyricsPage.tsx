@@ -13,7 +13,11 @@ export const LyricsPage: React.FC<LyricsPageProps> = ({
 }) => {
   return (
     <>
-      <SEO title="Devotional Song Lyrics Library | Marathi Devanagari & English" description="Explore authentic Marathi Devanagari and English transliterated lyrics of Sant Tukaram, Dnyaneshwar, and Namdev Abhangas sung by Vishal Jogdeo." keywords="Devotional Lyrics, Marathi Abhanga Lyrics, Devanagari Lyrics, Sant Sahitya, Vishal Jogdeo Lyrics" />
+      <SEO 
+        title="Vishal Jogdeo Lyrics Library | Full Song Lyrics in Devanagari & English" 
+        description="Read complete Vishal Jogdeo lyrics in Marathi Devanagari script and English transliteration. Full lyrics for Mahanubhav Bhajans, Sant Sahitya Abhangas, and devotional songs." 
+        keywords="Vishal Jogdeo lyrics, Vishal Jogdeo Song Lyrics, Marathi Bhajan Lyrics, Devanagari Lyrics, Mahanubhav Panth Bhajan Lyrics, Aai Majhi Mayecha Sagar Lyrics, Vishal Jogdeo, Vishal Jogdev" 
+      />
       <div className="pt-20 pb-12 bg-[#0b0b0e] text-stone-100 min-h-screen">
       <LatestLyrics
         selectedLyricIdFromParent={selectedLyricId}

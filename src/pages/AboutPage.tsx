@@ -10,7 +10,11 @@ import { SEO } from '../components/SEO';
 export const AboutPage: React.FC = () => {
   return (
     <>
-      <SEO title="विशाल जोगदेव - अधिकृत माहिती व संगीत प्रवास" description="सुप्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट विशाल जोगदेव यांची अधिकृत माहिती, २५ वर्षांची संगीत कारकीर्द, १५००+ भक्तीगीते व ५००+ महानुभाव पंथ भजने." keywords="Vishal Jogdeo Biography, महानुभाव पंथ भजनसम्राट, भक्तिगीत गायक, विशाल जोगदेव" />
+      <SEO 
+        title="Vishal Jogdeo Lifestyle & Biography | Official Profile & Musical Journey" 
+        description="Discover Vishal Jogdeo (Vishal Jogdev) lifestyle, age, musical journey, family, and 25-year career as a renowned devotional playback singer and Mahanubhav Panth Bhajan Samrat." 
+        keywords="Vishal Jogdeo Lifestyle, Vishal Jogdeo Biography, Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Age, Vishal Jogdeo Family, Vishal Jogdeo Musical Journey, Vishal Jogdeo Photos, महानुभाव पंथ भजनसम्राट, विशाल जोगदेव" 
+      />
       <div className="pt-20 sm:pt-24 space-y-10">
       {/* Page Header */}
       <motion.div 

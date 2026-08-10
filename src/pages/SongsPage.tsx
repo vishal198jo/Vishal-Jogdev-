@@ -19,7 +19,11 @@ export const SongsPage: React.FC<SongsPageProps> = ({
 }) => {
   return (
     <>
-      <SEO title="Devotional Songs Audio Catalog" description="Listen to 120+ authentic Marathi Abhangas, classical Bhajans, sacred Aartis, and Kirtans sung by Vishal Jogdeo." keywords="Devotional Songs, Abhanga Audio, Marathi Bhajan Player, Vishal Jogdeo Songs, Vitthal Songs" />
+      <SEO 
+        title="Vishal Jogdeo Song Collection & Music Playlist | Official Audio Tracks" 
+        description="Listen to all popular Vishal Jogdeo songs, devotional music, Marathi Abhangas, Mahanubhav Panth Bhajans, and audio tracks performed by Vishal Jogdeo (Vishal Jogdev)." 
+        keywords="Vishal Jogdeo Song, Vishal Jogdeo music, Vishal Jogdeo Songs, Vishal Jogdeo Devotional Music, Vishal Jogdeo Audio Tracks, Vishal Jogdeo Spotify, Vishal Jogdeo MP3, Vishal Jogdeo Bhajan, Vishal Jogdev" 
+      />
       <div className="pt-20 sm:pt-24 space-y-10 pb-16 bg-[#0b0b0e] text-stone-100 min-h-screen">
       {/* Page Header */}
       <div className="bg-[#121218] border-b border-amber-500/20 py-12">
