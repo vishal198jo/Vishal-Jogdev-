@@ -76,6 +76,15 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Security headers middleware
+  app.use((_req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+  });
+
   // Real-time dynamic Sitemap XML route
   app.get('/sitemap.xml', async (_req, res) => {
     try {
@@ -92,6 +101,7 @@ async function startServer() {
   // Robots.txt route
   app.get('/robots.txt', (_req, res) => {
     res.header('Content-Type', 'text/plain');
+    res.header('Cache-Control', 'public, max-age=86400');
     res.send(`User-agent: *\nAllow: /\n\nSitemap: https://vishaljogdeo.com/sitemap.xml\n`);
   });
 
@@ -104,7 +114,14 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+    // Long-term caching for hashed build assets
+    app.use('/assets', express.static(path.join(distPath, 'assets'), {
+      maxAge: '1y',
+      immutable: true,
+    }));
+    app.use(express.static(distPath, {
+      maxAge: '1h',
+    }));
     app.get('*', (_req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

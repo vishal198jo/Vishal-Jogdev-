@@ -1,6 +1,8 @@
 {
   "name": "Vishal Jogdeo – Official Website",
-  "description": "Official website for devotional playback singer Vishal Jogdeo featuring songs, lyrics, gallery, biography, upcoming shows, and event booking.",
+  "description": "Official portal for devotional playback singer Vishal Jogdeo featuring songs, lyrics, gallery, biography, upcoming shows, and event booking.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

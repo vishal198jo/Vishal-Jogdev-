@@ -1,28 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
-import { HomePage } from './pages/HomePage';
-import { AboutPage } from './pages/AboutPage';
-import { SongsPage } from './pages/SongsPage';
-import { LyricsPage } from './pages/LyricsPage';
-import { SingleLyricPage } from './pages/SingleLyricPage';
-import { GalleryPage } from './pages/GalleryPage';
-import { ShowsPage } from './pages/ShowsPage';
-import { ContactPage } from './pages/ContactPage';
-import { AdminPage } from './pages/AdminPage';
-import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
-import { TermsPage } from './pages/TermsPage';
 import { Footer } from './components/Footer';
 import { AudioPlayerBar } from './components/AudioPlayerBar';
 import { BookEventModal } from './components/BookEventModal';
-import { LoadingScreen } from './components/LoadingScreen';
 import { useFirestoreData } from './hooks/useFirestoreData';
 
 import { Song, Show } from './types';
 import { FEATURED_SONGS } from './data/mockData';
-import { X } from 'lucide-react';
+import { X, Music2 } from 'lucide-react';
 import { db } from './lib/firebase';
 import { doc, setDoc, increment } from 'firebase/firestore';
+
+// Lazy loaded page components for fast initial bundle loading
+const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
+const SongsPage = lazy(() => import('./pages/SongsPage').then(m => ({ default: m.SongsPage })));
+const LyricsPage = lazy(() => import('./pages/LyricsPage').then(m => ({ default: m.LyricsPage })));
+const SingleLyricPage = lazy(() => import('./pages/SingleLyricPage').then(m => ({ default: m.SingleLyricPage })));
+const GalleryPage = lazy(() => import('./pages/GalleryPage').then(m => ({ default: m.GalleryPage })));
+const ShowsPage = lazy(() => import('./pages/ShowsPage').then(m => ({ default: m.ShowsPage })));
+const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
+const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
+
+// Sleek fallback component during page lazy load
+const PageFallback = () => (
+  <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 text-amber-400 py-20">
+    <div className="w-12 h-12 rounded-full border-2 border-amber-500/20 border-t-amber-400 animate-spin flex items-center justify-center">
+      <Music2 className="w-5 h-5 text-amber-400/80 animate-pulse" />
+    </div>
+    <span className="text-xs font-semibold tracking-widest text-stone-400 uppercase font-sans">लोड होत आहे...</span>
+  </div>
+);
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -34,7 +45,7 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  const { loading } = useFirestoreData();
+  useFirestoreData();
 
   // Track unique website visited users strictly
   useEffect(() => {
@@ -93,84 +104,86 @@ export default function App() {
         />
 
         <main className="flex-1">
-          <Routes>
-            {/* Dynamic Home Page with Demos of all sections */}
-            <Route 
-              path="/" 
-              element={
-                <HomePage
-                  currentSong={currentSong}
-                  isPlaying={isPlaying}
-                  onPlaySong={handlePlaySong}
-                  onOpenBooking={() => { setPreselectedShow(null); setBookingModalOpen(true); }}
-                />
-              } 
-            />
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              {/* Dynamic Home Page with Demos of all sections */}
+              <Route 
+                path="/" 
+                element={
+                  <HomePage
+                    currentSong={currentSong}
+                    isPlaying={isPlaying}
+                    onPlaySong={handlePlaySong}
+                    onOpenBooking={() => { setPreselectedShow(null); setBookingModalOpen(true); }}
+                  />
+                } 
+              />
 
-            {/* Dedicated Pages for each section */}
-            <Route path="/about" element={<AboutPage />} />
-            
-            <Route 
-              path="/songs" 
-              element={
-                <SongsPage
-                  currentSong={currentSong}
-                  isPlaying={isPlaying}
-                  onPlaySong={handlePlaySong}
-                  onOpenLyrics={handleSelectLyricsById}
-                />
-              } 
-            />
-            
-            <Route 
-              path="/lyrics" 
-              element={
-                <LyricsPage
-                  selectedLyricId={selectedLyricId}
-                  onPlaySong={(songId) => {
-                    const song = FEATURED_SONGS.find(s => s.id === songId);
-                    if (song) handlePlaySong(song);
-                  }}
-                />
-              } 
-            />
+              {/* Dedicated Pages for each section */}
+              <Route path="/about" element={<AboutPage />} />
+              
+              <Route 
+                path="/songs" 
+                element={
+                  <SongsPage
+                    currentSong={currentSong}
+                    isPlaying={isPlaying}
+                    onPlaySong={handlePlaySong}
+                    onOpenLyrics={handleSelectLyricsById}
+                  />
+                } 
+              />
+              
+              <Route 
+                path="/lyrics" 
+                element={
+                  <LyricsPage
+                    selectedLyricId={selectedLyricId}
+                    onPlaySong={(songId) => {
+                      const song = FEATURED_SONGS.find(s => s.id === songId);
+                      if (song) handlePlaySong(song);
+                    }}
+                  />
+                } 
+              />
 
-            <Route 
-              path="/lyrics/:lyricId" 
-              element={
-                <SingleLyricPage
-                  onPlaySong={handlePlaySong}
-                />
-              } 
-            />
-            
-            <Route path="/gallery" element={<GalleryPage />} />
-            
-            <Route 
-              path="/shows" 
-              element={
-                <ShowsPage
-                  onOpenBooking={() => setBookingModalOpen(true)}
-                />
-              } 
-            />
-            
-            <Route 
-              path="/contact" 
-              element={
-                <ContactPage
-                  onOpenBooking={() => setBookingModalOpen(true)}
-                />
-              } 
-            />
+              <Route 
+                path="/lyrics/:lyricId" 
+                element={
+                  <SingleLyricPage
+                    onPlaySong={handlePlaySong}
+                  />
+                } 
+              />
+              
+              <Route path="/gallery" element={<GalleryPage />} />
+              
+              <Route 
+                path="/shows" 
+                element={
+                  <ShowsPage
+                    onOpenBooking={() => setBookingModalOpen(true)}
+                  />
+                } 
+              />
+              
+              <Route 
+                path="/contact" 
+                element={
+                  <ContactPage
+                    onOpenBooking={() => setBookingModalOpen(true)}
+                  />
+                } 
+              />
 
-            {/* Admin Panel Route */}
-            <Route path="/admin" element={<AdminPage />} />
+              {/* Admin Panel Route */}
+              <Route path="/admin" element={<AdminPage />} />
 
-            {/* Legal Pages */}
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-          </Routes>
+              {/* Legal Pages */}
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+            </Routes>
+          </Suspense>
         </main>
 
         {/* Footer */}
