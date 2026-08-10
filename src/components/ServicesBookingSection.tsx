@@ -1,57 +1,53 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Mic2, Music, Sparkles, PhoneCall, CalendarCheck, Heart } from 'lucide-react';
-import { SINGER_PROFILE } from '../data/mockData';
+import { Music, Sparkles, Heart, PhoneCall, CalendarCheck } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export const ServicesBookingSection: React.FC = () => {
-  const whatsappNumber = "917038086864";
+  const primaryPhone = "7038086864";
+  const secondaryPhone = "8208958856";
 
   const services = [
     {
-      id: 'recording',
-      title: 'भजन रेकॉर्डिंग (विशाल जोगदेव यांच्या आवाजात)',
-      badge: 'Studio Recording',
-      icon: <Mic2 className="w-6 h-6 text-amber-400" />,
-      description: 'तुम्हाला अशा प्रकारचे तुमचे कुठले भजन विशाल जोगदेव यांच्या आवाजात रेकॉर्ड करायचे असल्यास तुम्ही खालील नंबरवर थेट संपर्क करू शकता..',
-      whatsappText: 'नमस्कार, मला विशाल जोगदेव यांच्या आवाजात भजन रेकॉर्डिंगबद्दल संपर्क करायचा आहे.',
-      accentGradient: 'from-amber-500/20 via-amber-600/10 to-transparent',
-      borderColor: 'border-amber-500/30',
-      badgeBg: 'bg-amber-950/80 text-amber-300 border-amber-500/40'
+      id: 'wedding-sangeet',
+      title: 'सुगम संगीत एवं लग्न गीते 💕',
+      badge: 'Wedding & Live Show',
+      icon: <Heart className="w-6 h-6 text-rose-400" />,
+      description: 'महाराष्ट्राचे सुप्रसिद्ध गायक विशाल जोगदेव यांची महानुभाव पंथीय गाजलेली भजने, लग्न गीते, तसेच महानुभाव पंथीय मंगलाष्टकांसोबत हिंदी मराठी फिल्मी गाण्यांच्या कार्यक्रमाचा एक अनोखा संगम.',
+      specialNote: '✨ आपल्याकडील लग्न समारंभात आम्हाला नक्की बोलवा',
+      whatsappText: 'नमस्कार, मला सुगम संगीत एवं लग्न गीते शो बुकिंगबद्दल माहिती हवी आहे.',
+      phoneText: 'Contact for All Type Live & Wedding Show',
+      phones: [primaryPhone],
+      accentGradient: 'from-rose-500/20 via-rose-600/10 to-transparent',
+      borderColor: 'border-rose-500/30',
+      badgeBg: 'bg-rose-950/80 text-rose-300 border-rose-500/40'
     },
     {
       id: 'bhajan-sandhya',
-      title: 'महानुभाव पंथीय भजनसंध्या (लाइव्ह शो व कार्यक्रम)',
-      badge: 'Live Concert / Show',
+      title: 'श्री चक्रधर भक्तीधारा (महानुभाव पंथ भजनसंध्या) 🌸',
+      badge: 'महानुभाव पंथ भजनसंध्या',
       icon: <Music className="w-6 h-6 text-amber-400" />,
-      description: 'महानुभाव पंथीय भजनसंध्या हेतू संपर्क.. विशाल जोगदेव यांचा सुमधुर आवाज सोबतच असंख्य नयनरम्य झाक्या व नामवंत कलाकारांचा एक मात्र महानुभाव पंथीय संच.',
-      whatsappText: 'नमस्कार, मला महानुभाव पंथीय भजनसंध्या लाइव्ह शो बुकिंगबद्दल माहिती हवी आहे.',
-      accentGradient: 'from-yellow-500/20 via-amber-600/10 to-transparent',
+      description: 'महानुभाव पंथाचे सुप्रसिद्ध व लाडके, भजनसम्राट श्री विशाल जोगदेव यांचा सुमधुर आवाज, उत्कृष्ट वाद्यवृंद आणि श्रीकृष्ण, सुदामा, मिरा तथा अनेक नयनरम्य सजीव झाक्यानी सजलेला व महाराष्ट्रात गाजलेला एक दर्जेदार कार्यक्रम.',
+      whatsappText: 'नमस्कार, मला श्री चक्रधर भक्तीधारा (महानुभाव पंथ भजनसंध्या) कार्यक्रमाच्या बुकिंगबद्दल माहिती हवी आहे.',
+      phoneText: 'भजनसंध्या हेतू संपर्क',
+      phones: [primaryPhone, secondaryPhone],
+      accentGradient: 'from-amber-500/20 via-yellow-600/10 to-transparent',
       borderColor: 'border-amber-500/40',
-      badgeBg: 'bg-amber-900/90 text-amber-200 border-amber-400/50'
+      badgeBg: 'bg-amber-950/90 text-amber-300 border-amber-400/50'
     },
     {
       id: 'devi-jagran',
-      title: 'देवी जागरण व धार्मिक कार्यक्रम',
-      badge: 'Religious Events',
-      icon: <Sparkles className="w-6 h-6 text-amber-400" />,
-      description: 'भव्य देवी जागरण, गोंधळ, तुळजापूर व कोल्हापूर आई भवानी जागरण, अखंड नामसप्ताह आणि कौटुंबिक धार्मिक उत्सवांसाठी सुमधुर भजनांच्या कार्यक्रमाकरिता संपर्क करा.',
-      whatsappText: 'नमस्कार, मला देवी जागरण व धार्मिक कार्यक्रमासाठी संपर्क करायचा आहे.',
+      title: 'विशाल भगवती जागरण 🌺',
+      badge: 'Devi Jagran Group',
+      subTitle: 'जसगायक- विशाल जोगदेव (T-Series Playback Singer)',
+      icon: <Sparkles className="w-6 h-6 text-orange-400" />,
+      description: 'संपूर्ण मध्यभारत में धूम मचानेवाला कलाकारो का संच, साथ ही साईबाबा, भोलेबाबा, काली मां, राधा कृष्ण ऐसी असंख्य नयनरम्य झांकीयो से सजा मध्यभारत का सुप्रसिद्ध जागरण ग्रुप…',
+      whatsappText: 'नमस्कार, मला विशाल भगवती जागरण कार्यक्रमाच्या बुकिंगबद्दल माहिती हवी आहे.',
+      phoneText: 'Contact For Devi Jagran',
+      phones: [primaryPhone],
       accentGradient: 'from-orange-500/20 via-amber-600/10 to-transparent',
-      borderColor: 'border-amber-500/30',
+      borderColor: 'border-orange-500/30',
       badgeBg: 'bg-orange-950/80 text-orange-300 border-orange-500/40'
-    },
-    {
-      id: 'wedding-sangeet',
-      title: 'लग्नसोहळा सुगम संगीत',
-      badge: 'Wedding Music',
-      subText: '🎶 विशाल जोगदेव यांच्या आवाची सुरेल मैफल 🎶',
-      icon: <Heart className="w-6 h-6 text-rose-400" />,
-      description: 'आपल्या लग्नसोहळ्यासाठी विशाल जोगदेव यांचा मधुर आवाज आणि सुगम संगीताचा खास कार्यक्रम बुक करा.',
-      whatsappText: 'नमस्कार, मला लग्नसोहळा सुगम संगीत कार्यक्रमाच्या बुकिंगबद्दल माहिती हवी आहे.',
-      accentGradient: 'from-rose-500/20 via-amber-600/10 to-transparent',
-      borderColor: 'border-rose-500/30',
-      badgeBg: 'bg-rose-950/80 text-rose-300 border-rose-500/40'
     }
   ];
 
@@ -71,19 +67,19 @@ export const ServicesBookingSection: React.FC = () => {
         </div>
 
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white leading-tight">
-          लाइव्ह शो व <span className="font-serif italic text-gold-gradient font-normal">रेकॉर्डिंगसाठी</span> संपर्क
+          लाइव्ह शो व <span className="font-serif italic text-gold-gradient font-normal">कार्यक्रम बुकिंग</span>
         </h2>
 
         <p className="text-xs sm:text-sm text-stone-300 font-sans leading-relaxed max-w-2xl mx-auto">
-          महानुभाव पंथीय भजनसंध्या, सुगम संगीत, धार्मिक कार्यक्रम आणि स्टुडिओ भजन रेकॉर्डिंगसाठी थेट संपर्क करा
+          महानुभाव पंथीय भजनसंध्या, सुगम संगीत एवं लग्न गीते आणि भव्य भगवती जागरण कार्यक्रमांसाठी संपर्क करा
         </p>
       </div>
 
-      {/* 4 DEV CONTAINERS GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* 3 CARDS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {services.map((srv) => {
           const encodedMessage = encodeURIComponent(srv.whatsappText);
-          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+          const whatsappUrl = `https://wa.me/91${primaryPhone}?text=${encodedMessage}`;
 
           return (
             <div
@@ -104,14 +100,14 @@ export const ServicesBookingSection: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Title & optional Subtext */}
+                {/* Title & SubTitle */}
                 <div>
                   <h3 className="text-lg font-extrabold text-white font-heading group-hover:text-amber-300 transition-colors leading-snug">
                     {srv.title}
                   </h3>
-                  {srv.subText && (
+                  {srv.subTitle && (
                     <p className="text-xs font-semibold text-amber-300 mt-1 italic">
-                      {srv.subText}
+                      {srv.subTitle}
                     </p>
                   )}
                 </div>
@@ -120,9 +116,16 @@ export const ServicesBookingSection: React.FC = () => {
                 <p className="text-xs sm:text-sm text-stone-300 font-sans leading-relaxed">
                   {srv.description}
                 </p>
+
+                {/* Special Note if any */}
+                {srv.specialNote && (
+                  <div className="p-2.5 rounded-xl bg-rose-950/40 border border-rose-500/20 text-rose-200 text-xs font-medium">
+                    {srv.specialNote}
+                  </div>
+                )}
               </div>
 
-              {/* Bottom WhatsApp CTA Button */}
+              {/* Bottom WhatsApp & Phone CTA Buttons */}
               <div className="pt-2 relative z-10 space-y-2">
                 <a
                   href={whatsappUrl}
@@ -134,13 +137,23 @@ export const ServicesBookingSection: React.FC = () => {
                   <span>WhatsApp वर संपर्क करा</span>
                 </a>
 
-                <a
-                  href={`tel:${SINGER_PROFILE.contact.phone}`}
-                  className="w-full py-2 px-4 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-800 hover:border-amber-500/40 text-stone-300 hover:text-amber-300 font-semibold text-[11px] transition-all flex items-center justify-center gap-1.5"
-                >
-                  <PhoneCall className="w-3.5 h-3.5 text-amber-400" />
-                  <span>थेट कॉल करा: {SINGER_PROFILE.contact.phone}</span>
-                </a>
+                <div className="space-y-1.5">
+                  <p className="text-[10px] text-amber-400/90 font-bold uppercase tracking-wider text-center">
+                    {srv.phoneText}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {srv.phones.map((phoneNum) => (
+                      <a
+                        key={phoneNum}
+                        href={`tel:${phoneNum}`}
+                        className="flex-1 py-2 px-3 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-800 hover:border-amber-500/40 text-stone-200 hover:text-amber-300 font-bold text-xs transition-all flex items-center justify-center gap-1.5 min-w-[130px]"
+                      >
+                        <PhoneCall className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <span>{phoneNum}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           );
@@ -149,3 +162,4 @@ export const ServicesBookingSection: React.FC = () => {
     </motion.section>
   );
 };
+

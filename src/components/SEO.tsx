@@ -24,17 +24,25 @@ export const SEO: React.FC<SEOProps> = ({
 }) => {
   const location = useLocation();
   const siteTitle = "Vishal Jogdeo | Official Devotional Singer & Classical Vocalist";
-  const fullTitle = title ? `${title} | Vishal Jogdeo` : siteTitle;
+  let fullTitle = siteTitle;
+  if (title) {
+    if (title.toLowerCase().includes("vishal jogdeo") || title.toLowerCase().includes("vishal jogdev") || title.includes("विशाल जोगदेव")) {
+      fullTitle = title;
+    } else {
+      fullTitle = `${title} | Vishal Jogdeo`;
+    }
+  }
   
   const defaultDesc = "Official portal of Vishal Jogdeo, classical vocalist and devotional singer specializing in authentic Marathi Abhangas, Bhajans, and live spiritual concerts globally.";
   const metaDesc = description || defaultDesc;
   
-  const defaultKeywords = "Vishal Jogdeo, Abhanga, Devotional Singer, Marathi Bhajan, Sant Sahitya, Classical Vocalist, Kirtan, Devotional Lyrics";
+  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, Abhanga, Devotional Singer, Marathi Bhajan, Sant Sahitya, Classical Vocalist, Kirtan, Devotional Lyrics, Mahanubhav Panth Bhajan";
   const metaKeywords = keywords || defaultKeywords;
   
   const siteUrl = "https://vishaljogdeo.com";
   const currentPath = url || location.pathname;
-  const fullUrl = currentPath === '/' ? siteUrl : `${siteUrl}${currentPath}`;
+  const cleanPath = currentPath.startsWith('/') ? currentPath : `/${currentPath}`;
+  const fullUrl = cleanPath === '/' ? `${siteUrl}/` : `${siteUrl}${cleanPath}`;
   
   const ogImage = image || SINGER_PROFILE.portraitImage;
 

@@ -3,35 +3,50 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 import Sitemap from 'vite-plugin-sitemap';
-import { LATEST_LYRICS } from './src/data/mockData';
+import { LATEST_LYRICS, FEATURED_SONGS } from './src/data/mockData';
 
 export default defineConfig(async () => {
   // Fetch live lyrics from Firestore to automate sitemap updates during build
   let firestoreLyricIds: string[] = [];
   try {
-    const res = await fetch(
-      'https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/lyrics?pageSize=1000'
-    );
-    if (res.ok) {
-      const data = await res.json();
-      if (data.documents && Array.isArray(data.documents)) {
-        firestoreLyricIds = data.documents.map((doc: any) => {
-          const parts = doc.name.split('/');
-          return parts[parts.length - 1];
-        });
-        console.log(`[Sitemap] Successfully fetched ${firestoreLyricIds.length} dynamic lyrics from Firestore.`);
+    let pageToken = '';
+    do {
+      const url = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/lyrics?pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.documents && Array.isArray(data.documents)) {
+          const ids = data.documents.map((doc: any) => doc.name.split('/').pop());
+          firestoreLyricIds.push(...ids);
+        }
+        pageToken = data.nextPageToken || '';
+      } else {
+        console.warn('[Sitemap] Firestore response not OK. Falling back to local mock data.');
+        break;
       }
-    } else {
-      console.warn('[Sitemap] Firestore response not OK. Falling back to local mock data.');
-    }
+    } while (pageToken);
+    
+    console.log(`[Sitemap] Successfully fetched ${firestoreLyricIds.length} dynamic lyrics from Firestore.`);
   } catch (error) {
     console.error('[Sitemap] Failed to fetch Firestore lyrics. Error:', error);
   }
 
-  // Use Firestore IDs if available, else fallback to mock list
-  const finalLyricIds = firestoreLyricIds.length > 0 
-    ? firestoreLyricIds 
-    : LATEST_LYRICS.map(lyric => lyric.id);
+  // Combine Firestore IDs, mock lyrics IDs, and song IDs into a deduplicated set
+  const allLyricIds = new Set<string>();
+  
+  firestoreLyricIds.forEach(id => {
+    if (id) allLyricIds.add(id);
+  });
+  
+  LATEST_LYRICS.forEach(lyric => {
+    if (lyric.id) allLyricIds.add(lyric.id);
+    if (lyric.songId) allLyricIds.add(lyric.songId);
+  });
+  
+  FEATURED_SONGS.forEach(song => {
+    if (song.id) allLyricIds.add(song.id);
+    if (song.lyricsId) allLyricIds.add(song.lyricsId);
+  });
 
   const dynamicRoutes = [
     '/about',
@@ -42,7 +57,7 @@ export default defineConfig(async () => {
     '/contact',
     '/terms',
     '/privacy',
-    ...finalLyricIds.map(id => `/lyrics/${id}`)
+    ...Array.from(allLyricIds).map(id => `/lyrics/${id}`)
   ];
   return {
     plugins: [

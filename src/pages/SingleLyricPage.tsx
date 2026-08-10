@@ -9,7 +9,7 @@ import {
   Eye,
   Lock
 } from 'lucide-react';
-import { LATEST_LYRICS, SINGER_PROFILE } from '../data/mockData';
+import { LATEST_LYRICS, FEATURED_SONGS, SINGER_PROFILE } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { db } from '../lib/firebase';
@@ -47,19 +47,60 @@ export const SingleLyricPage: React.FC = () => {
     }
   }, [lyricId]);
 
-  // Find lyric in Firestore
+  // Find lyric in Firestore OR fallback to mock lyrics / songs
   const matchedFirestore = firestoreLyrics.find(l => l.id === lyricId);
-  
-  const lyric = matchedFirestore ? {
-    id: matchedFirestore.id,
-    title: matchedFirestore.title,
-    titleDevanagari: matchedFirestore.titleDevanagari || matchedFirestore.title,
-    composer: matchedFirestore.singerName || 'Vishal Jogdeo',
-    devanagariText: typeof matchedFirestore.devanagariText === 'string' ? matchedFirestore.devanagariText.split('\n') : (Array.isArray(matchedFirestore.devanagariText) ? matchedFirestore.devanagariText : []),
-    romanText: typeof matchedFirestore.romanText === 'string' ? matchedFirestore.romanText.split('\n') : (Array.isArray(matchedFirestore.romanText) ? matchedFirestore.romanText : []),
-    metaTitle: matchedFirestore.metaTitle,
-    metaDescription: matchedFirestore.metaDescription
-  } : null;
+  const matchedMockLyric = LATEST_LYRICS.find(l => l.id === lyricId || l.songId === lyricId);
+  const matchedMockSong = FEATURED_SONGS.find(s => s.id === lyricId || s.lyricsId === lyricId);
+
+  let lyric: {
+    id: string;
+    title: string;
+    titleDevanagari: string;
+    composer: string;
+    devanagariText: string[];
+    romanText: string[];
+    metaTitle?: string;
+    metaDescription?: string;
+  } | null = null;
+
+  if (matchedFirestore) {
+    lyric = {
+      id: matchedFirestore.id,
+      title: matchedFirestore.title,
+      titleDevanagari: matchedFirestore.titleDevanagari || matchedFirestore.title,
+      composer: matchedFirestore.singerName || 'Vishal Jogdeo',
+      devanagariText: typeof matchedFirestore.devanagariText === 'string' 
+        ? matchedFirestore.devanagariText.split('\n') 
+        : (Array.isArray(matchedFirestore.devanagariText) ? matchedFirestore.devanagariText : []),
+      romanText: typeof matchedFirestore.romanText === 'string' 
+        ? matchedFirestore.romanText.split('\n') 
+        : (Array.isArray(matchedFirestore.romanText) ? matchedFirestore.romanText : []),
+      metaTitle: matchedFirestore.metaTitle,
+      metaDescription: matchedFirestore.metaDescription
+    };
+  } else if (matchedMockLyric) {
+    lyric = {
+      id: matchedMockLyric.id,
+      title: matchedMockLyric.title,
+      titleDevanagari: matchedMockLyric.titleDevanagari || matchedMockLyric.title,
+      composer: matchedMockLyric.composer || 'Vishal Jogdeo',
+      devanagariText: Array.isArray(matchedMockLyric.devanagariText) ? matchedMockLyric.devanagariText : [matchedMockLyric.devanagariText],
+      romanText: Array.isArray(matchedMockLyric.romanText) ? matchedMockLyric.romanText : (matchedMockLyric.romanText ? [matchedMockLyric.romanText] : []),
+      metaTitle: `${matchedMockLyric.title} Lyrics | Vishal Jogdeo`,
+      metaDescription: `Read ${matchedMockLyric.title} complete lyrics by Vishal Jogdeo. Official Marathi Abhangas and devotional lyrics.`
+    };
+  } else if (matchedMockSong) {
+    lyric = {
+      id: matchedMockSong.id,
+      title: matchedMockSong.title,
+      titleDevanagari: matchedMockSong.titleDevanagari || matchedMockSong.title,
+      composer: matchedMockSong.composer || 'Vishal Jogdeo',
+      devanagariText: [matchedMockSong.titleDevanagari],
+      romanText: [matchedMockSong.title],
+      metaTitle: `${matchedMockSong.title} Lyrics | Vishal Jogdeo`,
+      metaDescription: `Read ${matchedMockSong.title} complete lyrics by Vishal Jogdeo. Official Marathi Abhangas and devotional lyrics.`
+    };
+  }
 
   // Reader States
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('sm');
@@ -189,10 +230,32 @@ export const SingleLyricPage: React.FC = () => {
     <>
   {/* Dynamic SEO setup for this specific song lyric */}
   <SEO
-      title={lyric.metaTitle || `${lyric.titleDevanagari} (${lyric.title}) - Full Lyrics | Vishal Jogdeo`}
-      description={lyric.metaDescription || `Read complete lyrics for "${lyric.titleDevanagari}". Sung by Vishal Jogdeo.`}
-      keywords={`${lyric.title}, ${lyric.titleDevanagari}, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo`}
-    />
+    title={lyric.metaTitle || `${lyric.title || lyric.titleDevanagari} Lyrics | Vishal Jogdeo`}
+    description={lyric.metaDescription || `Read ${lyric.title || lyric.titleDevanagari} complete lyrics by Vishal Jogdeo. Official Marathi Abhangas, Bhajans, and devotional lyrics.`}
+    keywords={`${lyric.title || ''}, ${lyric.titleDevanagari || ''}, ${lyric.title || ''} Lyrics, ${lyric.titleDevanagari || ''} Lyrics, Abhanga Lyrics, Marathi Bhajan Lyrics, Vishal Jogdeo, Vishal Jogdev`}
+    schema={{
+      "@context": "https://schema.org",
+      "@type": "MusicComposition",
+      "name": lyric.titleDevanagari || lyric.title,
+      "composer": {
+        "@type": "Person",
+        "name": lyric.composer || "Vishal Jogdeo"
+      },
+      "lyricist": {
+        "@type": "Person",
+        "name": lyric.composer || "Vishal Jogdeo"
+      },
+      "lyrics": {
+        "@type": "PropertyText",
+        "text": lyric.devanagariText.join("\n")
+      },
+      "inLanguage": "mr",
+      "publisher": {
+        "@type": "Person",
+        "name": "Vishal Jogdeo"
+      }
+    }}
+  />
     <div className="pt-20 pb-10 bg-[#0b0b0e] text-stone-100 min-h-screen">
       
       {/* Sleek Top Navigation Bar */}

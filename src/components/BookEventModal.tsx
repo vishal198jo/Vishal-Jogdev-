@@ -168,10 +168,10 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
                 onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-stone-900 border border-stone-800 text-white text-xs focus:outline-none focus:border-amber-400"
               >
-                <option value="Temple Bhajan / Kirtan Sandhya">Temple Bhajan / Kirtan Sandhya</option>
-                <option value="Abhanga Sandhya Concert">Abhanga Sandhya Concert</option>
-                <option value="Private Family Puja / Sangeet">Private Family Puja / Sangeet</option>
-                <option value="International Tour Presentation">International Tour Presentation</option>
+                <option value="सुगम संगीत एवं लग्न गीते (Live & Wedding Show)">सुगम संगीत एवं लग्न गीते (Live & Wedding Show)</option>
+                <option value="श्री चक्रधर भक्तीधारा (महानुभाव पंथ भजनसंध्या)">श्री चक्रधर भक्तीधारा (महानुभाव पंथ भजनसंध्या)</option>
+                <option value="विशाल भगवती जागरण (Devi Jagran)">विशाल भगवती जागरण (Devi Jagran)</option>
+                <option value="इतर कार्यक्रम / रेकॉर्डिंग (Other Event / Recording)">इतर कार्यक्रम / रेकॉर्डिंग (Other Event / Recording)</option>
               </select>
             </div>
 
