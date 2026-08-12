@@ -22,6 +22,7 @@ import { HeroSlider } from './HeroSlider';
 import { ServicesBookingSection } from './ServicesBookingSection';
 import { SpotifyIcon } from './SpotifyIcon';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { HeroVideoBackground } from './HeroVideoBackground';
 
 interface HeroSectionProps {
   slides?: Array<{
@@ -92,6 +93,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
 
   return (
     <section id="home" className="relative min-h-[85vh] pt-3 sm:pt-4 pb-12 flex flex-col items-center overflow-hidden bg-[#0b0b0e] text-stone-100 border-b border-amber-500/20">
+      {/* Stylish Premium Video Background */}
+      <HeroVideoBackground videoUrl="https://cnd.vishaljogdeo.com/Singer_performing_on_concert_stage_202608121616.mp4" />
+
       {/* Background Gold Lights & Vignette */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-yellow-600/10 rounded-full blur-3xl pointer-events-none" />
