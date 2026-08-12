@@ -8,8 +8,8 @@ async function generateLiveSitemapXml(): Promise<string> {
 
   const baseRoutes = [
     { url: `${domain}/`, freq: 'daily', prio: '1.0' },
+    { url: `${domain}/songs`, freq: 'daily', prio: '1.0' },
     { url: `${domain}/lyrics`, freq: 'daily', prio: '0.9' },
-    { url: `${domain}/songs`, freq: 'daily', prio: '0.9' },
     { url: `${domain}/shows`, freq: 'daily', prio: '0.9' },
     { url: `${domain}/gallery`, freq: 'weekly', prio: '0.8' },
     { url: `${domain}/about`, freq: 'monthly', prio: '0.8' },
@@ -18,24 +18,44 @@ async function generateLiveSitemapXml(): Promise<string> {
     { url: `${domain}/terms`, freq: 'monthly', prio: '0.3' },
   ];
 
-  const allIds = new Set<string>();
+  const songIds = new Set<string>(['song-1', 'song-2', 'song-3', 'song-4', 'song-5', 'song-6', 'song-7', 'song-8', 'song-9', 'song-10']);
+  const lyricIds = new Set<string>(['lyric-1', 'lyric-2', 'lyric-3', 'lyric-4']);
 
-  // Add static fallback IDs
-  const mockLyricIds = ['lyric-1', 'lyric-2', 'lyric-3', 'lyric-4', 'song-1', 'song-2', 'song-3', 'song-4', 'song-5', 'song-6', 'song-7', 'song-8', 'song-9', 'song-10'];
-  mockLyricIds.forEach(id => allIds.add(id));
-
-  // Fetch live Firestore documents dynamically
+  // Fetch live Firestore songs dynamically
   try {
     let pageToken = '';
     do {
-      const firestoreUrl = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/lyrics?pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}`;
-      const res = await fetch(firestoreUrl);
+      const firestoreSongsUrl = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/songs?pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}`;
+      const res = await fetch(firestoreSongsUrl);
       if (res.ok) {
         const data = (await res.json()) as { documents?: Array<{ name: string }>; nextPageToken?: string };
         if (data.documents && Array.isArray(data.documents)) {
           data.documents.forEach((doc) => {
             const id = doc.name.split('/').pop();
-            if (id) allIds.add(id);
+            if (id) songIds.add(id);
+          });
+        }
+        pageToken = data.nextPageToken || '';
+      } else {
+        break;
+      }
+    } while (pageToken);
+  } catch (err) {
+    console.error('[Sitemap] Error fetching live Firestore songs:', err);
+  }
+
+  // Fetch live Firestore lyrics dynamically
+  try {
+    let pageToken = '';
+    do {
+      const firestoreLyricsUrl = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/lyrics?pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}`;
+      const res = await fetch(firestoreLyricsUrl);
+      if (res.ok) {
+        const data = (await res.json()) as { documents?: Array<{ name: string }>; nextPageToken?: string };
+        if (data.documents && Array.isArray(data.documents)) {
+          data.documents.forEach((doc) => {
+            const id = doc.name.split('/').pop();
+            if (id) lyricIds.add(id);
           });
         }
         pageToken = data.nextPageToken || '';
@@ -48,8 +68,9 @@ async function generateLiveSitemapXml(): Promise<string> {
   }
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:music="http://www.google.com/schemas/sitemap-music/1.0">\n';
 
+  // Base pages
   baseRoutes.forEach((r) => {
     xml += '  <url>\n';
     xml += `    <loc>${r.url}</loc>\n`;
@@ -59,7 +80,18 @@ async function generateLiveSitemapXml(): Promise<string> {
     xml += '  </url>\n';
   });
 
-  allIds.forEach((id) => {
+  // Song individual pages
+  songIds.forEach((id) => {
+    xml += '  <url>\n';
+    xml += `    <loc>${domain}/songs/${id}</loc>\n`;
+    xml += `    <lastmod>${today}</lastmod>\n`;
+    xml += `    <changefreq>weekly</changefreq>\n`;
+    xml += `    <priority>0.85</priority>\n`;
+    xml += '  </url>\n';
+  });
+
+  // Lyric individual pages
+  lyricIds.forEach((id) => {
     xml += '  <url>\n';
     xml += `    <loc>${domain}/lyrics/${id}</loc>\n`;
     xml += `    <lastmod>${today}</lastmod>\n`;

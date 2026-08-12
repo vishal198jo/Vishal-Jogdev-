@@ -1,19 +1,21 @@
 export interface Song {
   id: string;
   title: string;
-  titleDevanagari: string;
-  album: string;
-  category: 'Bhajan' | 'Aarti' | 'Mantra' | 'Kirtan' | 'Stotra' | 'Dhun' | 'Abhanga' | 'Mahanubhav Bhajan' | 'Mahanubhav Aarti' | 'Devotional Song' | 'Devotional Single' | string;
-  language: 'Marathi' | 'Hindi' | 'Sanskrit' | 'Marathi / Hindi' | 'Sanskrit / Marathi' | string;
-  duration: string;
+  singerName?: string;
+  titleDevanagari?: string;
+  album?: string;
+  category?: 'Bhajan' | 'Aarti' | 'Mantra' | 'Kirtan' | 'Stotra' | 'Dhun' | 'Abhanga' | 'Mahanubhav Bhajan' | 'Mahanubhav Aarti' | 'Devotional Song' | 'Devotional Single' | string;
+  language?: 'Marathi' | 'Hindi' | 'Sanskrit' | 'Marathi / Hindi' | 'Sanskrit / Marathi' | string;
+  duration?: string;
   audioUrl: string;
-  coverImage: string;
-  releaseDate: string;
-  plays: number;
+  coverImage?: string;
+  releaseDate?: string;
+  plays?: number;
   featured?: boolean;
   lyricsId?: string;
   composer?: string;
   raga?: string;
+  createdAt?: string;
 }
 
 export interface Lyric {

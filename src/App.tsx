@@ -131,6 +131,18 @@ export default function App() {
                   />
                 } 
               />
+
+              <Route 
+                path="/songs/:songId" 
+                element={
+                  <SongsPage
+                    currentSong={currentSong}
+                    isPlaying={isPlaying}
+                    onPlaySong={handlePlaySong}
+                    onOpenLyrics={handleSelectLyricsById}
+                  />
+                } 
+              />
               
               <Route 
                 path="/lyrics" 
@@ -195,7 +207,10 @@ export default function App() {
           isPlaying={isPlaying}
           onTogglePlay={() => setIsPlaying(!isPlaying)}
           onClosePlayer={() => { setIsPlaying(false); setCurrentSong(null); }}
-          onOpenLyrics={handleSelectLyricsById}
+          onSelectSong={(song) => {
+            setCurrentSong(song);
+            setIsPlaying(true);
+          }}
         />
 
         {/* Booking Event Modal */}

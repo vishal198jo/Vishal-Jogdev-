@@ -36,3 +36,15 @@ export const SliderSkeleton: React.FC = () => (
     <div className="w-10 h-10 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
   </div>
 );
+
+export const SongRowSkeleton: React.FC = () => (
+  <div className="bg-[#121218] border border-stone-800/80 rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-3 animate-pulse">
+    <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl bg-stone-900 shrink-0"></div>
+    <div className="flex-1 space-y-2">
+      <div className="h-4 bg-stone-800 rounded w-2/3"></div>
+      <div className="h-3 bg-stone-900 rounded w-1/3"></div>
+      <div className="h-3 bg-stone-900 rounded w-1/4"></div>
+    </div>
+    <div className="w-16 h-8 bg-stone-900 rounded-xl shrink-0"></div>
+  </div>
+);

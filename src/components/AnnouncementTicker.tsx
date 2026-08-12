@@ -76,8 +76,8 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({
     });
   }
 
-  // Loop items to ensure beautiful continuous scrolling marquee
-  const loopItems = [...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems];
+  // Duplicate ticker items array for seamless -50% CSS translate infinite loop
+  const displayItems = tickerItems.length < 3 ? [...tickerItems, ...tickerItems, ...tickerItems] : tickerItems;
 
   const handleItemClick = (item: typeof tickerItems[0]) => {
     if (item.isCustom && item.link && item.link.trim() !== '') {
@@ -95,35 +95,42 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({
     }
   };
 
+  const renderItemSet = (prefixKey: string) => (
+    <div className="flex items-center space-x-8 shrink-0">
+      {displayItems.map((item, idx) => (
+        <div 
+          key={`${prefixKey}-${item.id}-${idx}`}
+          onClick={() => handleItemClick(item)}
+          className="inline-flex items-center gap-2.5 text-stone-200 hover:text-amber-300 transition-colors cursor-pointer"
+        >
+          <span className={`inline-flex items-center gap-1 font-bold px-2.5 py-0.5 rounded-full text-[11px] border shadow-sm ${
+            item.badge === 'ALERT'
+              ? 'text-red-400 bg-red-950/90 border-red-500/40'
+              : 'text-amber-300 bg-amber-950/90 border-amber-500/40'
+          }`}>
+            {item.badge === 'ALERT' ? (
+              <AlertCircle className="w-3 h-3 text-red-400" />
+            ) : (
+              <Calendar className="w-3 h-3 text-amber-400" />
+            )}
+            {item.badge}
+          </span>
+          <span className="font-extrabold text-white tracking-wide">{item.text}</span>
+          <span className="text-amber-500/80 text-xs px-2">•</span>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className="w-full bg-gradient-to-r from-[#140b0b] via-[#200e0e] to-[#140b0b] text-stone-100 overflow-hidden shadow-xl border-b border-amber-500/30 relative z-30 font-sans">
       <div className="flex items-center max-w-7xl mx-auto px-2 sm:px-4">
         
-        {/* Marquee Ticker Container */}
+        {/* Marquee Ticker Container with dual sets for 100% infinite smooth scrolling */}
         <div className="relative overflow-hidden w-full flex items-center py-2.5 text-xs sm:text-sm font-medium">
-          <div className="flex items-center space-x-8 animate-marquee whitespace-nowrap hover:[animation-play-state:paused] cursor-pointer">
-            {loopItems.map((item, idx) => (
-              <div 
-                key={`${item.id}-${idx}`}
-                onClick={() => handleItemClick(item)}
-                className="inline-flex items-center gap-2.5 text-stone-200 hover:text-amber-300 transition-colors"
-              >
-                <span className={`inline-flex items-center gap-1 font-bold px-2.5 py-0.5 rounded-full text-[11px] border shadow-sm ${
-                  item.badge === 'ALERT'
-                    ? 'text-red-400 bg-red-950/90 border-red-500/40'
-                    : 'text-amber-300 bg-amber-950/90 border-amber-500/40'
-                }`}>
-                  {item.badge === 'ALERT' ? (
-                    <AlertCircle className="w-3 h-3 text-red-400" />
-                  ) : (
-                    <Calendar className="w-3 h-3 text-amber-400" />
-                  )}
-                  {item.badge}
-                </span>
-                <span className="font-extrabold text-white tracking-wide">{item.text}</span>
-                <span className="text-amber-500/80 text-xs px-2">•</span>
-              </div>
-            ))}
+          <div className="flex items-center animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+            {renderItemSet('set1')}
+            {renderItemSet('set2')}
           </div>
         </div>
 

@@ -160,8 +160,28 @@ export interface FirestoreInquiry {
   status: 'new' | 'read';
 }
 
+export interface FirestoreSong {
+  id: string;
+  title: string;
+  singerName: string;
+  titleDevanagari?: string;
+  category?: string;
+  language?: string;
+  duration?: string;
+  audioUrl: string;
+  coverImage?: string;
+  plays?: number;
+  lyricsId?: string;
+  album?: string;
+  raga?: string;
+  composer?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // Collections helper references
 export const COLLECTIONS = {
+  SONGS: 'songs',
   LYRICS: 'lyrics',
   GALLERY_FOLDERS: 'gallery_folders',
   GALLERY_PHOTOS: 'gallery_photos',

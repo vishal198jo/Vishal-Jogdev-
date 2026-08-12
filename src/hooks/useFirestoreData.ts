@@ -4,7 +4,7 @@ import {
   onSnapshot,
   doc
 } from 'firebase/firestore';
-import { db, COLLECTIONS, FirestoreLyric, FirestoreGalleryFolder, FirestoreGalleryPhoto, FirestoreShow, FirestoreHeroSlide, FirestoreNotification } from '../lib/firebase';
+import { db, COLLECTIONS, FirestoreSong, FirestoreLyric, FirestoreGalleryFolder, FirestoreGalleryPhoto, FirestoreShow, FirestoreHeroSlide, FirestoreNotification } from '../lib/firebase';
 
 export interface GlobalStats {
   visitedUsers: number;
@@ -13,6 +13,7 @@ export interface GlobalStats {
 }
 
 const CACHE_KEYS = {
+  SONGS: 'vj_cache_songs_v2',
   LYRICS: 'vj_cache_lyrics_v2',
   FOLDERS: 'vj_cache_folders_v2',
   PHOTOS: 'vj_cache_photos_v2',
@@ -46,6 +47,7 @@ function writeCache(key: string, data: any) {
 }
 
 export function useFirestoreData() {
+  const [songs, setSongs] = useState<FirestoreSong[]>(() => readCache(CACHE_KEYS.SONGS, []));
   const [lyrics, setLyrics] = useState<FirestoreLyric[]>(() => readCache(CACHE_KEYS.LYRICS, []));
   const [galleryFolders, setGalleryFolders] = useState<FirestoreGalleryFolder[]>(() => readCache(CACHE_KEYS.FOLDERS, []));
   const [galleryPhotos, setGalleryPhotos] = useState<FirestoreGalleryPhoto[]>(() => readCache(CACHE_KEYS.PHOTOS, []));
@@ -59,10 +61,11 @@ export function useFirestoreData() {
   }));
 
   // If local cache exists, do not block UI with loading spinner (instant load)
-  const hasLocalCache = heroSlides.length > 0 || lyrics.length > 0 || shows.length > 0;
+  const hasLocalCache = songs.length > 0 || heroSlides.length > 0 || lyrics.length > 0 || shows.length > 0;
   const [loading, setLoading] = useState<boolean>(!hasLocalCache);
 
   useEffect(() => {
+    let unsubscribeSongs: () => void;
     let unsubscribeLyrics: () => void;
     let unsubscribeFolders: () => void;
     let unsubscribePhotos: () => void;
@@ -78,6 +81,20 @@ export function useFirestoreData() {
 
     async function initAndSubscribe() {
       try {
+        // 0. Subscribe to Songs
+        unsubscribeSongs = onSnapshot(collection(db, COLLECTIONS.SONGS), (snap) => {
+          const songsList: FirestoreSong[] = [];
+          snap.forEach(docSnap => {
+            songsList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreSong);
+          });
+          songsList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+          setSongs(songsList);
+          writeCache(CACHE_KEYS.SONGS, songsList);
+          setLoading(false);
+        }, (err) => {
+          console.warn('Songs snapshot listener:', err);
+        });
+
         // 1. Subscribe to Lyrics
         unsubscribeLyrics = onSnapshot(collection(db, COLLECTIONS.LYRICS), (snap) => {
           const list: FirestoreLyric[] = [];
@@ -187,6 +204,7 @@ export function useFirestoreData() {
 
     return () => {
       clearTimeout(timer);
+      if (unsubscribeSongs) unsubscribeSongs();
       if (unsubscribeLyrics) unsubscribeLyrics();
       if (unsubscribeFolders) unsubscribeFolders();
       if (unsubscribePhotos) unsubscribePhotos();
@@ -198,6 +216,7 @@ export function useFirestoreData() {
   }, []);
 
   return {
+    songs,
     lyrics,
     galleryFolders,
     galleryPhotos,

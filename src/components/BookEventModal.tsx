@@ -17,8 +17,6 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
   onClose,
   preselectedShow
 }) => {
-  if (!isOpen) return null;
-
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -32,6 +30,8 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

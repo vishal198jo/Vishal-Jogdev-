@@ -18,6 +18,13 @@ service cloud.firestore {
       allow read: if true;
     }
 
+    // Songs collection
+    match /songs/{songId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['plays']));
+    }
+
     // Lyrics collection
     match /lyrics/{lyricId} {
       allow read: if true;
