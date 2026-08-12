@@ -27,11 +27,9 @@ const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m
 
 // Sleek fallback component during page lazy load
 const PageFallback = () => (
-  <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 text-amber-400 py-20">
-    <div className="w-12 h-12 rounded-full border-2 border-amber-500/20 border-t-amber-400 animate-spin flex items-center justify-center">
-      <Music2 className="w-5 h-5 text-amber-400/80 animate-pulse" />
-    </div>
-    <span className="text-xs font-semibold tracking-widest text-stone-400 uppercase font-sans">लोड होत आहे...</span>
+  <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3 text-amber-400 py-24 animate-in fade-in duration-150">
+    <div className="w-9 h-9 border-2 border-amber-500/20 border-t-amber-400 rounded-full animate-spin" />
+    <span className="text-xs font-bold tracking-widest text-stone-300 uppercase font-sans">Loading....</span>
   </div>
 );
 

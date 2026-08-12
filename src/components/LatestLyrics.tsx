@@ -59,8 +59,8 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
             <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
               Devotional Lyrics Library <span className="font-serif italic text-gold-gradient font-normal">By Vishal Jogdeo</span>
             </h2>
-            <p className="text-xs sm:text-sm text-stone-300">
-              Complete Marathi Devanagari transliterations with font zooming and audio previews.
+            <p className="text-xs sm:text-sm text-amber-200/80 font-sans">
+              महानुभाव पंथ भजनसम्राट व सुप्रसिद्ध भक्तीगीत गायक विशाल जोगदेव यांच्या लोकप्रिय अभंग, भजने आणि भावगीतांचे अधिकृत शब्दसंग्रह.
             </p>
           </div>
         )}

@@ -32,8 +32,8 @@ export const Footer: React.FC<FooterProps> = () => {
                 <span className="block text-[10px] uppercase tracking-[0.2em] text-amber-400 font-bold">Official Devotional Portal</span>
               </div>
             </div>
-            <p className="text-xs text-stone-400 leading-relaxed max-w-sm">
-              Discover divine melodies, traditional abhangas, and devotional compositions rendered by classical vocalist Vishal Jogdeo.
+            <p className="text-xs text-stone-300 leading-relaxed max-w-sm font-sans">
+              विदर्भातील सुप्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट विशाल जोगदेव यांच्या अभंग, भजने व संगीत मैफिलींचे अधिकृत संकेतस्थळ.
             </p>
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-1">

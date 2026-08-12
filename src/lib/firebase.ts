@@ -130,6 +130,9 @@ export interface FirestoreHeroSlide {
   id: string;
   image: string;
   altText?: string;
+  linkUrl?: string;
+  buttonText?: string;
+  buttonIcon?: string;
   order?: number;
   createdAt?: string;
 }

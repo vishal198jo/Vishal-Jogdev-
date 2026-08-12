@@ -20,9 +20,18 @@ import { SINGER_PROFILE } from '../data/mockData';
 import { CountUpNumber } from './CountUpNumber';
 import { HeroSlider } from './HeroSlider';
 import { ServicesBookingSection } from './ServicesBookingSection';
+import { SpotifyIcon } from './SpotifyIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface HeroSectionProps {
-  slides?: Array<{ id: string | number; image: string; altText?: string }>;
+  slides?: Array<{
+    id: string | number;
+    image: string;
+    altText?: string;
+    linkUrl?: string;
+    buttonText?: string;
+    buttonIcon?: string;
+  }>;
   onPlayFeaturedSong: () => void;
   onOpenBooking: () => void;
   loading?: boolean;
@@ -130,12 +139,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
                 className="relative z-10 w-full h-full object-contain drop-shadow-2xl group-hover:scale-[1.02] transition-transform duration-500"
                 referrerPolicy="no-referrer"
               />
-
-              {/* Verified Artist Badge */}
-              <div className="absolute top-4 right-4 bg-stone-900/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-amber-400/40 flex items-center gap-1.5 text-xs font-semibold text-amber-200 shadow-lg">
-                <CheckCircle2 className="w-4 h-4 text-amber-400" />
-                <span>Verified Artist</span>
-              </div>
             </div>
 
             {/* Social Media Links */}
@@ -178,6 +181,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
                   <svg className="w-5 h-5 fill-current text-blue-500 group-hover:scale-105 transition-transform" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
+                </a>
+
+                <a
+                  href="https://wa.me/917038086864"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-stone-900 hover:bg-emerald-950/80 border border-stone-800 hover:border-emerald-500 flex items-center justify-center transition-all hover:scale-110 shadow-md group"
+                  title="WhatsApp Direct Contact"
+                >
+                  <WhatsAppIcon className="w-5 h-5 text-emerald-400 group-hover:scale-105 transition-transform" />
+                </a>
+
+                <a
+                  href={SINGER_PROFILE.contact.socials.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-stone-900 hover:bg-emerald-950/80 border border-stone-800 hover:border-emerald-500 flex items-center justify-center transition-all hover:scale-110 shadow-md group"
+                  title="Spotify Profile"
+                >
+                  <SpotifyIcon className="w-5 h-5 text-emerald-400 group-hover:scale-105 transition-transform" />
                 </a>
               </div>
             </div>
