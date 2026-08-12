@@ -22,7 +22,6 @@ import { HeroSlider } from './HeroSlider';
 import { ServicesBookingSection } from './ServicesBookingSection';
 import { SpotifyIcon } from './SpotifyIcon';
 import { WhatsAppIcon } from './WhatsAppIcon';
-import { HeroVideoBackground } from './HeroVideoBackground';
 
 interface HeroSectionProps {
   slides?: Array<{
@@ -48,54 +47,57 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
 
   const pageSummaries = [
     {
-      id: 'about',
-      title: 'About & Journey',
-      shortDesc: '15+ years of Hindustani classical training and devotional playback singing.',
-      icon: <Award className="w-4 h-4 text-amber-400" />,
-      tag: 'Biography'
-    },
-    {
       id: 'songs',
-      title: 'Audio Songs',
-      shortDesc: 'Listen to 120+ soul-touching Abhangas, Bhajans, Aartis, and Kirtans.',
+      path: '/songs',
+      title: 'भक्तीगीत व अभंग दालन',
+      shortDesc: '१५०० हून अधिक सुप्रसिद्ध अभंग, भावगीते, आरत्या आणि भजनांचा संग्रह.',
       icon: <Music2 className="w-4 h-4 text-amber-400" />,
-      tag: '120+ Tracks'
+      tag: '१५००+ गाणी'
     },
     {
       id: 'lyrics',
-      title: 'Lyrics Page',
-      shortDesc: 'Read verified Marathi Devanagari and English transliterated lyrics.',
+      path: '/lyrics',
+      title: 'भक्तीगीत शब्दरचना (Lyrics)',
+      shortDesc: 'अजरामर भक्तीगीते व भजनांच्या संपूर्ण देवनागरी शब्दरचना ऑडिओसह.',
       icon: <BookOpen className="w-4 h-4 text-amber-400" />,
-      tag: 'Verified Texts'
-    },
-    {
-      id: 'gallery',
-      title: 'Folder Gallery',
-      shortDesc: 'Browse photos by folder: Lifestyle, Concerts, Temple Seva & Studio.',
-      icon: <Folder className="w-4 h-4 text-amber-400" />,
-      tag: '4 Folders'
+      tag: 'शब्दरचना'
     },
     {
       id: 'shows',
-      title: 'Upcoming Shows',
-      shortDesc: 'Check schedule for upcoming live concerts in Mumbai, Pune & overseas.',
+      path: '/shows',
+      title: 'थेट संगीत सोहळे (Shows)',
+      shortDesc: 'आगामी भक्ती संगीत महोत्सव, अभंग संध्या व लाईव्ह कॉन्सर्टचे वेळापत्रक.',
       icon: <Calendar className="w-4 h-4 text-amber-400" />,
-      tag: 'Live Events'
+      tag: 'लाइव्ह कॉन्सर्ट'
+    },
+    {
+      id: 'about',
+      path: '/about',
+      title: 'गायक परिचय व संगीत प्रवास',
+      shortDesc: '१५+ वर्षांहून अधिक काळाचा शास्त्रीय संगीत व भक्तीगीत गायकीचा प्रवास.',
+      icon: <Award className="w-4 h-4 text-amber-400" />,
+      tag: 'परिचय'
+    },
+    {
+      id: 'gallery',
+      path: '/gallery',
+      title: 'फोटो व कॉन्सर्ट गॅलरी',
+      shortDesc: 'थेट संगीत सोहळे, व्हीआयपी सन्मान, स्टुडिओ रेकॉर्डिंग व क्षणचित्रे.',
+      icon: <Folder className="w-4 h-4 text-amber-400" />,
+      tag: 'गॅलरी'
     },
     {
       id: 'contact',
-      title: 'Bookings & Contact',
-      shortDesc: 'Direct event booking inquiries, office address & management details.',
+      path: '/contact',
+      title: 'अधिकृत संपर्क व बुकिंग',
+      shortDesc: 'धार्मिक कार्यक्रम, अभंग संध्या व भक्ती संगीत सोहळ्यांच्या बुकिंगसाठी संपर्क.',
       icon: <PhoneCall className="w-4 h-4 text-amber-400" />,
-      tag: 'Event Inquiries'
+      tag: 'बुकिंग'
     }
   ];
 
   return (
     <section id="home" className="relative min-h-[85vh] pt-3 sm:pt-4 pb-12 flex flex-col items-center overflow-hidden bg-[#0b0b0e] text-stone-100 border-b border-amber-500/20">
-      {/* Stylish Premium Video Background */}
-      <HeroVideoBackground videoUrl="https://cnd.vishaljogdeo.com/Singer_performing_on_concert_stage_202608121616.mp4" />
-
       {/* Background Gold Lights & Vignette */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-yellow-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -293,38 +295,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
             <div>
-              <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Website Navigation</span>
+              <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">वेबसाईट प्रमुख दालने</span>
               <h2 className="text-xl sm:text-2xl font-bold font-heading text-white">
                 Explore Portal Sections
               </h2>
             </div>
-            <span className="text-xs text-amber-200/60 font-medium">6 Primary Sections</span>
+            <span className="text-xs text-amber-200/70 font-medium">६ मुख्य विभाग</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {pageSummaries.map((page) => (
-              <div
+              <Link
                 key={page.id}
-                onClick={() => handleScrollTo(page.id)}
-                className="p-4 rounded-2xl border border-stone-800 hover:border-amber-400/60 transition-all cursor-pointer group flex items-start gap-3 bg-[#121218]/90 hover:bg-[#181822] shadow-lg"
+                to={page.path}
+                className="p-4 rounded-2xl border border-stone-800 hover:border-amber-400/80 transition-all duration-300 group flex flex-col justify-between bg-[#121218]/90 hover:bg-[#181824] shadow-lg hover:shadow-amber-500/10 space-y-3 cursor-pointer"
               >
-                <div className="p-2.5 bg-amber-950/60 border border-amber-500/30 rounded-xl shrink-0 group-hover:bg-amber-900/80 transition-colors">
-                  {page.icon}
-                </div>
-                <div className="space-y-1 min-w-0 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xs sm:text-sm font-bold text-stone-100 font-heading group-hover:text-amber-300 transition-colors">
-                      {page.title}
-                    </h3>
-                    <span className="text-[9px] font-bold text-amber-300 bg-amber-950/80 border border-amber-500/30 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                      {page.tag}
-                    </span>
+                <div className="flex items-start gap-3">
+                  <div className="p-2.5 bg-amber-950/60 border border-amber-500/30 rounded-xl shrink-0 group-hover:bg-amber-900/80 transition-colors">
+                    {page.icon}
                   </div>
-                  <p className="text-xs text-stone-400 font-sans line-clamp-2 leading-relaxed">
-                    {page.shortDesc}
-                  </p>
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-1">
+                      <h3 className="text-xs sm:text-sm font-bold text-stone-100 font-heading group-hover:text-amber-300 transition-colors truncate">
+                        {page.title}
+                      </h3>
+                      <span className="text-[9px] font-bold text-amber-300 bg-amber-950/80 border border-amber-500/30 px-2 py-0.5 rounded-md uppercase tracking-wider shrink-0">
+                        {page.tag}
+                      </span>
+                    </div>
+                    <p className="text-xs text-stone-400 font-sans line-clamp-2 leading-relaxed">
+                      {page.shortDesc}
+                    </p>
+                  </div>
                 </div>
-              </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-amber-500/10 text-[11px] font-semibold text-amber-400/90 group-hover:text-amber-300 transition-colors">
+                  <span>विभाग पहा (Explore)</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-1.5 transition-transform" />
+                </div>
+              </Link>
             ))}
           </div>
         </motion.div>

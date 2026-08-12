@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { HeroSection } from '../components/HeroSection';
 import { AnnouncementTicker } from '../components/AnnouncementTicker';
-import { ExplorePortal } from '../components/ExplorePortal';
 import { FEATURED_SONGS } from '../data/mockData';
 import { Song } from '../types';
 import { SEO } from '../components/SEO';
@@ -46,9 +45,6 @@ export const HomePage: React.FC<HomePageProps> = ({
           onOpenBooking={() => navigate('/contact')}
           loading={loading}
         />
-
-        {/* WEBSITE NAVIGATION / EXPLORE PORTAL SECTIONS */}
-        <ExplorePortal />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 

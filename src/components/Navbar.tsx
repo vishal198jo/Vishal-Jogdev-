@@ -155,6 +155,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                 >
                   <SpotifyIcon className="w-4 h-4" />
                 </a>
+
+                {/* Divider */}
+                <span className="text-amber-500/40 text-sm px-1 select-none font-sans font-light">|</span>
+
+                {/* Developer Icon */}
+                <a 
+                  href="https://ykstudio.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-1 hover:opacity-100 transition-opacity flex items-center justify-center shrink-0"
+                  title="Developer - YK Studio"
+                  aria-label="Developer YK Studio"
+                  onContextMenu={(e) => e.preventDefault()}
+                >
+                  <img 
+                    src="https://cdn-icons-png.flaticon.com/128/3242/3242257.png" 
+                    alt="Developer YK Studio" 
+                    className="w-5 h-5 sm:w-5 sm:h-5 object-contain opacity-90 hover:opacity-100 hover:scale-110 transition-all select-none pointer-events-none drop-shadow" 
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    style={{ WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
+                  />
+                </a>
               </div>
 
               {/* Book Event CTA Button */}
@@ -258,6 +281,29 @@ export const Navbar: React.FC<NavbarProps> = ({
                   aria-label="Spotify"
                 >
                   <SpotifyIcon className="w-4 h-4" />
+                </a>
+
+                {/* Divider */}
+                <span className="text-amber-500/40 text-sm px-1 select-none font-sans font-light">|</span>
+
+                {/* Developer Icon */}
+                <a 
+                  href="https://ykstudio.netlify.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-1.5 hover:opacity-100 transition-opacity flex items-center justify-center shrink-0"
+                  title="Developer - YK Studio"
+                  aria-label="Developer YK Studio"
+                  onContextMenu={(e) => e.preventDefault()}
+                >
+                  <img 
+                    src="https://cdn-icons-png.flaticon.com/128/3242/3242257.png" 
+                    alt="Developer YK Studio" 
+                    className="w-5 h-5 object-contain opacity-90 hover:opacity-100 hover:scale-110 transition-all select-none pointer-events-none drop-shadow" 
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    style={{ WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}
+                  />
                 </a>
               </div>
             </div>
