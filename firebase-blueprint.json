@@ -95,6 +95,20 @@
         "createdAt": { "type": "string", "description": "ISO Timestamp" }
       },
       "required": ["text"]
+    },
+    "FCMToken": {
+      "title": "FCMToken",
+      "description": "Device FCM registration token for push notifications",
+      "type": "object",
+      "properties": {
+        "token": { "type": "string", "description": "FCM registration token" },
+        "platform": { "type": "string", "description": "Platform (web, android, ios)" },
+        "userAgent": { "type": "string", "description": "Browser user agent" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp when registered" },
+        "updatedAt": { "type": "string", "description": "ISO Timestamp when last active" },
+        "active": { "type": "boolean", "description": "Token active status" }
+      },
+      "required": ["token"]
     }
   },
   "firestore": {
@@ -121,6 +135,10 @@
     "/notifications/{notificationId}": {
       "schema": { "$ref": "#/entities/Notification" },
       "description": "Collection of ticker notifications"
+    },
+    "/fcm_tokens/{tokenId}": {
+      "schema": { "$ref": "#/entities/FCMToken" },
+      "description": "Collection of FCM device registration tokens for push notifications"
     }
   }
 }
