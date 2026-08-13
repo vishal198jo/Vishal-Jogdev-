@@ -1,28 +1,6 @@
 import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
-import { initializeApp, cert, getApps } from 'firebase-admin/app';
-import { getMessaging, MulticastMessage } from 'firebase-admin/messaging';
-
-// Initialize Firebase Admin with Service Account credentials
-const serviceAccount = {
-  type: "service_account",
-  projectId: "vishal-jogdeo-website",
-  privateKeyId: "9db906273b2c4a69d238014503ff4dc70cdeb5d8",
-  privateKey: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDsXtveWRje7QcZ\nmY0m92jFmNGcsHbyMHsHfetLDefy75Fm/Xz30eY6m1fJMHCGrTeNUCLcniPZOQaE\nNQ18TkC3+HQymxwpSXEUfqBbdTz9WkwKJ03r80/MidcOtuii5C1T7kaSkC0tqouV\nTnv+BbONAYsUSqIRW5FtrIeeeYcgLwtpV8D+0p+6+S7hcrWa8sPLRnUXzYWPuUU3\nMcHFMDWyT6Mqafd0sEiuneQzwaKVhLRNVSw/kJfQvXXZp3ygU1gAsa50bLACjxL2\nLpWubSNxvYqwRk5E0Y8ixszUdw/qXoPPKev/ObcmphgL6DpiO/STsBa2LM+EyZPw\nAfF7a01XAgMBAAECggEAFo7U/+rT306Sq2RGns3kz1rOwlvq9iEfVK81OeP5W2t2\nnnQZrZL4HGa/4YEAdDHqx886jICBHlV9ZDel8lOLhKMu/7di4CPUqWaOSjwtlmY8\nNIncu2RsnLIY9pwJJqaNFuH6FTmyPhX1HUowtiT4JkBb9BNNVUe+YM+i38JsXWtA\n/9IDugJqGUHebFyTw9TPIeO77b+0/tF9nHPqRC09UfKi8hldi0ifcuRBIIM9IO+y\nThn9uKDVgpCoiqYzRpqlREFwrvcS1Bg72xB72dZZiS+PvxVlYijx3L5thlGKwRHS\nA+fKee/V6bS7GvT2u0MQ4ezxvLGRl3ooyE46uIyCrQKBgQD5u49a+634gD3pSSgd\nCKwnjtus28ULX2rFTxluVqGllb0ABO4VZugs8xOFW9rQGCoPwJiJ49ifbbNZkZoy\ndHaaMx5xywIAHIDdEmPcZRfEMfzuYAsf7CobNT8/uvp1Bwyb4ErvY0ryHYSQMWih\nKw54bdna2dP5kXr3v+mQAcQZnQKBgQDyTXPFzyfXZcqx/W5DAoZXMtMKJ2DLnnOG\nMRfy1QF5vEPZsnoTgySkitMqJ6PK7knfMOWnY0nciavIHZ4VpR9Hf1P1+ofRT8GM\ntjOsUZ0bpptYm73/EbqBTe3yyAhBzFBeHFpQtkd45zidSgMvdZYTylKSTbQq1STXB\nMMUlvwVagwKBgQDPHoGswePtn965JpWATvsI6/DBkpv/7KkO76V135+9R00zQON9\nGJYjAY8FIcN+pyvrWJ6qbi/xOfhvptSuV+0twovTcL09/mXZ9DCiT63AaH0P7tQL\nK8FYQ3crkhW7DZeliAZeOIml+FlDhdbzJFSiCOmQGu01pTTJWX+Kkgxj+QKBgQCl\nPusg0VlzjclBv/utmZAy8cd5mkdqNmLE9sBFbL0334xKcGzO19ZqnP7MNgJ/iCk7\nHKbSlGUwEXfk30YLrvP5F74T+EseFY2DQFNXRsWlsOcq8/QMe3O9cX9A3ui6rvN0\na1Owzc9Khi0ePJZMJEsaAQOIQ4pU/lu5qGAbkP2+rwKBgGk3RrJVr4ICT0G0xDEz\nsizW3I+Hv2PgH/NOnQj4jbxMfZC/8qYBu6JwT38LkzDdzlhY4F970Yyn/R4uBXzM\nhvYFmFua9+uZlp14971j/8yGeYj44UpFjShhgcyyJFMGErhc/gJBN6/HmUZiaIGC\nmeeYkX2FcA3Mg6lBy+74ehxl\n-----END PRIVATE KEY-----\n",
-  clientEmail: "firebase-adminsdk-fbsvc@vishal-jogdeo-website.iam.gserviceaccount.com"
-};
-
-if (!getApps().length) {
-  try {
-    initializeApp({
-      credential: cert(serviceAccount)
-    });
-    console.log('[Firebase Admin] Initialized successfully with Service Account');
-  } catch (err) {
-    console.error('[Firebase Admin] Initialization error:', err);
-  }
-}
 
 async function generateLiveSitemapXml(): Promise<string> {
   const domain = 'https://vishaljogdeo.com';
@@ -131,86 +109,12 @@ async function startServer() {
   const PORT = 3000;
 
   // Security headers middleware
-  app.use(express.json());
   app.use((_req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     next();
-  });
-
-  // Real-time Push Notification Broadcast Endpoint
-  app.post('/api/send-push-notification', async (req, res) => {
-    try {
-      const { title, body, url, category, imageUrl, tokens } = req.body || {};
-      const tokenList = Array.isArray(tokens) ? tokens : [];
-
-      console.log(`[FCM Push API] Dispatching Push Notification:`, {
-        title,
-        body,
-        category,
-        url,
-        subscriberCount: tokenList.length
-      });
-
-      const fcmServerKey = process.env.FCM_SERVER_KEY || process.env.FIREBASE_FCM_KEY;
-
-      let sentCount = 0;
-      let failedCount = 0;
-
-      if (tokenList.length > 0) {
-        try {
-          const multicastMessage: MulticastMessage = {
-            notification: {
-              title: title || 'Vishal Jogdeo Official',
-              body: body || 'New content published on official portal',
-              imageUrl: imageUrl || undefined,
-            },
-            data: {
-              title: String(title || ''),
-              body: String(body || ''),
-              url: String(url || '/'),
-              category: String(category || 'general'),
-              imageUrl: String(imageUrl || '')
-            },
-            webpush: {
-              notification: {
-                title: title || 'Vishal Jogdeo Official',
-                body: body || 'New content published on official portal',
-                icon: imageUrl || '/icon.png',
-                badge: '/icon.png',
-                clickAction: url || '/'
-              },
-              fcmOptions: {
-                link: url || '/'
-              }
-            },
-            tokens: tokenList
-          };
-
-          const batchResponse = await getMessaging().sendEachForMulticast(multicastMessage);
-          sentCount = batchResponse.successCount;
-          failedCount = batchResponse.failureCount;
-          console.log(`[FCM Admin Push] Multicast dispatched. Success: ${sentCount}, Failure: ${failedCount}`);
-        } catch (fcmErr) {
-          console.error('[FCM Admin Push Error]:', fcmErr);
-          // Fallback if token format or messaging fails
-          sentCount = tokenList.length;
-        }
-      }
-
-      res.json({
-        status: 'success',
-        message: 'Push notification broadcast dispatched',
-        totalSubscribers: tokenList.length,
-        successCount: sentCount,
-        failedCount: failedCount
-      });
-    } catch (error: any) {
-      console.error('[FCM Push API Error]:', error);
-      res.status(500).json({ error: error?.message || 'Failed to send push notification' });
-    }
   });
 
   // Real-time dynamic Sitemap XML route

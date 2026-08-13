@@ -76,12 +76,5 @@ service cloud.firestore {
       allow create: if true;
       allow update, delete: if isAdmin();
     }
-
-    // FCM tokens for push notifications
-    match /fcm_tokens/{tokenId} {
-      allow read: if true;
-      allow create, update: if true;
-      allow delete: if isAdmin();
-    }
   }
 }

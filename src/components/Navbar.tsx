@@ -12,7 +12,6 @@ import {
 import { SINGER_PROFILE } from '../data/mockData';
 import { SpotifyIcon } from './SpotifyIcon';
 import { WhatsAppIcon } from './WhatsAppIcon';
-import { NotificationSubscribeBell } from './NotificationSubscribeBell';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -181,9 +180,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </a>
               </div>
 
-              {/* FCM Push Notification Subscribe Bell */}
-              <NotificationSubscribeBell />
-
               {/* Book Event CTA Button */}
               <button
                 onClick={() => navigate('/contact')}
@@ -196,7 +192,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Mobile Menu Toggle Button */}
             <div className="flex items-center gap-2 lg:hidden">
-              <NotificationSubscribeBell />
               <button
                 onClick={() => navigate('/contact')}
                 className="px-3 py-1 text-[11px] font-extrabold rounded-full bg-gold-gradient text-black transition-colors flex items-center gap-1 shadow-sm shrink-0"

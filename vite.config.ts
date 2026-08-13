@@ -65,8 +65,7 @@ export default defineConfig(async () => {
       tailwindcss(),
       Sitemap({
         hostname: 'https://vishaljogdeo.com',
-        dynamicRoutes,
-        generateRobotsTxt: false
+        dynamicRoutes
       })
     ],
     resolve: {
