@@ -4,12 +4,14 @@ importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-comp
 
 // Initialize Firebase App in Service Worker
 const firebaseConfig = {
-  apiKey: "AIzaSyABsK12W1Oa1rTQplOGdsuRs0W9J575cUM",
-  authDomain: "gen-lang-client-0084346741.firebaseapp.com",
-  projectId: "gen-lang-client-0084346741",
-  storageBucket: "gen-lang-client-0084346741.firebasestorage.app",
-  messagingSenderId: "843636506659",
-  appId: "1:843636506659:web:963622143d56002df8b196"
+  apiKey: "AIzaSyBiNY1wzuTKwlDexyI2jvu4NBxCfv8mKqQ",
+  authDomain: "vishal-jogdeo-website.firebaseapp.com",
+  databaseURL: "https://vishal-jogdeo-website-default-rtdb.firebaseio.com",
+  projectId: "vishal-jogdeo-website",
+  storageBucket: "vishal-jogdeo-website.firebasestorage.app",
+  messagingSenderId: "165866874625",
+  appId: "1:165866874625:web:4bc13bd34384e332b79d00",
+  measurementId: "G-DDBMSE9Q6P"
 };
 
 firebase.initializeApp(firebaseConfig);
