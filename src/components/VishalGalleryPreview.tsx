@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { GALLERY_ITEMS } from '../data/mockData';
+import { ProgressiveImage } from './ProgressiveImage';
 
 export const VishalGalleryPreview: React.FC = () => {
   const navigate = useNavigate();
@@ -63,14 +64,11 @@ export const VishalGalleryPreview: React.FC = () => {
             onClick={handlePhotoClick}
             className="group cursor-pointer relative aspect-square rounded-2xl overflow-hidden bg-[#121218] border border-stone-800 hover:border-amber-400/80 shadow-lg hover:shadow-amber-500/20 transition-all duration-300"
           >
-            <img
+            <ProgressiveImage
               src={photo.imageUrl}
               alt={photo.title}
-              className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 select-none pointer-events-none"
-              draggable={false}
-              onContextMenu={(e) => e.preventDefault()}
-              referrerPolicy="no-referrer"
-              loading="lazy"
+              thumbnailWidth={400}
+              className="w-full h-full group-hover:scale-108 transition-transform duration-500"
             />
             {/* Subtle Hover Overlay */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

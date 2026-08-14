@@ -10,6 +10,8 @@ import { HLSVideoPlayer } from './HLSVideoPlayer';
 import { SEO } from './SEO';
 import { db } from '../lib/firebase';
 import { doc, updateDoc, setDoc, increment } from 'firebase/firestore';
+import { ProgressiveImage } from './ProgressiveImage';
+import { HDLightboxImage } from './HDLightboxImage';
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -291,15 +293,11 @@ export const GallerySection: React.FC = () => {
                 className="group cursor-pointer flex flex-col items-center gap-2"
               >
                 <div className="w-full aspect-square overflow-hidden bg-[#121218] rounded-2xl border border-stone-800 hover:border-amber-500/50 relative shadow-lg hover:shadow-amber-500/10 transition-all">
-                  <img
+                  <ProgressiveImage
                     src={folder.coverImage}
                     alt={folder.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none pointer-events-none"
-                    draggable={false}
-                    onContextMenu={(e) => e.preventDefault()}
-                    referrerPolicy="no-referrer"
-                    loading="lazy"
-                    decoding="async"
+                    thumbnailWidth={400}
+                    className="w-full h-full group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
                   
@@ -336,15 +334,11 @@ export const GallerySection: React.FC = () => {
                 onClick={() => handleOpenItem(item, idx)}
                 className="cursor-pointer relative aspect-square bg-[#121218] rounded-xl overflow-hidden border border-stone-800 hover:border-amber-500/50 group"
               >
-                <img
+                <ProgressiveImage
                   src={item.imageUrl}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:opacity-90 transition-opacity select-none pointer-events-none"
-                  draggable={false}
-                  onContextMenu={(e) => e.preventDefault()}
-                  referrerPolicy="no-referrer"
-                  loading="lazy"
-                  decoding="async"
+                  thumbnailWidth={350}
+                  className="w-full h-full group-hover:opacity-90 transition-opacity"
                 />
 
                 {/* Instagram Style Transparent Realtime Views Meter */}
@@ -484,26 +478,13 @@ export const GallerySection: React.FC = () => {
                     />
                   </div>
                 ) : (
-                  <motion.img
-                    src={currentItem.imageUrl}
-                    alt={currentItem.title}
-                    onLoad={handleImageLoad}
-                    animate={{ 
-                      scale: zoomScale,
-                      x: zoomScale === 1 ? 0 : undefined,
-                      y: zoomScale === 1 ? 0 : undefined
-                    }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                    drag={zoomScale > 1}
-                    dragConstraints={panConstraints}
-                    dragElastic={0.15}
-                    className={`max-w-full max-h-full object-contain select-none drop-shadow-2xl rounded-sm pointer-events-auto transition-shadow duration-300 ${
-                      zoomScale > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in'
-                    }`}
-                    draggable={false}
-                    onDoubleClick={currentItem.type === 'photo' ? toggleZoom : undefined}
-                    onContextMenu={(e) => e.preventDefault()}
-                    referrerPolicy="no-referrer"
+                  <HDLightboxImage
+                    imageUrl={currentItem.imageUrl}
+                    title={currentItem.title}
+                    zoomScale={zoomScale}
+                    panConstraints={panConstraints}
+                    onImageLoad={handleImageLoad}
+                    toggleZoom={toggleZoom}
                   />
                 )}
               </motion.div>
