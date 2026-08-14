@@ -1,5 +1,26 @@
 {
   "entities": {
+    "Song": {
+      "title": "Song",
+      "description": "Devotional audio track and album composition",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the song" },
+        "singerName": { "type": "string", "description": "Artist or singer name" },
+        "titleDevanagari": { "type": "string", "description": "Devanagari script title" },
+        "album": { "type": "string", "description": "Album name" },
+        "category": { "type": "string", "description": "Category (Bhajan, Kirtan, Aarti, Abhanga)" },
+        "language": { "type": "string", "description": "Language of the track" },
+        "duration": { "type": "string", "description": "Track duration (e.g. 5:30)" },
+        "audioUrl": { "type": "string", "description": "High fidelity audio URL" },
+        "coverImage": { "type": "string", "description": "Cover art image URL" },
+        "plays": { "type": "number", "description": "Play count" },
+        "raga": { "type": "string", "description": "Classical raga" },
+        "composer": { "type": "string", "description": "Composer name" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" }
+      },
+      "required": ["title", "audioUrl"]
+    },
     "Lyric": {
       "title": "Lyric",
       "description": "Song lyrics and metadata for devotional compositions",
@@ -12,7 +33,7 @@
         "category": { "type": "string", "description": "Category (Bhajan, Aarti, Abhanga, etc.)" },
         "language": { "type": "string", "description": "Language of the lyrics" },
         "publishedDate": { "type": "string", "description": "Publication date" },
-        "coverImage": { "type": "string", "description": "Cover image URL stored in R2" },
+        "coverImage": { "type": "string", "description": "Cover image URL" },
         "raga": { "type": "string", "description": "Classical Raga if applicable" },
         "taal": { "type": "string", "description": "Classical Taal if applicable" },
         "meaningSummary": { "type": "string", "description": "Short explanation or meaning" },
@@ -39,18 +60,21 @@
     },
     "GalleryPhoto": {
       "title": "GalleryPhoto",
-      "description": "Photo item inside a gallery folder",
+      "description": "Photo or video item inside the media gallery",
       "type": "object",
       "properties": {
         "folderId": { "type": "string", "description": "Target folder ID" },
         "folderName": { "type": "string", "description": "Name of the target folder" },
-        "imageUrl": { "type": "string", "description": "Photo URL stored in R2" },
-        "title": { "type": "string", "description": "Photo title" },
+        "imageUrl": { "type": "string", "description": "Full HD Photo or thumbnail URL" },
+        "videoUrl": { "type": "string", "description": "Full HD / 4K / HLS Video URL" },
+        "type": { "type": "string", "enum": ["photo", "video"], "description": "Media type" },
+        "youtubeId": { "type": "string", "description": "YouTube video ID if applicable" },
+        "title": { "type": "string", "description": "Media title" },
         "category": { "type": "string", "description": "Category" },
-        "description": { "type": "string", "description": "Photo caption" },
+        "description": { "type": "string", "description": "Caption or concert notes" },
         "createdAt": { "type": "string", "description": "ISO Timestamp" }
       },
-      "required": ["folderId", "imageUrl"]
+      "required": ["imageUrl"]
     },
     "Show": {
       "title": "Show",
@@ -77,7 +101,7 @@
       "description": "Homepage Hero Banner slide image",
       "type": "object",
       "properties": {
-        "image": { "type": "string", "description": "Hero slide image URL stored in R2" },
+        "image": { "type": "string", "description": "Hero slide image URL" },
         "altText": { "type": "string", "description": "Alt text or title" },
         "order": { "type": "number", "description": "Display order" },
         "createdAt": { "type": "string", "description": "ISO Timestamp" }
@@ -95,9 +119,30 @@
         "createdAt": { "type": "string", "description": "ISO Timestamp" }
       },
       "required": ["text"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Contact and concert booking inquiry submissions",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Sender name" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "email": { "type": "string", "description": "Email address" },
+        "city": { "type": "string", "description": "City" },
+        "eventType": { "type": "string", "description": "Event type" },
+        "eventDate": { "type": "string", "description": "Target date" },
+        "message": { "type": "string", "description": "Inquiry message" },
+        "status": { "type": "string", "enum": ["new", "read"], "description": "Status" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["name", "phone", "email"]
     }
   },
   "firestore": {
+    "/songs/{songId}": {
+      "schema": { "$ref": "#/entities/Song" },
+      "description": "Collection of devotional audio tracks"
+    },
     "/lyrics/{lyricId}": {
       "schema": { "$ref": "#/entities/Lyric" },
       "description": "Collection of lyrics"
@@ -108,7 +153,7 @@
     },
     "/gallery_photos/{photoId}": {
       "schema": { "$ref": "#/entities/GalleryPhoto" },
-      "description": "Collection of gallery photos"
+      "description": "Collection of gallery photos and videos"
     },
     "/shows/{showId}": {
       "schema": { "$ref": "#/entities/Show" },
@@ -121,6 +166,10 @@
     "/notifications/{notificationId}": {
       "schema": { "$ref": "#/entities/Notification" },
       "description": "Collection of ticker notifications"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": { "$ref": "#/entities/Inquiry" },
+      "description": "Collection of contact inquiries"
     }
   }
 }

@@ -1,0 +1,74 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+        (
+          request.auth.token.email == 'vishaljogdeoweb@gmail.com' ||
+          request.auth.uid == 'o8Jq2q22xYdf9s1w7z9e12089456'
+        );
+    }
+
+    // Default deny all unmatched collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Songs Collection (Public Read, Admin Write)
+    match /songs/{songId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Lyrics Collection (Public Read, Admin Write)
+    match /lyrics/{lyricId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Gallery Folders Collection (Public Read, Admin Write)
+    match /gallery_folders/{folderId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Gallery Photos & Videos Collection (Public Read, Admin Write)
+    match /gallery_photos/{photoId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Shows & Concerts Collection (Public Read, Admin Write)
+    match /shows/{showId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Hero Slides Collection (Public Read, Admin Write)
+    match /hero_slides/{slideId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Announcement Ticker Notifications (Public Read, Admin Write)
+    match /notifications/{notificationId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Contact Inquiries (Public Create with basic payload validation, Admin Read/Manage)
+    match /inquiries/{inquiryId} {
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.name.size() > 0 &&
+                       request.resource.data.name.size() <= 150;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
