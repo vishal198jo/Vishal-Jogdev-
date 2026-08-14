@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { Play } from 'lucide-react';
 import { FeaturedSongs } from '../components/FeaturedSongs';
 import { Song } from '../types';
 import { SEO } from '../components/SEO';
@@ -158,13 +159,35 @@ export const SongsPage: React.FC<SongsPageProps> = ({
       <div className="pt-20 sm:pt-24 space-y-10 pb-16 bg-[#0b0b0e] text-stone-100 min-h-screen">
         {/* Page Header */}
         <div className="bg-[#121218] border-b border-amber-500/20 py-10 sm:py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
               Devotional <span className="font-serif italic text-gold-gradient font-normal">Songs Catalog</span>
             </h1>
             <p className="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
-              Explore and listen to devotional Abhangas, classical Bhajans, Mahanubhav Panth tracks, and sacred audio compositions performed by Vishal Jogdeo.
+              Listen to complete devotional tracks performed by <strong>Vishal Jogdeo</strong> on Spotify and YouTube Music.
             </p>
+            <div className="flex flex-wrap justify-center items-center gap-3 pt-2">
+              <a 
+                href={SINGER_PROFILE.contact.socials.spotify} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg transition-all hover:scale-105"
+              >
+                <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.48-3.26c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.281 1.24zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.18-.1.2-1.2-.42-.18-.6.18-1.2.78-1.38 4.26-1.26 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.56.36z"/>
+                </svg>
+                <span>Spotify</span>
+              </a>
+              <a 
+                href={SINGER_PROFILE.contact.socials.youtube} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg transition-all hover:scale-105"
+              >
+                <Play className="w-4 h-4 fill-white" />
+                <span>YouTube</span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -178,4 +201,6 @@ export const SongsPage: React.FC<SongsPageProps> = ({
     </>
   );
 };
+
+export default SongsPage;
 

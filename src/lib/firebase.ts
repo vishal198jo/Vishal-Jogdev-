@@ -171,6 +171,7 @@ export interface FirestoreSong {
   audioUrl: string;
   coverImage?: string;
   plays?: number;
+  downloads?: number;
   lyricsId?: string;
   album?: string;
   raga?: string;

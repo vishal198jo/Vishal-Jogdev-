@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Play, Pause, Volume2, VolumeX, X, Maximize2, ChevronDown, Shuffle, Heart,
-  SkipBack, SkipForward, Headphones, Share2, Loader2, Check
+  SkipBack, SkipForward, Headphones, Share2, Loader2, Check, Music
 } from 'lucide-react';
 import { Song } from '../types';
 import { db } from '../lib/firebase';
@@ -252,65 +252,74 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
     }
   };
 
-  const coverArt = currentSong.coverImage || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=400';
+    const hasCover = Boolean(currentSong.coverImage && currentSong.coverImage.trim() !== '');
+    const coverArt = currentSong.coverImage || '';
 
-  return (
-    <>
-      {/* Hidden HTML5 Audio Element with full buffering event listeners */}
-      <audio
-        ref={audioRef}
-        src={currentSong.audioUrl}
-        onTimeUpdate={handleTimeUpdate}
-        onEnded={handleAudioEnded}
-        onLoadStart={() => setIsLoadingAudio(true)}
-        onWaiting={() => setIsLoadingAudio(true)}
-        onSeeking={() => setIsLoadingAudio(true)}
-        onCanPlay={() => setIsLoadingAudio(false)}
-        onCanPlayThrough={() => setIsLoadingAudio(false)}
-        onPlaying={() => setIsLoadingAudio(false)}
-        onSeeked={() => setIsLoadingAudio(false)}
-        onError={() => setIsLoadingAudio(false)}
-      />
+    return (
+      <>
+        {/* Hidden HTML5 Audio Element with full buffering event listeners */}
+        <audio
+          ref={audioRef}
+          src={currentSong.audioUrl}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleAudioEnded}
+          onLoadStart={() => setIsLoadingAudio(true)}
+          onWaiting={() => setIsLoadingAudio(true)}
+          onSeeking={() => setIsLoadingAudio(true)}
+          onCanPlay={() => setIsLoadingAudio(false)}
+          onCanPlayThrough={() => setIsLoadingAudio(false)}
+          onPlaying={() => setIsLoadingAudio(false)}
+          onSeeked={() => setIsLoadingAudio(false)}
+          onError={() => setIsLoadingAudio(false)}
+        />
 
-      {/* Floating Link Copied Notification */}
-      {copiedToast && (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-amber-950 text-amber-200 border border-amber-500/40 px-4 py-2 rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 animate-in fade-in duration-200">
-          <Check className="w-4 h-4 text-emerald-400" />
-          <span>Song link copied to clipboard!</span>
-        </div>
-      )}
+        {/* Floating Link Copied Notification */}
+        {copiedToast && (
+          <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-amber-950 text-amber-200 border border-amber-500/40 px-4 py-2 rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 animate-in fade-in duration-200">
+            <Check className="w-4 h-4 text-emerald-400" />
+            <span>Song link copied to clipboard!</span>
+          </div>
+        )}
 
-      {/* 1. COMPACT FEATURE BOTTOM PLAYER BAR */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#121218]/98 backdrop-blur-xl border-t border-amber-500/30 py-2.5 px-3 sm:px-6 text-stone-100 shadow-2xl gpu-layer">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
-          
-          {/* Left: Clickable Cover Art & Song Title -> Opens Full Screen Player */}
-          <div 
-            onClick={() => setIsFullScreen(true)}
-            className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial sm:w-1/3 cursor-pointer group select-none"
-            title="Tap to open full screen player"
-          >
-            {/* Spinning Circular Vinyl Cover Art */}
-            <div className="relative shrink-0 w-10 h-10 sm:w-12 sm:h-12">
-              <img
-                src={coverArt}
-                alt={currentSong.title}
-                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-amber-500/40 shadow-lg transition-transform duration-300 group-hover:scale-105 ${
-                  isPlaying && !isLoadingAudio ? 'animate-spin-slow' : ''
-                }`}
-                referrerPolicy="no-referrer"
-              />
-              
-              {/* Center vinyl spindle hole */}
-              <div className="absolute inset-0 m-auto w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black border border-amber-500/50 shadow-inner" />
+        {/* 1. COMPACT FEATURE BOTTOM PLAYER BAR */}
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#121218]/98 backdrop-blur-xl border-t border-amber-500/30 py-2.5 px-3 sm:px-6 text-stone-100 shadow-2xl gpu-layer">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+            
+            {/* Left: Clickable Cover Art & Song Title -> Opens Full Screen Player */}
+            <div 
+              onClick={() => setIsFullScreen(true)}
+              className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial sm:w-1/3 cursor-pointer group select-none"
+              title="Tap to open full screen player"
+            >
+              {/* Spinning Circular Vinyl / Music Icon Artwork */}
+              <div className="relative shrink-0 w-10 h-10 sm:w-12 sm:h-12">
+                {hasCover ? (
+                  <img
+                    src={coverArt}
+                    alt={currentSong.title}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-amber-500/40 shadow-lg transition-transform duration-300 group-hover:scale-105 ${
+                      isPlaying && !isLoadingAudio ? 'animate-spin-slow' : ''
+                    }`}
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/70 border-2 border-amber-500/40 shadow-lg flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform ${
+                    isPlaying && !isLoadingAudio ? 'animate-spin-slow' : ''
+                  }`}>
+                    <Music className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 drop-shadow" />
+                  </div>
+                )}
+                
+                {/* Center vinyl spindle hole */}
+                <div className="absolute inset-0 m-auto w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-black border border-amber-500/50 shadow-inner pointer-events-none" />
 
-              {/* Loading Round Spinner Animation Overlay on Vinyl */}
-              {isLoadingAudio && (
-                <div className="absolute inset-0 rounded-full bg-black/70 backdrop-blur-[1px] flex items-center justify-center">
-                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 animate-spin" />
-                </div>
-              )}
-            </div>
+                {/* Loading Round Spinner Animation Overlay on Vinyl */}
+                {isLoadingAudio && (
+                  <div className="absolute inset-0 rounded-full bg-black/70 backdrop-blur-[1px] flex items-center justify-center">
+                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 animate-spin" />
+                  </div>
+                )}
+              </div>
 
             <div className="min-w-0 flex-1 overflow-hidden">
               <MarqueeSongTitle 
@@ -436,15 +445,25 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               <div className="absolute -inset-4 rounded-full bg-amber-500/20 blur-2xl group-hover:bg-amber-500/30 transition-all" />
 
               {/* Round Spinning Record */}
-              <div className="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full border-4 border-amber-500/40 shadow-2xl overflow-hidden bg-stone-950 p-2">
-                <img
-                  src={coverArt}
-                  alt={currentSong.title}
-                  className={`w-full h-full rounded-full object-cover shadow-inner ${
+              <div className="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full border-4 border-amber-500/40 shadow-2xl overflow-hidden bg-stone-950 p-2 flex items-center justify-center">
+                {hasCover ? (
+                  <img
+                    src={coverArt}
+                    alt={currentSong.title}
+                    className={`w-full h-full rounded-full object-cover shadow-inner ${
+                      isPlaying && !isLoadingAudio ? 'animate-spin-slow' : ''
+                    }`}
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className={`w-full h-full rounded-full bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/60 flex flex-col items-center justify-center border-2 border-amber-500/30 shadow-inner ${
                     isPlaying && !isLoadingAudio ? 'animate-spin-slow' : ''
-                  }`}
-                  referrerPolicy="no-referrer"
-                />
+                  }`}>
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-black/80 border-2 border-amber-400/50 flex items-center justify-center shadow-lg">
+                      <Music className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400 animate-pulse" />
+                    </div>
+                  </div>
+                )}
 
                 {/* Vinyl Grooves Overlay Ring */}
                 <div className="absolute inset-0 rounded-full border-8 border-black/40 pointer-events-none" />
@@ -452,13 +471,13 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                 <div className="absolute inset-16 rounded-full border border-white/10 pointer-events-none" />
 
                 {/* Center Vinyl Hole */}
-                <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-black border-2 border-amber-500/60 flex items-center justify-center shadow-inner">
+                <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-black border-2 border-amber-500/60 flex items-center justify-center shadow-inner pointer-events-none">
                   <div className="w-3 h-3 rounded-full bg-amber-400 shadow" />
                 </div>
 
                 {/* Loading Overlay inside Vinyl */}
                 {isLoadingAudio && (
-                  <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center space-y-2 p-4 text-center">
+                  <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center space-y-2 p-4 text-center z-10">
                     <Loader2 className="w-8 h-8 text-amber-400 animate-spin" />
                     <span className="text-xs font-bold text-amber-300 tracking-wide uppercase">Buffering Audio...</span>
                   </div>

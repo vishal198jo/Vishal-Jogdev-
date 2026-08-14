@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Play, Volume2, Heart, Headphones, Search, X } from 'lucide-react';
+import { Headphones, Search, X, Music, Download, Check, Loader2 } from 'lucide-react';
+import { doc, updateDoc, setDoc, increment } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import { Song } from '../types';
-import { FEATURED_SONGS, SINGER_PROFILE } from '../data/mockData';
+import { FEATURED_SONGS } from '../data/mockData';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { SongRowSkeleton } from './SkeletonLoader';
 
@@ -22,19 +24,105 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
 }) => {
   const { songs: firestoreSongs, loading } = useFirestoreData();
   const [searchQuery, setSearchQuery] = useState('');
-  const [likedSongIds, setLikedSongIds] = useState<Record<string, boolean>>({});
+  const [downloadingSongId, setDownloadingSongId] = useState<string | null>(null);
+  const [downloadedSongId, setDownloadedSongId] = useState<string | null>(null);
+  const [localIncrements, setLocalIncrements] = useState<Record<string, number>>({});
 
   // Use Firestore songs if available, else propSongs, else fallback mock songs
   const songsSource: Song[] = (firestoreSongs && firestoreSongs.length > 0)
     ? (firestoreSongs as Song[])
     : (propSongs && propSongs.length > 0 ? propSongs : FEATURED_SONGS);
 
-  const toggleLike = (songId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLikedSongIds(prev => ({
-      ...prev,
-      [songId]: !prev[songId]
-    }));
+  const handleDownload = async (song: Song, e: React.MouseEvent) => {
+    e.stopPropagation(); // Don't trigger song play
+    if (!song.audioUrl) {
+      return;
+    }
+
+    const safeTitle = (song.title || 'Devotional Track').replace(/[/\\?%*:|"<>]/g, ' ').trim();
+    const fileName = `${safeTitle} - ${song.singerName || 'Vishal Jogdeo'}.mp3`;
+    const proxyUrl = `/api/download-audio?url=${encodeURIComponent(song.audioUrl)}&filename=${encodeURIComponent(fileName)}`;
+
+    const trackDownloadCount = async () => {
+      try {
+        const storageKey = `vj_dl_${song.id}`;
+        const hasCounted = sessionStorage.getItem(storageKey);
+        if (!hasCounted && song.id) {
+          sessionStorage.setItem(storageKey, 'true');
+          
+          // Optimistically bump UI counter immediately
+          setLocalIncrements(prev => ({
+            ...prev,
+            [song.id]: (prev[song.id] || 0) + 1
+          }));
+
+          const songDocRef = doc(db, 'songs', song.id);
+          try {
+            await updateDoc(songDocRef, {
+              downloads: increment(1)
+            });
+          } catch {
+            // Fallback with merge if field or permissions require setDoc
+            await setDoc(songDocRef, {
+              downloads: increment(1)
+            }, { merge: true }).catch(() => {});
+          }
+        }
+      } catch (err) {
+        console.warn('Download counter increment notice:', err);
+      }
+    };
+
+    try {
+      setDownloadingSongId(song.id);
+
+      // Method 1: Fetch blob from our direct download server API
+      const res = await fetch(proxyUrl);
+      if (!res.ok) throw new Error('Proxy download failed');
+
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(link);
+      }, 1000);
+
+      // Increment download counter
+      await trackDownloadCount();
+
+      setDownloadingSongId(null);
+      setDownloadedSongId(song.id);
+      setTimeout(() => setDownloadedSongId(null), 2500);
+    } catch {
+      // Method 2: Invisible iframe fallback pointing to server attachment endpoint (zero redirect / zero URL exposure)
+      try {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = proxyUrl;
+        document.body.appendChild(iframe);
+        setTimeout(() => {
+          if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+          }
+        }, 60000);
+
+        // Increment download counter
+        await trackDownloadCount();
+
+        setDownloadingSongId(null);
+        setDownloadedSongId(song.id);
+        setTimeout(() => setDownloadedSongId(null), 2500);
+      } catch {
+        setDownloadingSongId(null);
+      }
+    }
   };
 
   const formatPlays = (plays?: number) => {
@@ -104,108 +192,116 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
             )}
 
             {/* Songs List Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {filteredSongs.map((song, idx) => {
                 const isThisPlaying = currentSongId === song.id && isPlaying;
-                const isLiked = likedSongIds[song.id];
-                const coverArt = song.coverImage || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=200';
+                const isDownloading = downloadingSongId === song.id;
+                const isDownloaded = downloadedSongId === song.id;
+                const hasCover = Boolean(song.coverImage && song.coverImage.trim() !== '');
 
                 return (
                   <motion.div
                     key={song.id}
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.03 }}
+                    transition={{ duration: 0.25, delay: Math.min(idx * 0.02, 0.2) }}
                     onClick={() => onPlaySong(song)}
-                    className={`bg-[#121218] border rounded-2xl p-3 sm:p-3.5 transition-all duration-300 flex items-center justify-between gap-3 group cursor-pointer shadow-lg hover:shadow-amber-500/10 ${
+                    className={`bg-[#121218] border rounded-2xl p-3 sm:p-3.5 transition-all duration-200 flex items-center justify-between gap-3 group cursor-pointer shadow-md select-none ${
                       isThisPlaying 
-                        ? 'border-amber-500/80 bg-amber-950/20 ring-1 ring-amber-500/30' 
-                        : 'border-stone-800/80 hover:border-amber-500/40 hover:bg-[#161622]'
+                        ? 'border-amber-500/80 bg-gradient-to-r from-amber-950/30 via-[#161622] to-amber-950/20 ring-1 ring-amber-500/40 shadow-amber-500/10 shadow-lg' 
+                        : 'border-stone-800/80 hover:border-amber-500/40 hover:bg-[#161620]'
                     }`}
                   >
-                    {/* Left: Small Square Image Thumbnail with Equalizer Wave Overlay */}
-                    <div className="relative shrink-0 w-16 h-16 sm:w-18 sm:h-18 rounded-xl overflow-hidden bg-stone-900 border border-stone-800 shadow-md">
-                      <img
-                        src={coverArt}
-                        alt={song.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        referrerPolicy="no-referrer"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                        {isThisPlaying ? (
-                          <div className="bg-black/70 p-2 rounded-full border border-amber-500/50 flex items-center justify-center">
-                            <div className="flex items-end gap-0.5 h-4 w-4 justify-center">
-                              <span className="w-0.5 bg-amber-400 rounded-full animate-eq-1" />
-                              <span className="w-0.5 bg-amber-400 rounded-full animate-eq-2" />
-                              <span className="w-0.5 bg-amber-400 rounded-full animate-eq-3" />
-                              <span className="w-0.5 bg-amber-400 rounded-full animate-eq-4" />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="w-8 h-8 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 bg-black/60 text-amber-400 border border-amber-500/40">
-                            <Play className="w-4 h-4 fill-amber-400 ml-0.5 text-amber-400" />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Center: Song Info & Equalizer Wave */}
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-sm sm:text-base font-extrabold text-white font-heading group-hover:text-amber-300 transition-colors truncate">
-                          {song.title}
-                        </h3>
-                        {/* Live Animated Equalizer Wave next to title when playing */}
-                        {isThisPlaying && (
-                          <div className="hidden sm:flex items-end gap-0.5 h-3.5 px-1.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 shrink-0">
+                    {/* Left: Artwork / Music Icon */}
+                    <div className="relative shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-gradient-to-br from-stone-900 via-[#161622] to-amber-950/40 border border-stone-800 group-hover:border-amber-500/40 shadow-md flex items-center justify-center">
+                      {hasCover ? (
+                        <img
+                          src={song.coverImage}
+                          alt={song.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-stone-900 via-stone-950 to-amber-950/50 text-amber-400">
+                          <Music className={`w-6 h-6 sm:w-7 sm:h-7 text-amber-400 drop-shadow transition-transform ${isThisPlaying ? 'scale-110' : 'group-hover:scale-105'}`} />
+                        </div>
+                      )}
+                      
+                      {/* Simple, clean playing state indicator */}
+                      {isThisPlaying && (
+                        <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] flex items-center justify-center">
+                          <div className="flex items-end gap-0.5 h-4 w-4 justify-center">
                             <span className="w-0.5 bg-amber-400 rounded-full animate-eq-1" />
                             <span className="w-0.5 bg-amber-400 rounded-full animate-eq-2" />
                             <span className="w-0.5 bg-amber-400 rounded-full animate-eq-3" />
                             <span className="w-0.5 bg-amber-400 rounded-full animate-eq-4" />
                           </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Center: Song Info */}
+                    <div className="flex-1 min-w-0 space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <h3 className={`text-sm sm:text-base font-extrabold font-heading truncate transition-colors ${
+                          isThisPlaying ? 'text-amber-400' : 'text-white group-hover:text-amber-300'
+                        }`}>
+                          {song.title}
+                        </h3>
+                        {/* Clean Subtle "Playing" Pill */}
+                        {isThisPlaying && (
+                          <span className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full shrink-0 animate-pulse">
+                            Playing
+                          </span>
                         )}
                       </div>
 
                       <p className="text-xs text-stone-300 font-semibold truncate">
-                        Singer: <strong className="text-amber-300">{song.singerName || 'Vishal Jogdeo'}</strong>
+                        Singer: <strong className="text-amber-300/90">{song.singerName || 'Vishal Jogdeo'}</strong>
                       </p>
 
-                      <div className="flex items-center gap-1.5 pt-0.5 text-[11px] font-bold text-emerald-400">
-                        <Headphones className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>{formatPlays(song.plays)}</span>
+                      <div className="flex items-center gap-2 text-[11px] font-medium text-stone-400 pt-0.5">
+                        <span className="flex items-center gap-1 text-emerald-400 font-bold">
+                          <Headphones className="w-3 h-3 text-emerald-400 shrink-0" />
+                          <span>{formatPlays(song.plays)}</span>
+                        </span>
+                        {song.duration && (
+                          <>
+                            <span>•</span>
+                            <span className="text-stone-400">{song.duration}</span>
+                          </>
+                        )}
                       </div>
                     </div>
 
-                    {/* Right: Play Button & Like */}
-                    <div className="flex items-center gap-2 shrink-0">
+                    {/* Right: Direct Download Icon & Simple Real-time Number */}
+                    <div className="flex flex-col items-center justify-center shrink-0 w-9 sm:w-11 gap-0.5">
                       <button
-                        onClick={(e) => toggleLike(song.id, e)}
-                        className="p-2 rounded-full hover:bg-stone-800 text-stone-400 hover:text-red-500 transition-colors"
-                        title="Like Song"
-                      >
-                        <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
-                      </button>
-
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onPlaySong(song);
-                        }}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-md ${
-                          isThisPlaying
-                            ? 'bg-amber-400 text-black font-extrabold'
-                            : 'bg-gold-gradient text-black hover:scale-105 active:scale-95'
+                        onClick={(e) => handleDownload(song, e)}
+                        disabled={isDownloading}
+                        className={`p-1.5 rounded-full flex items-center justify-center transition-transform duration-150 active:scale-90 ${
+                          isDownloaded
+                            ? 'text-emerald-400'
+                            : isDownloading
+                            ? 'text-amber-400 cursor-wait'
+                            : 'text-amber-400 hover:text-amber-300 hover:scale-110'
                         }`}
+                        title="Download MP3"
+                        aria-label="Download Song"
                       >
-                        {isThisPlaying ? (
-                          <Volume2 className="w-3.5 h-3.5 text-black animate-bounce" />
+                        {isDownloading ? (
+                          <Loader2 className="w-5 h-5 text-amber-400 animate-spin" />
+                        ) : isDownloaded ? (
+                          <Check className="w-5 h-5 text-emerald-400" />
                         ) : (
-                          <Play className="w-3.5 h-3.5 fill-black" />
+                          <Download className="w-5 h-5 text-amber-400 hover:text-amber-300" />
                         )}
-                        <span className="hidden sm:inline">{isThisPlaying ? 'Playing' : 'Play'}</span>
                       </button>
+                      <span className="text-[11px] sm:text-xs font-bold text-stone-400 select-none leading-none">
+                        {(song.downloads || 0) + (localIncrements[song.id] || 0)}
+                      </span>
                     </div>
 
                   </motion.div>
@@ -214,41 +310,6 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
             </div>
           </>
         )}
-
-        {/* Streaming Callout */}
-        <div className="py-6 px-6 text-center max-w-xl mx-auto space-y-3 bg-[#121218] border border-amber-500/20 rounded-3xl shadow-xl mt-8">
-          <div className="w-10 h-10 mx-auto bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shadow-md">
-            <Play className="w-5 h-5 text-amber-400 fill-amber-400 ml-0.5" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-lg font-bold text-white font-heading">Official Music Streaming Services</h3>
-            <p className="text-xs text-stone-300 font-sans leading-relaxed">
-              Listen to complete devotional tracks performed by <strong>Vishal Jogdeo</strong> on Spotify and YouTube Music.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-3 pt-1">
-            <a 
-              href={SINGER_PROFILE.contact.socials.spotify} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg transition-all hover:scale-105"
-            >
-              <svg className="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.48-3.26c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.281 1.24zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.18-.1.2-1.2-.42-.18-.6.18-1.2.78-1.38 4.26-1.26 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.56.36z"/>
-              </svg>
-              <span>Spotify</span>
-            </a>
-            <a 
-              href={SINGER_PROFILE.contact.socials.youtube} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-red-600 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg transition-all hover:scale-105"
-            >
-              <Play className="w-3.5 h-3.5 fill-white" />
-              <span>YouTube</span>
-            </a>
-          </div>
-        </div>
 
       </div>
     </section>

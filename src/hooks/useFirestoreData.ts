@@ -116,6 +116,7 @@ export function useFirestoreData() {
           snap.forEach(docSnap => {
             foldersList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryFolder);
           });
+          foldersList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
           setGalleryFolders(foldersList);
           writeCache(CACHE_KEYS.FOLDERS, foldersList);
         }, (err) => {
@@ -127,6 +128,7 @@ export function useFirestoreData() {
           snap.forEach(docSnap => {
             photosList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryPhoto);
           });
+          photosList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
           setGalleryPhotos(photosList);
           writeCache(CACHE_KEYS.PHOTOS, photosList);
         }, (err) => {

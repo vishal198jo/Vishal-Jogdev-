@@ -12,18 +12,51 @@ import { X, Music2 } from 'lucide-react';
 import { db } from './lib/firebase';
 import { doc, setDoc, increment } from 'firebase/firestore';
 
+// Safe lazy import wrapper with auto-retry on dynamic import / chunk fetch errors
+function lazyWithRetry<T extends React.ComponentType<any>>(
+  factory: () => Promise<{ default: T } | Record<string, any>>,
+  namedExport?: string
+) {
+  return lazy(async () => {
+    try {
+      const module = await factory();
+      if ('default' in module && module.default) {
+        return { default: module.default as T };
+      }
+      if (namedExport && module[namedExport]) {
+        return { default: module[namedExport] as T };
+      }
+      const firstKey = Object.keys(module)[0];
+      return { default: module[firstKey] as T };
+    } catch (err) {
+      console.warn('Dynamic import load failed, retrying module fetch...', err);
+      // Wait 300ms and retry once
+      await new Promise(resolve => setTimeout(resolve, 300));
+      const retryModule = await factory();
+      if ('default' in retryModule && retryModule.default) {
+        return { default: retryModule.default as T };
+      }
+      if (namedExport && retryModule[namedExport]) {
+        return { default: retryModule[namedExport] as T };
+      }
+      const firstKey = Object.keys(retryModule)[0];
+      return { default: retryModule[firstKey] as T };
+    }
+  });
+}
+
 // Lazy loaded page components for fast initial bundle loading
-const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
-const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
-const SongsPage = lazy(() => import('./pages/SongsPage').then(m => ({ default: m.SongsPage })));
-const LyricsPage = lazy(() => import('./pages/LyricsPage').then(m => ({ default: m.LyricsPage })));
-const SingleLyricPage = lazy(() => import('./pages/SingleLyricPage').then(m => ({ default: m.SingleLyricPage })));
-const GalleryPage = lazy(() => import('./pages/GalleryPage').then(m => ({ default: m.GalleryPage })));
-const ShowsPage = lazy(() => import('./pages/ShowsPage').then(m => ({ default: m.ShowsPage })));
-const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
-const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
-const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
-const TermsPage = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
+const HomePage = lazyWithRetry(() => import('./pages/HomePage'), 'HomePage');
+const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'), 'AboutPage');
+const SongsPage = lazyWithRetry(() => import('./pages/SongsPage'), 'SongsPage');
+const LyricsPage = lazyWithRetry(() => import('./pages/LyricsPage'), 'LyricsPage');
+const SingleLyricPage = lazyWithRetry(() => import('./pages/SingleLyricPage'), 'SingleLyricPage');
+const GalleryPage = lazyWithRetry(() => import('./pages/GalleryPage'), 'GalleryPage');
+const ShowsPage = lazyWithRetry(() => import('./pages/ShowsPage'), 'ShowsPage');
+const ContactPage = lazyWithRetry(() => import('./pages/ContactPage'), 'ContactPage');
+const AdminPage = lazyWithRetry(() => import('./pages/AdminPage'), 'AdminPage');
+const PrivacyPolicyPage = lazyWithRetry(() => import('./pages/PrivacyPolicyPage'), 'PrivacyPolicyPage');
+const TermsPage = lazyWithRetry(() => import('./pages/TermsPage'), 'TermsPage');
 
 // Sleek fallback component during page lazy load
 const PageFallback = () => (

@@ -22,6 +22,7 @@ import { HeroSlider } from './HeroSlider';
 import { ServicesBookingSection } from './ServicesBookingSection';
 import { SpotifyIcon } from './SpotifyIcon';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { VishalGalleryPreview } from './VishalGalleryPreview';
 
 interface HeroSectionProps {
   slides?: Array<{
@@ -284,6 +285,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
 
         {/* SERVICES & SHOW BOOKING SECTION (3 DEV CONTAINERS) */}
         <ServicesBookingSection />
+
+        {/* VISHAL'S GALLERY SECTION (LATEST PHOTOS FROM ALL FOLDERS) */}
+        <VishalGalleryPreview />
 
         {/* Short Page Summaries Grid */}
         <motion.div 

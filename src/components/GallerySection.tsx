@@ -96,8 +96,10 @@ export const GallerySection: React.FC = () => {
       }))
     : [];
 
-  const activeItems = galleryPhotos.length > 0 
-    ? galleryPhotos.map(p => ({
+  const sortedGalleryPhotos = [...galleryPhotos].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+
+  const activeItems = sortedGalleryPhotos.length > 0 
+    ? sortedGalleryPhotos.map(p => ({
         id: p.id,
         folderId: p.folderId,
         folderName: p.folderName || '',

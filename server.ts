@@ -186,6 +186,63 @@ async function startServer() {
     });
   });
 
+  // Direct Audio Download Proxy Route (Prevents URL exposure and redirects)
+  app.get('/api/download-audio', async (req, res) => {
+    try {
+      const audioUrl = req.query.url as string;
+      const customFilename = (req.query.filename as string) || 'Devotional Track - Vishal Jogdeo.mp3';
+
+      if (!audioUrl || typeof audioUrl !== 'string' || !audioUrl.startsWith('http')) {
+        res.status(400).send('Invalid or missing audio URL');
+        return;
+      }
+
+      // Fetch the audio stream from cloud storage
+      const upstreamRes = await fetch(audioUrl);
+      if (!upstreamRes.ok || !upstreamRes.body) {
+        res.status(502).send('Unable to retrieve audio file from storage');
+        return;
+      }
+
+      // Sanitize filename for Content-Disposition header
+      const safeFilename = customFilename.replace(/[/\\?%*:|"<>]/g, '').trim() || 'Vishal_Jogdeo_Track.mp3';
+      const encodedFilename = encodeURIComponent(safeFilename);
+
+      res.setHeader('Content-Type', upstreamRes.headers.get('content-type') || 'audio/mpeg');
+      res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"; filename*=UTF-8''${encodedFilename}`);
+      
+      const contentLength = upstreamRes.headers.get('content-length');
+      if (contentLength) {
+        res.setHeader('Content-Length', contentLength);
+      }
+
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+
+      // Stream response directly to client using Web Streams standard in Node 18+
+      const reader = upstreamRes.body.getReader();
+      const streamToResponse = async () => {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            res.write(value);
+          }
+          res.end();
+        } catch (streamErr) {
+          console.error('[Download Audio] Streaming interrupted:', streamErr);
+          res.end();
+        }
+      };
+
+      await streamToResponse();
+    } catch (err) {
+      console.error('[Download Audio] Error processing request:', err);
+      if (!res.headersSent) {
+        res.status(500).send('Failed to download audio file');
+      }
+    }
+  });
+
   // Real-time dynamic Sitemap XML route
   app.get('/sitemap.xml', async (_req, res) => {
     try {

@@ -11,6 +11,7 @@ export interface Song {
   coverImage?: string;
   releaseDate?: string;
   plays?: number;
+  downloads?: number;
   featured?: boolean;
   lyricsId?: string;
   composer?: string;
