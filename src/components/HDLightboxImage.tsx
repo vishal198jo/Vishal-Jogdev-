@@ -50,35 +50,7 @@ export const HDLightboxImage: React.FC<HDLightboxImageProps> = ({
 
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-      {/* HD Status Indicator Badge */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[100000] pointer-events-none">
-        <AnimatePresence mode="wait">
-          {!hdLoaded ? (
-            <motion.div
-              key="loading-hd"
-              initial={{ opacity: 0, y: -10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.9 }}
-              className="bg-black/75 border border-amber-500/50 text-amber-300 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-2 shadow-2xl"
-            >
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400" />
-              <span>Loading HD Quality...</span>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="hd-ready"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-emerald-950/85 border border-emerald-500/40 text-emerald-300 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-2xl"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span>HD Crystal Clear</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+
 
       {/* Instant Low Quality Preview / Placeholder Image (Instant Display) */}
       {!hdLoaded && (

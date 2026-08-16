@@ -243,6 +243,60 @@ async function startServer() {
     }
   });
 
+  // Direct Media (Photo/Video) Download Proxy Route
+  app.get('/api/download-media', async (req, res) => {
+    try {
+      const mediaUrl = req.query.url as string;
+      const customFilename = (req.query.filename as string) || 'vishal_jogdeo_media';
+
+      if (!mediaUrl || typeof mediaUrl !== 'string' || !mediaUrl.startsWith('http')) {
+        res.status(400).send('Invalid or missing media URL');
+        return;
+      }
+
+      const upstreamRes = await fetch(mediaUrl);
+      if (!upstreamRes.ok || !upstreamRes.body) {
+        res.status(502).send('Unable to retrieve media file from storage');
+        return;
+      }
+
+      const safeFilename = customFilename.replace(/[/\\?%*:|"<>]/g, '_').trim() || 'vishal_jogdeo_media';
+      const encodedFilename = encodeURIComponent(safeFilename);
+
+      res.setHeader('Content-Type', upstreamRes.headers.get('content-type') || 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"; filename*=UTF-8''${encodedFilename}`);
+      
+      const contentLength = upstreamRes.headers.get('content-length');
+      if (contentLength) {
+        res.setHeader('Content-Length', contentLength);
+      }
+
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+
+      const reader = upstreamRes.body.getReader();
+      const streamToResponse = async () => {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            res.write(value);
+          }
+          res.end();
+        } catch (streamErr) {
+          console.error('[Download Media] Streaming interrupted:', streamErr);
+          res.end();
+        }
+      };
+
+      await streamToResponse();
+    } catch (err) {
+      console.error('[Download Media] Error processing request:', err);
+      if (!res.headersSent) {
+        res.status(500).send('Failed to download media file');
+      }
+    }
+  });
+
   // Real-time dynamic Sitemap XML route
   app.get('/sitemap.xml', async (_req, res) => {
     try {

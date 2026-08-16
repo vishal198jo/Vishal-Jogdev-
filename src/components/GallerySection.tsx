@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, X, ArrowLeft, Folder, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Eye } from 'lucide-react';
+import { Play, X, ArrowLeft, Folder, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Eye, Download, Loader2 } from 'lucide-react';
 import { GalleryItem } from '../types';
 import { GALLERY_FOLDERS, GALLERY_ITEMS } from '../data/mockData';
 import { useFirestoreData } from '../hooks/useFirestoreData';
@@ -170,6 +170,50 @@ export const GallerySection: React.FC = () => {
   const handleClose = () => {
     setSelectedItem(null);
     setZoomScale(1);
+  };
+
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadMedia = async (url: string, title: string, type: string) => {
+    if (!url || isDownloading) return;
+    setIsDownloading(true);
+    try {
+      const extension = type === 'video' ? 'mp4' : 'jpg';
+      const cleanTitle = (title || 'vishal_jogdeo_media').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+      const fileName = `${cleanTitle}.${extension}`;
+      const proxyUrl = `/api/download-media?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(fileName)}`;
+
+      const response = await fetch(proxyUrl);
+      if (!response.ok) throw new Error('Download proxy failed');
+
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      
+      setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(link);
+      }, 1000);
+    } catch (e) {
+      // Fallback direct link download
+      const link = document.createElement('a');
+      link.href = url;
+      const extension = type === 'video' ? 'mp4' : 'jpg';
+      const cleanTitle = (title || 'vishal_jogdeo_media').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+      link.download = `${cleanTitle}.${extension}`;
+      link.target = '_blank';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   // Lock body scroll when full screen photo lightbox is active
@@ -367,14 +411,30 @@ export const GallerySection: React.FC = () => {
           className="fixed inset-0 z-[99999] w-screen h-screen bg-black flex items-center justify-center overflow-hidden select-none touch-none"
           onContextMenu={(e) => e.preventDefault()}
         >
-          {/* Subtle Close Button (Top Right - No Navigation or Titles) */}
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 z-[100000] p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white/90 hover:text-white transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95"
-            aria-label="Close"
-          >
-            <X className="w-6 h-6 sm:w-7 sm:h-7" />
-          </button>
+          {/* Top Right Controls (Download & Close) */}
+          <div className="absolute top-4 right-4 z-[100000] flex items-center gap-2">
+            <button
+              onClick={() => handleDownloadMedia(currentItem.imageUrl || currentItem.videoUrl || '', currentItem.title, currentItem.type)}
+              disabled={isDownloading}
+              className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-amber-400 hover:text-amber-300 transition-all border border-amber-500/30 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto disabled:opacity-50"
+              title="Download Photo/Video"
+              aria-label="Download Media"
+            >
+              {isDownloading ? (
+                <Loader2 className="w-5 h-5 animate-spin text-amber-400" />
+              ) : (
+                <Download className="w-5 h-5 text-amber-400" />
+              )}
+            </button>
+
+            <button
+              onClick={handleClose}
+              className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white/90 hover:text-white transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6 sm:w-7 sm:h-7" />
+            </button>
+          </div>
 
 
 
