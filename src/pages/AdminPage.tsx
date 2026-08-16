@@ -1403,7 +1403,7 @@ export const AdminPage: React.FC = () => {
                         {song.titleDevanagari && (
                           <p className="text-xs text-amber-300/90 font-serif truncate">{song.titleDevanagari}</p>
                         )}
-                        <p className="text-[11px] text-stone-400 truncate">{song.category || 'Bhajan'} • {song.duration || '0:00'} • {song.plays || 0} plays</p>
+                        <p className="text-[11px] text-stone-400 truncate">{song.category || 'Bhajan'} • {song.duration || '0:00'} • {song.plays || 0} plays • {song.downloads || 0} downloads</p>
                       </div>
                     </div>
 

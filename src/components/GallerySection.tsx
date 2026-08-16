@@ -341,14 +341,9 @@ export const GallerySection: React.FC = () => {
                   className="w-full h-full group-hover:opacity-90 transition-opacity"
                 />
 
-                {/* Instagram Style Transparent Realtime Views Meter */}
-                <div className="absolute bottom-1.5 left-1.5 bg-black/30 backdrop-blur-md border border-white/20 text-[10px] font-extrabold text-white px-2 py-0.5 rounded-full flex items-center gap-1 z-10 select-none shadow-lg">
-                  {item.type === 'video' ? (
-                    <Play className="w-2.5 h-2.5 text-white fill-white" />
-                  ) : (
-                    <Eye className="w-3 h-3 text-white" />
-                  )}
-                  <span className="tracking-tight drop-shadow">{formatViews(item.views || 0)}</span>
+                {/* Simple Realtime Views Meter (Only Plain Number) */}
+                <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-10 select-none shadow">
+                  <span className="leading-none">{item.views || 0}</span>
                 </div>
                 
                 {/* Video Play Overlay */}

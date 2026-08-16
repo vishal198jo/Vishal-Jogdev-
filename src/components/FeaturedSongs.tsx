@@ -26,7 +26,7 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [downloadingSongId, setDownloadingSongId] = useState<string | null>(null);
   const [downloadedSongId, setDownloadedSongId] = useState<string | null>(null);
-  const [localIncrements, setLocalIncrements] = useState<Record<string, number>>({});
+  const [localDownloads, setLocalDownloads] = useState<Record<string, number>>({});
 
   // Use Firestore songs if available, else propSongs, else fallback mock songs
   const songsSource: Song[] = (firestoreSongs && firestoreSongs.length > 0)
@@ -50,10 +50,11 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
         if (!hasCounted && song.id) {
           sessionStorage.setItem(storageKey, 'true');
           
-          // Optimistically bump UI counter immediately
-          setLocalIncrements(prev => ({
+          // Optimistically bump UI counter without double counting
+          const baseCount = song.downloads || 0;
+          setLocalDownloads(prev => ({
             ...prev,
-            [song.id]: (prev[song.id] || 0) + 1
+            [song.id]: Math.max(baseCount + 1, (prev[song.id] || 0) + 1)
           }));
 
           const songDocRef = doc(db, 'songs', song.id);
@@ -62,7 +63,7 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
               downloads: increment(1)
             });
           } catch {
-            // Fallback with merge if field or permissions require setDoc
+            // Fallback with merge if doc does not exist or requires setDoc
             await setDoc(songDocRef, {
               downloads: increment(1)
             }, { merge: true }).catch(() => {});
@@ -126,10 +127,10 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
   };
 
   const formatPlays = (plays?: number) => {
-    if (!plays || plays === 0) return '12+ Plays';
-    if (plays >= 1000000) return `${(plays / 1000000).toFixed(1)}M Plays`;
-    if (plays >= 1000) return `${(plays / 1000).toFixed(1)}k Plays`;
-    return `${plays} Plays`;
+    const count = typeof plays === 'number' ? plays : 0;
+    if (count >= 1000000) return `${(count / 1000000).toFixed(1).replace(/\.0$/, '')}M Plays`;
+    if (count >= 1000) return `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K Plays`;
+    return `${count} ${count === 1 ? 'Play' : 'Plays'}`;
   };
 
   // Filter songs based on search query
@@ -300,7 +301,7 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
                         )}
                       </button>
                       <span className="text-[11px] sm:text-xs font-bold text-stone-400 select-none leading-none">
-                        {(song.downloads || 0) + (localIncrements[song.id] || 0)}
+                        {Math.max(song.downloads || 0, localDownloads[song.id] || 0)}
                       </span>
                     </div>
 
