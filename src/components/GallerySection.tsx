@@ -101,21 +101,27 @@ export const GallerySection: React.FC = () => {
   const sortedGalleryPhotos = [...galleryPhotos].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
   const activeItems = sortedGalleryPhotos.length > 0 
-    ? sortedGalleryPhotos.map(p => ({
-        id: p.id,
-        folderId: p.folderId,
-        folderName: p.folderName || '',
-        title: p.title || (p.type === 'video' ? 'Concert Video' : 'Concert Photo'),
-        type: (p.type || 'photo') as 'photo' | 'video' | 'event',
-        imageUrl: p.imageUrl || (p.type === 'video' ? 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop' : ''),
-        videoUrl: p.videoUrl || '',
-        youtubeId: p.youtubeId || '',
-        category: p.category || 'Concert',
-        description: p.description || '',
-        date: p.createdAt || '',
-        location: '',
-        views: typeof p.views === 'number' ? p.views : 0
-      }))
+    ? sortedGalleryPhotos.map(p => {
+        const isVid = p.type === 'video' || (p.videoUrl && p.videoUrl.trim() !== '') || (p.imageUrl && (p.imageUrl.includes('.mp4') || p.imageUrl.includes('.webm') || p.imageUrl.includes('.mov') || p.imageUrl.includes('.m3u8') || p.imageUrl.includes('blob:')));
+        const actualVideoUrl = p.videoUrl || (isVid && p.imageUrl && (p.imageUrl.includes('.mp4') || p.imageUrl.includes('.webm') || p.imageUrl.includes('.mov') || p.imageUrl.includes('.m3u8') || p.imageUrl.includes('blob:')) ? p.imageUrl : '');
+        const actualImageUrl = !isVid ? (p.imageUrl || '') : (p.imageUrl && !p.imageUrl.includes('.mp4') && !p.imageUrl.includes('.webm') && !p.imageUrl.includes('.mov') && !p.imageUrl.includes('.m3u8') && !p.imageUrl.includes('blob:') && !p.imageUrl.includes('unsplash.com') ? p.imageUrl : '');
+
+        return {
+          id: p.id,
+          folderId: p.folderId,
+          folderName: p.folderName || '',
+          title: p.title || (isVid ? 'Concert Video' : 'Concert Photo'),
+          type: (isVid ? 'video' : 'photo') as 'photo' | 'video' | 'event',
+          imageUrl: actualImageUrl,
+          videoUrl: actualVideoUrl,
+          youtubeId: p.youtubeId || '',
+          category: p.category || 'Concert',
+          description: p.description || '',
+          date: p.createdAt || '',
+          location: '',
+          views: typeof p.views === 'number' ? p.views : 0
+        };
+      })
     : [];
 
   // Active folder object
@@ -376,27 +382,47 @@ export const GallerySection: React.FC = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: idx * 0.03 }}
                 onClick={() => handleOpenItem(item, idx)}
-                className="cursor-pointer relative aspect-square bg-[#121218] rounded-xl overflow-hidden border border-stone-800 hover:border-amber-500/50 group"
+                className="cursor-pointer relative aspect-square bg-[#121218] rounded-xl overflow-hidden border border-stone-800 hover:border-amber-500/50 group flex flex-col items-center justify-center"
               >
-                <ProgressiveImage
-                  src={item.imageUrl}
-                  alt={item.title}
-                  thumbnailWidth={350}
-                  className="w-full h-full group-hover:opacity-90 transition-opacity"
-                />
+                {item.type === 'video' ? (
+                  <div className="w-full h-full bg-stone-950 flex flex-col items-center justify-center p-2 text-center relative group-hover:bg-stone-900 transition-colors">
+                    {item.imageUrl ? (
+                      <ProgressiveImage
+                        src={item.imageUrl}
+                        alt={item.title}
+                        thumbnailWidth={350}
+                        className="w-full h-full object-cover group-hover:opacity-75 transition-opacity"
+                      />
+                    ) : null}
+                    {/* Clean Centered Play Icon & Video Title */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-2 z-10">
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gold-gradient flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                        <Play className="w-4 h-4 sm:w-5 sm:h-5 text-black ml-0.5 fill-black" />
+                      </div>
+                      <span className="text-[10px] sm:text-[11px] font-semibold text-stone-200 line-clamp-2 mt-1.5 px-1 text-center group-hover:text-amber-300 drop-shadow-md">
+                        {item.title}
+                      </span>
+                    </div>
 
-                {/* Simple Realtime Views Meter (Only Plain Number) */}
-                <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-10 select-none shadow">
-                  <span className="leading-none">{item.views || 0}</span>
-                </div>
-                
-                {/* Video Play Overlay */}
-                {item.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                    <div className="w-8 h-8 rounded-full bg-gold-gradient flex items-center justify-center shadow-lg">
-                      <Play className="w-4 h-4 text-black ml-0.5 fill-black" />
+                    {/* Simple Realtime Views Meter (Only Plain Number) */}
+                    <div className="absolute bottom-1.5 left-1.5 bg-black/70 backdrop-blur-sm text-[10px] sm:text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-20 select-none shadow">
+                      <span className="leading-none">{item.views || 0}</span>
                     </div>
                   </div>
+                ) : (
+                  <>
+                    <ProgressiveImage
+                      src={item.imageUrl}
+                      alt={item.title}
+                      thumbnailWidth={350}
+                      className="w-full h-full group-hover:opacity-90 transition-opacity"
+                    />
+
+                    {/* Simple Realtime Views Meter (Only Plain Number) */}
+                    <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-10 select-none shadow">
+                      <span className="leading-none">{item.views || 0}</span>
+                    </div>
+                  </>
                 )}
               </motion.div>
             ))}
@@ -414,7 +440,7 @@ export const GallerySection: React.FC = () => {
           {/* Top Right Controls (Download & Close) */}
           <div className="absolute top-4 right-4 z-[100000] flex items-center gap-2">
             <button
-              onClick={() => handleDownloadMedia(currentItem.imageUrl || currentItem.videoUrl || '', currentItem.title, currentItem.type)}
+              onClick={() => handleDownloadMedia(currentItem.type === 'video' ? (currentItem.videoUrl || currentItem.imageUrl) : (currentItem.imageUrl || currentItem.videoUrl), currentItem.title, currentItem.type)}
               disabled={isDownloading}
               className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-amber-400 hover:text-amber-300 transition-all border border-amber-500/30 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto disabled:opacity-50"
               title="Download Photo/Video"
@@ -456,8 +482,8 @@ export const GallerySection: React.FC = () => {
             </div>
           )}
 
-          {/* Chevron Navigation Arrows on both sides */}
-          {displayItems.length > 1 && (
+          {/* Chevron Navigation Arrows on both sides (Hidden when video player is active) */}
+          {displayItems.length > 1 && currentItem.type !== 'video' && (
             <>
               {/* Left Arrow Button */}
               <button
@@ -493,18 +519,11 @@ export const GallerySection: React.FC = () => {
                   x: { duration: 0.35, ease: [0.25, 1, 0.5, 1] },
                   opacity: { duration: 0.2 }
                 }}
-                drag={currentItem.type === 'photo' ? (zoomScale === 1 ? 'x' : false) : 'x'}
+                drag={currentItem.type === 'photo' ? (zoomScale === 1 ? 'x' : false) : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.3}
                 onDragEnd={(e, { offset, velocity }) => {
-                  if (currentItem.type === 'video') {
-                    const swipe = swipePower(offset.x, velocity.x);
-                    if (swipe < -swipeConfidenceThreshold) {
-                      paginate(1);
-                    } else if (swipe > swipeConfidenceThreshold) {
-                      paginate(-1);
-                    }
-                  } else if (zoomScale === 1) {
+                  if (currentItem.type === 'photo' && zoomScale === 1) {
                     const swipe = swipePower(offset.x, velocity.x);
                     if (swipe < -swipeConfidenceThreshold) {
                       paginate(1);
@@ -529,7 +548,7 @@ export const GallerySection: React.FC = () => {
                     <HLSVideoPlayer 
                       src={currentItem.videoUrl || currentItem.imageUrl} 
                       title={currentItem.title} 
-                      poster={currentItem.imageUrl}
+                      poster={!currentItem.imageUrl.includes('unsplash') ? currentItem.imageUrl : undefined}
                     />
                   </div>
                 ) : (

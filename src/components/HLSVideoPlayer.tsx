@@ -245,15 +245,50 @@ export const HLSVideoPlayer: React.FC<HLSVideoPlayerProps> = ({ src, title, post
         setIsLoading(false);
       }
     } else {
-      // Standard MP4 or other video file
+      // Universal video file support (MP4, WebM, MOV, M4V, OGG, MKV, AVI, etc.)
       video.src = src;
-      video.addEventListener('loadeddata', () => {
+      video.load();
+
+      const handleLoaded = () => {
         setIsLoading(false);
-      });
-      video.addEventListener('error', () => {
+        if (video.duration && !isNaN(video.duration)) {
+          setDuration(video.duration);
+        }
+      };
+
+      const handleMeta = () => {
+        if (video.duration && !isNaN(video.duration)) {
+          setDuration(video.duration);
+        }
+      };
+
+      const handleError = () => {
+        console.error("Video load error for src:", src);
         setHasError(true);
         setIsLoading(false);
+      };
+
+      video.addEventListener('loadeddata', handleLoaded);
+      video.addEventListener('loadedmetadata', handleMeta);
+      video.addEventListener('canplay', handleLoaded);
+      video.addEventListener('error', handleError);
+
+      // Try autoplay preview or load
+      video.play().then(() => {
+        setIsPlaying(true);
+        setHasStarted(true);
+        setIsLoading(false);
+      }).catch(() => {
+        // Autoplay blocked or waiting for user interaction
+        setIsLoading(false);
       });
+
+      return () => {
+        video.removeEventListener('loadeddata', handleLoaded);
+        video.removeEventListener('loadedmetadata', handleMeta);
+        video.removeEventListener('canplay', handleLoaded);
+        video.removeEventListener('error', handleError);
+      };
     }
 
     return () => {
@@ -475,11 +510,13 @@ export const HLSVideoPlayer: React.FC<HLSVideoPlayerProps> = ({ src, title, post
       ) : (
         <video
           ref={videoRef}
-          poster={poster || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop'}
-          className="w-full h-full object-contain pointer-events-none select-none"
+          poster={poster && !poster.includes('unsplash.com') ? poster : undefined}
+          className="w-full h-full object-contain pointer-events-auto select-none cursor-pointer"
+          onClick={handlePlayPause}
           onTimeUpdate={handleTimeUpdate}
           onDurationChange={handleDurationChange}
           playsInline
+          preload="auto"
         />
       )}
 
