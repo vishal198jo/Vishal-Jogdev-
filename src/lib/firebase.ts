@@ -92,6 +92,7 @@ export interface FirestoreGalleryFolder {
   coverImage?: string;
   description?: string;
   count?: number;
+  order?: number;
   createdAt?: string;
 }
 

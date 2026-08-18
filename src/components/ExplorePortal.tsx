@@ -6,7 +6,7 @@ import { Music, BookOpen, Mic, Calendar, Trophy, Image as ImageIcon, PhoneCall, 
 export const ExplorePortal: React.FC = () => {
   const portalSections = [
     {
-      title: 'अजरामर भक्तीगीते दालन',
+      title: 'भक्ती गीत MP3 Songs',
       subtitle: 'Devotional Songs & Discography',
       description: 'T-Series, SAREGAMA, HMV व Krunal Music द्वारे प्रदर्शित १५००+ भक्तीगीतांचा संग्रह.',
       path: '/songs',
@@ -24,7 +24,7 @@ export const ExplorePortal: React.FC = () => {
       color: 'border-amber-500/30 bg-gradient-to-br from-[#121218] to-[#111918]',
     },
     {
-      title: 'थेट संगीत सोहळे व बुकिंग',
+      title: 'Upcoming Live Shows',
       subtitle: 'Live Shows & Event Bookings',
       description: 'अभंग संध्या, धार्मिक संगीत सोहळे व मंदिर महोत्सवांसाठी अधिकृत थेट बुकिंग.',
       path: '/shows',
@@ -33,8 +33,8 @@ export const ExplorePortal: React.FC = () => {
       color: 'border-amber-500/30 bg-gradient-to-br from-[#1a150e] to-[#121218]',
     },
     {
-      title: 'पुरस्कार व व्हीआयपी सन्मान',
-      subtitle: 'Awards & Accolades',
+      title: 'Vishal Jogdeo Biography',
+      subtitle: 'Biography & Awards',
       description: 'YouTube Silver Play Button (नितीन गडकरी) आणि मुख्यमंत्री महोदयांच्या हस्ते गौरव.',
       path: '/about',
       badge: 'गौरव व उपाधी',

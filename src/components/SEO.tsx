@@ -10,7 +10,9 @@ interface SEOProps {
   image?: string;
   url?: string;
   type?: string;
-  schema?: Record<string, any>;
+  noindex?: boolean;
+  audio?: string;
+  schema?: Record<string, any> | Array<Record<string, any>>;
 }
 
 export const SEO: React.FC<SEOProps> = ({
@@ -20,11 +22,16 @@ export const SEO: React.FC<SEOProps> = ({
   image,
   url,
   type = 'website',
+  noindex = false,
+  audio,
   schema
 }) => {
   const location = useLocation();
-  const siteTitle = "Vishal Jogdeo | Official Devotional Singer & Classical Vocalist";
-  let fullTitle = siteTitle;
+  const siteUrl = "https://vishaljogdeo.com";
+  const siteName = "Vishal Jogdeo | Official Devotional Music Portal";
+  
+  // Format title cleanly
+  let fullTitle = siteName;
   if (title) {
     if (title.toLowerCase().includes("vishal jogdeo") || title.toLowerCase().includes("vishal jogdev") || title.includes("विशाल जोगदेव")) {
       fullTitle = title;
@@ -33,35 +40,89 @@ export const SEO: React.FC<SEOProps> = ({
     }
   }
   
-  const defaultDesc = "Official portal of Vishal Jogdeo (Vishal Jogdev) - classical vocalist and devotional singer. Listen to Vishal Jogdeo songs, read lyrics, explore lifestyle biography, photos, and book live shows.";
+  const defaultDesc = "Official portal of Vishal Jogdeo (Vishal Jogdev) - classical vocalist and Marathi devotional playback singer. Listen to 1500+ Abhangas, Mahanubhav Bhajans, read lyrics, explore biography, and book live shows.";
   const metaDesc = description || defaultDesc;
   
-  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos";
-  const metaKeywords = keywords || defaultKeywords;
+  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya";
+  const metaKeywords = keywords ? `${keywords}, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव` : defaultKeywords;
   
-  const siteUrl = "https://vishaljogdeo.com";
   const currentPath = url || location.pathname;
   const cleanPath = currentPath.startsWith('/') ? currentPath : `/${currentPath}`;
   const fullUrl = cleanPath === '/' ? `${siteUrl}/` : `${siteUrl}${cleanPath}`;
   
-  const ogImage = image || SINGER_PROFILE.portraitImage;
+  const ogImage = image || SINGER_PROFILE.portraitImage || "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png";
 
-  const defaultSchema = {
+  // Generate dynamic BreadcrumbList Schema for Google Search Rich Results
+  const pathSegments = cleanPath.split('/').filter(Boolean);
+  const breadcrumbItems = [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": `${siteUrl}/`
+    }
+  ];
+
+  const pathNameMap: Record<string, string> = {
+    'songs': 'Devotional Songs',
+    'lyrics': 'Lyrics Library',
+    'shows': 'Upcoming Shows',
+    'about': 'Biography',
+    'gallery': 'Media Gallery',
+    'contact': 'Contact & Booking',
+    'terms': 'Terms & Conditions',
+    'privacy': 'Privacy Policy'
+  };
+
+  pathSegments.forEach((segment, idx) => {
+    const itemUrl = `${siteUrl}/${pathSegments.slice(0, idx + 1).join('/')}`;
+    const name = pathNameMap[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      "position": idx + 2,
+      "name": name,
+      "item": itemUrl
+    });
+  });
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbItems
+  };
+
+  const defaultMusicGroupSchema = {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
     "name": "Vishal Jogdeo",
+    "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव"],
     "url": siteUrl,
-    "image": SINGER_PROFILE.portraitImage,
+    "image": ogImage,
     "description": defaultDesc,
+    "genre": ["Indian Classical", "Marathi Devotional", "Bhajan", "Abhanga", "Mahanubhav Panth Bhajan"],
     "sameAs": [
-      SINGER_PROFILE.contact.socials.youtube,
-      SINGER_PROFILE.contact.socials.instagram,
-      SINGER_PROFILE.contact.socials.facebook,
-      SINGER_PROFILE.contact.socials.spotify
+      SINGER_PROFILE.contact.socials.youtube || "https://youtube.com/@vishaljogdeo",
+      SINGER_PROFILE.contact.socials.instagram || "https://www.instagram.com/vishaljogdeo",
+      SINGER_PROFILE.contact.socials.facebook || "https://www.facebook.com/share/1AMnZnHGyd/",
+      SINGER_PROFILE.contact.socials.spotify || "https://open.spotify.com/playlist/2LgZXXcDdeKV7CVa1DIQBq"
     ]
   };
 
-  const finalSchema = schema || defaultSchema;
+  const finalSchemas: Array<Record<string, any>> = [];
+  if (schema) {
+    if (Array.isArray(schema)) {
+      finalSchemas.push(...schema);
+    } else {
+      finalSchemas.push(schema);
+    }
+  } else {
+    finalSchemas.push(defaultMusicGroupSchema);
+  }
+
+  // Include breadcrumb schema for all non-root pages
+  if (pathSegments.length > 0 && !noindex) {
+    finalSchemas.push(breadcrumbSchema);
+  }
 
   return (
     <Helmet>
@@ -69,14 +130,35 @@ export const SEO: React.FC<SEOProps> = ({
       <title>{fullTitle}</title>
       <meta name="description" content={metaDesc} />
       <meta name="keywords" content={metaKeywords} />
+      <meta name="author" content="Vishal Jogdeo" />
+      <meta name="publisher" content="Vishal Jogdeo Official" />
       <link rel="canonical" href={fullUrl} />
 
+      {/* Robots Indexing Directives */}
+      {noindex ? (
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+      ) : (
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      )}
+
+      {/* Language Alternates */}
+      <link rel="alternate" href={fullUrl} hrefLang="x-default" />
+      <link rel="alternate" href={fullUrl} hrefLang="mr-IN" />
+      <link rel="alternate" href={fullUrl} hrefLang="en-IN" />
+      <link rel="alternate" href={fullUrl} hrefLang="hi-IN" />
+
       {/* Open Graph / Facebook */}
+      <meta property="og:site_name" content={siteName} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDesc} />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:image:alt" content={fullTitle} />
+      <meta property="og:locale" content="mr_IN" />
+      <meta property="og:locale:alternate" content="en_US" />
+      <meta property="og:locale:alternate" content="hi_IN" />
+      {audio && <meta property="og:audio" content={audio} />}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -84,11 +166,17 @@ export const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDesc} />
       <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image:alt" content={fullTitle} />
+      <meta name="twitter:site" content="@vishaljogdeo" />
+      <meta name="twitter:creator" content="@vishaljogdeo" />
 
       {/* Structured Data (JSON-LD) */}
-      <script type="application/ld+json">
-        {JSON.stringify(finalSchema)}
-      </script>
+      {finalSchemas.map((s, idx) => (
+        <script key={idx} type="application/ld+json">
+          {JSON.stringify(s)}
+        </script>
+      ))}
     </Helmet>
   );
 };
+

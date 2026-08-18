@@ -230,9 +230,10 @@ export const SingleLyricPage: React.FC = () => {
     <>
   {/* Dynamic SEO setup for this specific song lyric */}
   <SEO
-    title={lyric.metaTitle || `${lyric.title || lyric.titleDevanagari} Lyrics | Vishal Jogdeo Song`}
+    title={lyric.metaTitle || `${lyric.titleDevanagari || lyric.title} Lyrics | Vishal Jogdeo Marathi Song`}
     description={lyric.metaDescription || `Read complete lyrics of "${lyric.titleDevanagari || lyric.title}" sung by Vishal Jogdeo (Vishal Jogdev). Official Marathi Devanagari lyrics, audio, and devotional music.`}
-    keywords={`${lyric.title || ''}, ${lyric.titleDevanagari || ''}, ${lyric.title || ''} Lyrics, ${lyric.titleDevanagari || ''} Lyrics, Vishal Jogdeo lyrics, Vishal Jogdeo Song, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo, Vishal Jogdev, Mahanubhav Panth Bhajan`}
+    keywords={`${lyric.title || ''}, ${lyric.titleDevanagari || ''}, ${lyric.title || ''} Lyrics, ${lyric.titleDevanagari || ''} Lyrics, Vishal Jogdeo lyrics, Vishal Jogdeo Song, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Mahanubhav Panth Bhajan, Marathi Abhanga Lyrics`}
+    url={`/lyrics/${lyric.id}`}
     schema={{
       "@context": "https://schema.org",
       "@type": "MusicComposition",
@@ -247,7 +248,7 @@ export const SingleLyricPage: React.FC = () => {
       },
       "lyrics": {
         "@type": "PropertyText",
-        "text": lyric.devanagariText.join("\n")
+        "text": Array.isArray(lyric.devanagariText) ? lyric.devanagariText.join("\n") : String(lyric.devanagariText || "")
       },
       "inLanguage": "mr",
       "publisher": {

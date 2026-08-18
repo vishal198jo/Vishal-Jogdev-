@@ -609,6 +609,7 @@ export const AdminPage: React.FC = () => {
         <SEO 
           title="Admin Security Portal | Vishal Jogdeo Official"
           description="Protected administration portal for managing HD audio songs, lossless photos, 4K videos, concerts, and live database content."
+          noindex={true}
         />
 
         <div className="max-w-md w-full bg-[#121218] border border-amber-500/30 rounded-3xl p-8 shadow-2xl space-y-6 relative overflow-hidden">
@@ -701,6 +702,7 @@ export const AdminPage: React.FC = () => {
       <SEO 
         title="Admin Content Studio | Vishal Jogdeo Official" 
         description="Manage HD devotional songs, lossless full quality photos, 4K videos, lyrics, and concert schedules." 
+        noindex={true}
       />
 
       {/* Hidden audio element for preview testing */}

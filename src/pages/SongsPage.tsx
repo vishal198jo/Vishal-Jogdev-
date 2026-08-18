@@ -77,9 +77,10 @@ export const SongsPage: React.FC<SongsPageProps> = ({
         <SEO 
           title={pageTitle}
           description={pageDesc}
-          keywords={pageKeywords}
+          keywords={`${pageKeywords}, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo MP3, Marathi Bhajan MP3`}
           image={coverImage}
-          url={`/songs/${selectedSong.id}`}
+          url={`/songs?songId=${selectedSong.id}`}
+          audio={selectedSong.audioUrl}
           type="music.song"
           schema={singleSongSchema}
         />

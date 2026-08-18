@@ -27,8 +27,9 @@ export const HomePage: React.FC<HomePageProps> = ({
     <>
       <SEO 
         title="Vishal Jogdeo | Official Website – Devotional Singer & Songs Portal" 
-        description="Official Portal of Vishal Jogdeo (Vishal Jogdev) - 15+ years classical vocalist & devotional singer. Discover Vishal Jogdeo songs, lyrics, music playlist, lifestyle biography, and live shows." 
-        keywords="Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Devotional Singer, Marathi Devotional Music, Vishal Jogdeo Live Show" 
+        description="Official Portal of Vishal Jogdeo (Vishal Jogdev) - 15+ years classical vocalist & devotional singer. Discover Vishal Jogdeo songs, lyrics, music playlist, lifestyle biography, and book live shows." 
+        keywords="Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Devotional Singer, Marathi Devotional Music, Vishal Jogdeo Live Show, Abhanga Sandhya" 
+        url="/"
       />
       
       {/* Top Announcement Ticker Bar */}
@@ -64,7 +65,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span>Spotify Discography</span>
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-white">
-                Top <span className="font-serif italic text-gold-gradient font-normal">Vishal Jogdeo</span> Tracks
+                Top Vishal Jogdeo Tracks
               </h2>
               <p className="text-amber-200/70 text-xs sm:text-sm max-w-lg mx-auto">Listen to official Marathi Abhangas, Bhajans, and devotional tracks directly on Spotify.</p>
             </div>
@@ -101,7 +102,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span>Direct Event Inquiries</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white">
-                Want to Organize an <span className="font-serif italic text-gold-gradient font-normal">Abhanga Sandhya</span> or Temple Program?
+                Want to Organize Bhajan Sandhya or Wedding Shows?
               </h3>
               <p className="text-stone-300 text-xs sm:text-sm font-sans">
                 Connect directly with Vishal Jogdeo's official management team for concert bookings, wedding devotional programs, and corporate cultural events.

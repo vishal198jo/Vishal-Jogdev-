@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Play, X, ArrowLeft, Folder, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Eye, Download, Loader2 } from 'lucide-react';
 import { GalleryItem } from '../types';
-import { GALLERY_FOLDERS, GALLERY_ITEMS } from '../data/mockData';
+import { GALLERY_FOLDERS, GALLERY_ITEMS, SINGER_PROFILE } from '../data/mockData';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { CardSkeleton } from './SkeletonLoader';
 import { HLSVideoPlayer } from './HLSVideoPlayer';
@@ -89,13 +89,21 @@ export const GallerySection: React.FC = () => {
   const { galleryFolders, galleryPhotos, loading } = useFirestoreData();
 
   const activeFolders = galleryFolders.length > 0 
-    ? galleryFolders.map(f => ({
-        id: f.id,
-        name: f.name,
-        description: f.description || '',
-        coverImage: f.coverImage || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600&auto=format&fit=crop',
-        count: f.count || 0
-      }))
+    ? [...galleryFolders]
+        .sort((a, b) => {
+          const orderA = typeof a.order === 'number' ? a.order : 99999;
+          const orderB = typeof b.order === 'number' ? b.order : 99999;
+          if (orderA !== orderB) return orderA - orderB;
+          return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+        })
+        .map(f => ({
+          id: f.id,
+          name: f.name,
+          description: f.description || '',
+          coverImage: f.coverImage || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600&auto=format&fit=crop',
+          count: f.count || 0,
+          order: f.order
+        }))
     : [];
 
   const sortedGalleryPhotos = [...galleryPhotos].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
@@ -270,16 +278,22 @@ export const GallerySection: React.FC = () => {
   // Dynamic SEO meta calculation based on folder or photo/video selection
   let seoTitle = "HD Media & Photo Gallery Archive | Vishal Jogdeo";
   let seoDescription = "Browse high-definition photos and concert video highlights of Vishal Jogdeo categorized into Live Concerts, Temple Seva, Lifestyle, and Studio sessions.";
-  let seoKeywords = "Vishal Jogdeo Photos, Concert Gallery, Abhanga Sandhya Photos, Devotional Singer Gallery";
+  let seoKeywords = "Vishal Jogdeo Photos, Concert Gallery, Abhanga Sandhya Photos, Devotional Singer Gallery, विशाल जोगदेव फोटो";
+  let seoImage = SINGER_PROFILE.portraitImage;
+  let seoUrl = "/gallery";
 
   if (selectedItem) {
     seoTitle = `${selectedItem.title} - Photo & Video Gallery | Vishal Jogdeo`;
     seoDescription = selectedItem.description || `View high-definition photo/video of "${selectedItem.title}" from Vishal Jogdeo's official archive.`;
-    seoKeywords = `${selectedItem.title}, Vishal Jogdeo Gallery, ${selectedItem.category || 'Concert'}, Devotional Singer Photos`;
+    seoKeywords = `${selectedItem.title}, Vishal Jogdeo Gallery, ${selectedItem.category || 'Concert'}, Devotional Singer Photos, Vishal Jogdev`;
+    seoImage = selectedItem.imageUrl;
+    seoUrl = selectedFolderId ? `/gallery?folder=${selectedFolderId}&item=${selectedItem.id}` : `/gallery?item=${selectedItem.id}`;
   } else if (selectedFolderId && activeFolder) {
     seoTitle = `${activeFolder.name} Photos & Videos | Vishal Jogdeo`;
     seoDescription = activeFolder.description || `Browse the complete collection of high-definition photos and video highlights of Vishal Jogdeo in ${activeFolder.name} folder.`;
-    seoKeywords = `Vishal Jogdeo ${activeFolder.name}, ${activeFolder.name} photos, ${activeFolder.name} gallery, ${activeFolder.name} videos`;
+    seoKeywords = `Vishal Jogdeo ${activeFolder.name}, ${activeFolder.name} photos, ${activeFolder.name} gallery, ${activeFolder.name} videos, Vishal Jogdev`;
+    seoImage = activeFolder.coverImage || SINGER_PROFILE.portraitImage;
+    seoUrl = `/gallery?folder=${selectedFolderId}`;
   }
 
   // Format view numbers nicely (e.g. 1.2K, 15, 1.5M)
@@ -292,7 +306,13 @@ export const GallerySection: React.FC = () => {
 
   return (
     <>
-      <SEO title={seoTitle} description={seoDescription} keywords={seoKeywords} />
+      <SEO 
+        title={seoTitle} 
+        description={seoDescription} 
+        keywords={seoKeywords} 
+        image={seoImage} 
+        url={seoUrl} 
+      />
       <section id="gallery" className="py-6 bg-[#0b0b0e] text-stone-100 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

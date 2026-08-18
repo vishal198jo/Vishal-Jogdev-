@@ -76,7 +76,7 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
             <span>Official Event Booking</span>
           </div>
           <h3 className="text-2xl font-bold font-heading text-white">
-            Book <span className="font-serif italic text-gold-gradient font-normal">Vishal Jogdeo</span>
+            Book Vishal Jogdeo
           </h3>
           <p className="text-xs text-stone-300 font-sans">
             Submit your event details or concert inquiry to receive an official proposal.

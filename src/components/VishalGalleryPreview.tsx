@@ -48,7 +48,7 @@ export const VishalGalleryPreview: React.FC = () => {
       {/* CLEAN HEADING ONLY */}
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white">
-          Vishal's <span className="font-serif italic text-gold-gradient font-normal">Gallery</span>
+          Vishal's Gallery
         </h2>
 
         <button

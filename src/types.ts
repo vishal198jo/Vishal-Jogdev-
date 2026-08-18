@@ -46,6 +46,7 @@ export interface GalleryFolder {
   description: string;
   coverImage: string;
   count: number;
+  order?: number;
 }
 
 export interface GalleryItem {

@@ -50,7 +50,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
     {
       id: 'songs',
       path: '/songs',
-      title: 'भक्तीगीत व अभंग दालन',
+      title: 'भक्ती गीत MP3 Songs',
       shortDesc: '१५०० हून अधिक सुप्रसिद्ध अभंग, भावगीते, आरत्या आणि भजनांचा संग्रह.',
       icon: <Music2 className="w-4 h-4 text-amber-400" />,
       tag: '१५००+ गाणी'
@@ -66,7 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
     {
       id: 'shows',
       path: '/shows',
-      title: 'थेट संगीत सोहळे (Shows)',
+      title: 'Upcoming Live Shows',
       shortDesc: 'आगामी भक्ती संगीत महोत्सव, अभंग संध्या व लाईव्ह कॉन्सर्टचे वेळापत्रक.',
       icon: <Calendar className="w-4 h-4 text-amber-400" />,
       tag: 'लाइव्ह कॉन्सर्ट'
@@ -74,7 +74,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
     {
       id: 'about',
       path: '/about',
-      title: 'गायक परिचय व संगीत प्रवास',
+      title: 'Vishal Jogdeo Biography',
       shortDesc: '१५+ वर्षांहून अधिक काळाचा शास्त्रीय संगीत व भक्तीगीत गायकीचा प्रवास.',
       icon: <Award className="w-4 h-4 text-amber-400" />,
       tag: 'परिचय'
@@ -230,7 +230,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ slides, onPlayFeatured
             {/* Name */}
             <div className="space-y-2">
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight font-heading leading-tight text-white whitespace-nowrap">
-                Vishal <span className="font-serif italic text-gold-gradient font-normal">Jogdeo</span>
+                Vishal Jogdeo
               </h1>
               <p className="text-base sm:text-lg font-semibold text-amber-200/90 font-sans tracking-wide">
                 {SINGER_PROFILE.shortTagline}

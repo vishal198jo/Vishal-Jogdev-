@@ -16,7 +16,8 @@ export const LyricsPage: React.FC<LyricsPageProps> = ({
       <SEO 
         title="Vishal Jogdeo Lyrics Library | Full Song Lyrics in Devanagari & English" 
         description="Read complete Vishal Jogdeo lyrics in Marathi Devanagari script and English transliteration. Full lyrics for Mahanubhav Bhajans, Sant Sahitya Abhangas, and devotional songs." 
-        keywords="Vishal Jogdeo lyrics, Vishal Jogdeo Song Lyrics, Marathi Bhajan Lyrics, Devanagari Lyrics, Mahanubhav Panth Bhajan Lyrics, Aai Majhi Mayecha Sagar Lyrics, Vishal Jogdeo, Vishal Jogdev" 
+        keywords="Vishal Jogdeo lyrics, Vishal Jogdeo Song Lyrics, Marathi Bhajan Lyrics, Devanagari Lyrics, Mahanubhav Panth Bhajan Lyrics, Aai Majhi Mayecha Sagar Lyrics, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव लिरिक्स, अभंग लिरिक्स" 
+        url="/lyrics"
       />
       <div className="pt-20 pb-12 bg-[#0b0b0e] text-stone-100 min-h-screen">
       <LatestLyrics

@@ -7,8 +7,12 @@ export const PrivacyPolicyPage: React.FC = () => {
 
   return (
     <>
-      <SEO title={"Privacy Policy"} description={"Official Privacy Policy for Vishal Jogdeo Sangeet portal. Learn how we handle your data securely and respectfully."} keywords={"Privacy Policy, Vishal Jogdeo, Data Protection, Terms, Devotional Portal"
-  } />
+      <SEO 
+        title="Privacy Policy | Vishal Jogdeo Official Music Portal" 
+        description="Official Privacy Policy for Vishal Jogdeo Sangeet portal. Learn how we handle your data, cookie preferences, and contact information securely and respectfully." 
+        keywords="Privacy Policy, Vishal Jogdeo, Data Protection, Terms, User Privacy, Devotional Portal"
+        url="/privacy"
+      />
       <div className="pt-24 space-y-12 pb-20 bg-[#0b0b0e] text-stone-100 min-h-screen">
       {/* Header Banner */}
       <div className="bg-[#121218] border-b border-amber-500/20 py-12">

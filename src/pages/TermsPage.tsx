@@ -7,7 +7,12 @@ export const TermsPage: React.FC = () => {
 
   return (
     <>
-      <SEO title="Terms & Conditions" description="Official Terms and Conditions for using Vishal Jogdeo Sangeet portal, music licensing, and event bookings." keywords="Terms and Conditions, Vishal Jogdeo, Music Licensing, Event Booking Terms, Abhanga Sandhya" />
+      <SEO 
+        title="Terms & Conditions | Vishal Jogdeo Official Music Portal" 
+        description="Official Terms and Conditions for using Vishal Jogdeo Sangeet portal, music licensing, copyright policies, and event booking contracts." 
+        keywords="Terms and Conditions, Vishal Jogdeo, Music Licensing, Event Booking Terms, Abhanga Sandhya, Copyright Policies" 
+        url="/terms"
+      />
       <div className="pt-24 space-y-12 pb-20 bg-[#0b0b0e] text-stone-100 min-h-screen">
       {/* Header Banner */}
       <div className="bg-[#121218] border-b border-amber-500/20 py-12">

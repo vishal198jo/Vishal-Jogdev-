@@ -29,7 +29,7 @@ export const LoadingScreen: React.FC = () => {
         {/* Text Greeting & Status */}
         <div className="space-y-1.5">
           <h2 className="text-lg font-bold font-heading tracking-wide text-white">
-            विशाल <span className="font-serif italic text-gold-gradient">जोगदेव</span>
+            विशाल जोगदेव
           </h2>
           <p className="text-[10px] uppercase tracking-[0.25em] text-amber-300 font-extrabold">
             स्वर साधना (Vocal Devotion)

@@ -73,7 +73,7 @@ export const AboutSection: React.FC = () => {
               </div>
 
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-heading text-white leading-tight">
-                विशाल जोगदेव <span className="font-serif italic text-gold-gradient font-normal">(महानुभाव पंथ भजनसम्राट)</span>
+                विशाल जोगदेव (महानुभाव पंथ भजनसम्राट)
               </h2>
               
               {/* EXACT USER REQUESTED HOME PAGE TEXT */}
@@ -235,7 +235,7 @@ export const AboutSection: React.FC = () => {
           <div className="text-center space-y-2">
             <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">संपूर्ण जीवनपट व माहिती</span>
             <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white">
-              विशाल जोगदेव <span className="font-serif italic text-gold-gradient font-normal">विस्तृत माहिती</span>
+              विशाल जोगदेव विस्तृत माहिती
             </h3>
             <p className="text-stone-300 text-xs sm:text-sm max-w-xl mx-auto">
               प्रारंभिक जीवनापासून ते १५००+ भक्तीगीते आणि व्हीआयपी सन्मानांपर्यंतचा संपूर्ण प्रवास.

@@ -54,6 +54,7 @@
         "coverImage": { "type": "string", "description": "Folder cover image URL" },
         "description": { "type": "string", "description": "Folder description" },
         "count": { "type": "number", "description": "Photo count in folder" },
+        "order": { "type": "number", "description": "Display sequence order (0-indexed position)" },
         "createdAt": { "type": "string", "description": "ISO Timestamp" }
       },
       "required": ["name"]

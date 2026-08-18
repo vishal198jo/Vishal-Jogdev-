@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-white group-hover:text-amber-300 transition-colors whitespace-nowrap">
-                  Vishal <span className="font-serif italic text-amber-400 font-normal">Jogdeo</span>
+                  Vishal Jogdeo
                 </span>
                 <span className="block text-[9px] uppercase tracking-[0.25em] text-amber-200/80 font-bold whitespace-nowrap">
                   Devotional Singer

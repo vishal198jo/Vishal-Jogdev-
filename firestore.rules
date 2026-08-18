@@ -33,7 +33,7 @@ service cloud.firestore {
       allow update: if isAdmin() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']));
     }
 
-    // Gallery folders management (Admin can create, edit/update, and delete folders)
+    // Gallery folders management & sequence ordering (Only authenticated Admin can create, edit, reorder sequence, or delete folders)
     match /gallery_folders/{folderId} {
       allow read: if true;
       allow create, update, delete: if isAdmin();

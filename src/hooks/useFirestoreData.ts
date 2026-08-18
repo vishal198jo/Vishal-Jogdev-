@@ -116,7 +116,12 @@ export function useFirestoreData() {
           snap.forEach(docSnap => {
             foldersList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryFolder);
           });
-          foldersList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+          foldersList.sort((a, b) => {
+            const orderA = typeof a.order === 'number' ? a.order : 99999;
+            const orderB = typeof b.order === 'number' ? b.order : 99999;
+            if (orderA !== orderB) return orderA - orderB;
+            return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+          });
           setGalleryFolders(foldersList);
           writeCache(CACHE_KEYS.FOLDERS, foldersList);
         }, (err) => {
