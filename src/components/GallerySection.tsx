@@ -182,6 +182,10 @@ export const GallerySection: React.FC = () => {
 
   const handleDownloadMedia = async (url: string, title: string, type: string) => {
     if (!url || isDownloading) return;
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      window.open(url, '_blank');
+      return;
+    }
     setIsDownloading(true);
     try {
       const extension = type === 'video' ? 'mp4' : 'jpg';
@@ -213,6 +217,7 @@ export const GallerySection: React.FC = () => {
       const cleanTitle = (title || 'vishal_jogdeo_media').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
       link.download = `${cleanTitle}.${extension}`;
       link.target = '_blank';
+      link.rel = 'noopener noreferrer';
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
@@ -440,7 +445,12 @@ export const GallerySection: React.FC = () => {
           {/* Top Right Controls (Download & Close) */}
           <div className="absolute top-4 right-4 z-[100000] flex items-center gap-2">
             <button
-              onClick={() => handleDownloadMedia(currentItem.type === 'video' ? (currentItem.videoUrl || currentItem.imageUrl) : (currentItem.imageUrl || currentItem.videoUrl), currentItem.title, currentItem.type)}
+              onClick={() => {
+                const downloadUrl = currentItem.type === 'video'
+                  ? (currentItem.videoUrl || (currentItem.imageUrl && !currentItem.imageUrl.includes('unsplash') ? currentItem.imageUrl : ''))
+                  : (currentItem.imageUrl || currentItem.videoUrl);
+                handleDownloadMedia(downloadUrl, currentItem.title, currentItem.type);
+              }}
               disabled={isDownloading}
               className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-amber-400 hover:text-amber-300 transition-all border border-amber-500/30 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto disabled:opacity-50"
               title="Download Photo/Video"

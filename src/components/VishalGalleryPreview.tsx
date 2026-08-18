@@ -8,28 +8,36 @@ import { ProgressiveImage } from './ProgressiveImage';
 
 export const VishalGalleryPreview: React.FC = () => {
   const navigate = useNavigate();
-  const { galleryPhotos } = useFirestoreData();
+  const { galleryPhotos, galleryFolders } = useFirestoreData();
 
-  // Explicitly sort by newest createdAt first so newly uploaded photos/videos appear 1st
-  const sortedPhotos = [...galleryPhotos].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+  // Filter ONLY photos (exclude videos)
+  const photoList = galleryPhotos.length > 0
+    ? galleryPhotos.filter(p => p.type !== 'video' && !p.videoUrl && !(p.imageUrl && (p.imageUrl.includes('.mp4') || p.imageUrl.includes('.webm') || p.imageUrl.includes('.mov') || p.imageUrl.includes('.m3u8'))))
+    : GALLERY_ITEMS.filter(p => p.type !== 'video');
 
-  // Photos list (using Firestore photos if available, else fallback)
-  const activePhotos = sortedPhotos.length > 0
-    ? sortedPhotos.map(p => ({
-        id: p.id,
-        imageUrl: p.imageUrl || (p.type === 'video' ? 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop' : ''),
-        title: p.title || "Vishal's Gallery",
-        type: p.type || 'photo'
-      }))
-    : GALLERY_ITEMS.map(p => ({
-        id: p.id,
-        imageUrl: p.imageUrl,
-        title: p.title,
-        type: p.type || 'photo'
-      }));
+  const sortedPhotos = [...photoList].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
-  // Take latest 8 photos in square shape (newest photo/video is 1st)
-  const displayPhotos = activePhotos.slice(0, 8);
+  // Sabhi folders ke thode thode photo select karo taki sabhi cover ho
+  const foldersToCover = galleryFolders.length > 0 ? galleryFolders : [];
+  const selectedPhotos: typeof sortedPhotos = [];
+
+  // First pass: pick 1 photo from each folder to guarantee all folders are covered
+  foldersToCover.forEach(folder => {
+    const folderPhoto = sortedPhotos.find(p => p.folderId === folder.id && !selectedPhotos.some(sp => sp.id === p.id));
+    if (folderPhoto) {
+      selectedPhotos.push(folderPhoto);
+    }
+  });
+
+  // Second pass: fill up to 8 photos with remaining recent photos
+  sortedPhotos.forEach(p => {
+    if (selectedPhotos.length < 8 && !selectedPhotos.some(sp => sp.id === p.id)) {
+      selectedPhotos.push(p);
+    }
+  });
+
+  // Fallback if list is empty
+  const displayPhotos = (selectedPhotos.length > 0 ? selectedPhotos : sortedPhotos).slice(0, 8);
 
   const handlePhotoClick = () => {
     navigate('/gallery');
