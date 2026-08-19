@@ -193,52 +193,34 @@ async function startServer() {
       const customFilename = (req.query.filename as string) || 'Devotional Track - Vishal Jogdeo.mp3';
 
       if (!audioUrl || typeof audioUrl !== 'string' || !audioUrl.startsWith('http')) {
-        res.status(400).send('Invalid or missing audio URL');
+        res.status(400).json({ error: 'Invalid or missing audio URL' });
         return;
       }
 
       // Fetch the audio stream from cloud storage
       const upstreamRes = await fetch(audioUrl);
-      if (!upstreamRes.ok || !upstreamRes.body) {
-        res.status(502).send('Unable to retrieve audio file from storage');
+      if (!upstreamRes.ok) {
+        res.status(502).json({ error: 'Unable to retrieve audio file from storage' });
         return;
       }
 
       // Sanitize filename for Content-Disposition header
-      const safeFilename = customFilename.replace(/[/\\?%*:|"<>]/g, '').trim() || 'Vishal_Jogdeo_Track.mp3';
+      let safeFilename = customFilename.replace(/[/\\?%*:|"<>]/g, '').trim() || 'Vishal_Jogdeo_Track.mp3';
+      if (!safeFilename.toLowerCase().endsWith('.mp3')) {
+        safeFilename = `${safeFilename}.mp3`;
+      }
       const encodedFilename = encodeURIComponent(safeFilename);
 
-      res.setHeader('Content-Type', upstreamRes.headers.get('content-type') || 'audio/mpeg');
+      res.setHeader('Content-Type', 'audio/mpeg');
       res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"; filename*=UTF-8''${encodedFilename}`);
-      
-      const contentLength = upstreamRes.headers.get('content-length');
-      if (contentLength) {
-        res.setHeader('Content-Length', contentLength);
-      }
-
       res.setHeader('Cache-Control', 'public, max-age=86400');
 
-      // Stream response directly to client using Web Streams standard in Node 18+
-      const reader = upstreamRes.body.getReader();
-      const streamToResponse = async () => {
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            res.write(value);
-          }
-          res.end();
-        } catch (streamErr) {
-          console.error('[Download Audio] Streaming interrupted:', streamErr);
-          res.end();
-        }
-      };
-
-      await streamToResponse();
+      const arrayBuffer = await upstreamRes.arrayBuffer();
+      res.send(Buffer.from(arrayBuffer));
     } catch (err) {
       console.error('[Download Audio] Error processing request:', err);
       if (!res.headersSent) {
-        res.status(500).send('Failed to download audio file');
+        res.status(500).json({ error: 'Failed to download audio file' });
       }
     }
   });
@@ -247,52 +229,50 @@ async function startServer() {
   app.get('/api/download-media', async (req, res) => {
     try {
       const mediaUrl = req.query.url as string;
-      const customFilename = (req.query.filename as string) || 'vishal_jogdeo_media';
+      const customFilename = (req.query.filename as string) || 'vishal_jogdeo_media.jpg';
 
       if (!mediaUrl || typeof mediaUrl !== 'string' || !mediaUrl.startsWith('http')) {
-        res.status(400).send('Invalid or missing media URL');
+        res.status(400).json({ error: 'Invalid or missing media URL' });
         return;
       }
 
       const upstreamRes = await fetch(mediaUrl);
-      if (!upstreamRes.ok || !upstreamRes.body) {
-        res.status(502).send('Unable to retrieve media file from storage');
+      if (!upstreamRes.ok) {
+        res.status(502).json({ error: 'Unable to retrieve media file from storage' });
         return;
       }
 
-      const safeFilename = customFilename.replace(/[/\\?%*:|"<>]/g, '_').trim() || 'vishal_jogdeo_media';
-      const encodedFilename = encodeURIComponent(safeFilename);
-
-      res.setHeader('Content-Type', upstreamRes.headers.get('content-type') || 'application/octet-stream');
-      res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"; filename*=UTF-8''${encodedFilename}`);
+      let safeFilename = customFilename.replace(/[/\\?%*:|"<>]/g, '_').trim() || 'vishal_jogdeo_media.jpg';
+      safeFilename = safeFilename.replace(/\.html$/i, ''); // Strip any accidental .html
       
-      const contentLength = upstreamRes.headers.get('content-length');
-      if (contentLength) {
-        res.setHeader('Content-Length', contentLength);
+      const lowerName = safeFilename.toLowerCase();
+      let contentType = 'application/octet-stream';
+      if (lowerName.endsWith('.jpg') || lowerName.endsWith('.jpeg')) {
+        contentType = 'image/jpeg';
+      } else if (lowerName.endsWith('.png')) {
+        contentType = 'image/png';
+      } else if (lowerName.endsWith('.webp')) {
+        contentType = 'image/webp';
+      } else if (lowerName.endsWith('.mp4')) {
+        contentType = 'video/mp4';
+      } else if (lowerName.endsWith('.mp3')) {
+        contentType = 'audio/mpeg';
+      } else {
+        contentType = upstreamRes.headers.get('content-type') || 'application/octet-stream';
       }
 
+      const encodedFilename = encodeURIComponent(safeFilename);
+
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"; filename*=UTF-8''${encodedFilename}`);
       res.setHeader('Cache-Control', 'public, max-age=86400');
 
-      const reader = upstreamRes.body.getReader();
-      const streamToResponse = async () => {
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            res.write(value);
-          }
-          res.end();
-        } catch (streamErr) {
-          console.error('[Download Media] Streaming interrupted:', streamErr);
-          res.end();
-        }
-      };
-
-      await streamToResponse();
+      const arrayBuffer = await upstreamRes.arrayBuffer();
+      res.send(Buffer.from(arrayBuffer));
     } catch (err) {
       console.error('[Download Media] Error processing request:', err);
       if (!res.headersSent) {
-        res.status(500).send('Failed to download media file');
+        res.status(500).json({ error: 'Failed to download media file' });
       }
     }
   });

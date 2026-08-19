@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, AlertCircle } from 'lucide-react';
 
 interface AnnouncementTickerProps {
@@ -11,6 +12,7 @@ interface AnnouncementTickerProps {
     date: string; 
     time: string; 
     showInNotification?: boolean | string;
+    showInTicker?: boolean | string;
     ticketLink?: string;
   }>;
   onOpenBooking?: () => void;
@@ -21,6 +23,8 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({
   shows = [], 
   onOpenBooking 
 }) => {
+  const navigate = useNavigate();
+
   // Date formatter for upcoming shows
   const formatShowDate = (dateStr: string) => {
     if (!dateStr) return '';
@@ -32,9 +36,13 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({
   // 1. Custom Notification Texts: get max 10 active custom notifications
   const activeNotifications = notifications.filter(n => n.active !== false).slice(0, 10);
 
-  // 2. Upcoming Shows: get upcoming shows explicitly flagged for ticker display or nearest upcoming shows (max 10)
-  const flaggedShows = shows.filter(s => s.showInNotification === true || (s as any).showInNotification === 'true');
-  const upcomingShowsToDisplay = (flaggedShows.length > 0 ? flaggedShows : shows).slice(0, 10);
+  // 2. Upcoming Shows: get ONLY shows that are explicitly checked/flagged for ticker display
+  const flaggedShows = shows.filter(s => 
+    s.showInNotification === true || 
+    (s as any).showInNotification === 'true' ||
+    s.showInTicker === true ||
+    (s as any).showInTicker === 'true'
+  ).slice(0, 10);
 
   const tickerItems: Array<{
     id: string;
@@ -55,13 +63,13 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({
     });
   });
 
-  // Add upcoming shows (up to 10)
-  upcomingShowsToDisplay.forEach(show => {
+  // Add upcoming shows that were explicitly checked (up to 10)
+  flaggedShows.forEach(show => {
     const showText = `${show.title} - ${formatShowDate(show.date)} - ${show.city} - ${show.venue || show.time}`;
     tickerItems.push({
       id: show.id,
       text: showText,
-      badge: 'UPCOMING',
+      badge: 'UPCOMING SHOW',
       isCustom: false
     });
   });
@@ -86,10 +94,13 @@ export const AnnouncementTicker: React.FC<AnnouncementTickerProps> = ({
         url = 'https://' + url;
       }
       if (url.startsWith('/')) {
-        window.location.href = url;
+        navigate(url);
       } else {
         window.open(url, '_blank', 'noopener,noreferrer');
       }
+    } else if (!item.isCustom && item.id !== 'welcome') {
+      // Direct click on upcoming show notification: navigate to /shows or scroll to upcoming shows
+      navigate('/shows');
     } else {
       onOpenBooking?.();
     }

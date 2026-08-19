@@ -7,11 +7,13 @@ import {
   Youtube, 
   Instagram, 
   Facebook, 
-  Calendar
+  Calendar,
+  Bell
 } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
 import { SpotifyIcon } from './SpotifyIcon';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { useFirestoreData } from '../hooks/useFirestoreData';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -24,6 +26,17 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { shows } = useFirestoreData();
+
+  // Check if genuine upcoming future shows exist (past shows must NOT trigger the bell icon)
+  const hasUpcomingShows = Array.isArray(shows) && shows.length > 0
+    ? shows.some(s => {
+        if (!s.date) return false;
+        if (s.status === 'past' || s.status === 'completed') return false;
+        const d = new Date(`${s.date}T23:59:59`);
+        return !isNaN(d.getTime()) && d >= new Date();
+      })
+    : false;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,6 +98,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <nav className="hidden lg:flex items-center space-x-1 bg-stone-950/80 p-1.5 rounded-full border border-amber-500/20">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
+                const isShowsLink = link.path === '/shows';
+
                 return (
                   <Link
                     key={link.name}
@@ -95,7 +110,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                         : 'text-stone-300 hover:text-amber-300 hover:bg-white/5'
                     }`}
                   >
-                    {link.name}
+                    {isShowsLink && hasUpcomingShows && (
+                      <span className="relative flex items-center justify-center">
+                        <Bell className={`w-3.5 h-3.5 ${isActive ? 'text-black fill-black' : 'text-amber-400 fill-amber-400/40 animate-bounce'}`} />
+                        <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500 ring-2 ring-stone-950 animate-ping" />
+                        <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500" />
+                      </span>
+                    )}
+                    <span>{link.name}</span>
                   </Link>
                 );
               })}
@@ -217,6 +239,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="grid grid-cols-2 gap-2 pb-3 border-b border-amber-500/20">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
+                const isShowsLink = link.path === '/shows';
+
                 return (
                   <Link
                     key={link.name}
@@ -228,8 +252,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                         : 'text-stone-200 hover:text-white hover:bg-white/5 border-stone-800'
                     }`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-black' : 'bg-amber-400'}`} />
-                    {link.name}
+                    {isShowsLink && hasUpcomingShows ? (
+                      <span className="relative flex items-center justify-center">
+                        <Bell className={`w-3.5 h-3.5 ${isActive ? 'text-black fill-black' : 'text-amber-400 fill-amber-400/40 animate-bounce'}`} />
+                        <span className="absolute -top-1 -right-1 w-1.5 h-1.5 rounded-full bg-red-500" />
+                      </span>
+                    ) : (
+                      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-black' : 'bg-amber-400'}`} />
+                    )}
+                    <span>{link.name}</span>
                   </Link>
                 );
               })}

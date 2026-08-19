@@ -12,6 +12,7 @@ import { db } from '../lib/firebase';
 import { doc, updateDoc, setDoc, increment } from 'firebase/firestore';
 import { ProgressiveImage } from './ProgressiveImage';
 import { HDLightboxImage } from './HDLightboxImage';
+import { downloadMediaFile, sanitizeDownloadFilename } from '../utils/downloadHelper';
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -190,46 +191,15 @@ export const GallerySection: React.FC = () => {
 
   const handleDownloadMedia = async (url: string, title: string, type: string) => {
     if (!url || isDownloading) return;
-    if (url.includes('youtube.com') || url.includes('youtu.be')) {
-      window.open(url, '_blank');
-      return;
-    }
     setIsDownloading(true);
     try {
       const extension = type === 'video' ? 'mp4' : 'jpg';
-      const cleanTitle = (title || 'vishal_jogdeo_media').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
-      const fileName = `${cleanTitle}.${extension}`;
-      const proxyUrl = `/api/download-media?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(fileName)}`;
-
-      const response = await fetch(proxyUrl);
-      if (!response.ok) throw new Error('Download proxy failed');
-
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = fileName;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
+      const targetFilename = sanitizeDownloadFilename(title, 'vishal_jogdeo_media', extension);
+      const mediaType = type === 'video' ? 'video' : 'image';
       
-      setTimeout(() => {
-        window.URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(link);
-      }, 1000);
+      await downloadMediaFile(url, targetFilename, mediaType);
     } catch (e) {
-      // Fallback direct link download
-      const link = document.createElement('a');
-      link.href = url;
-      const extension = type === 'video' ? 'mp4' : 'jpg';
-      const cleanTitle = (title || 'vishal_jogdeo_media').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
-      link.download = `${cleanTitle}.${extension}`;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      console.error('Error downloading media:', e);
     } finally {
       setIsDownloading(false);
     }

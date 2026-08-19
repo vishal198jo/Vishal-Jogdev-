@@ -83,6 +83,7 @@ export interface FirestoreLyric {
   romanText?: string;
   metaTitle?: string;
   metaDescription?: string;
+  views?: number;
   createdAt: string;
 }
 
@@ -109,6 +110,7 @@ export interface FirestoreGalleryPhoto {
   videoUrl?: string;
   videoSource?: 'youtube' | 'local' | 'hls';
   youtubeId?: string;
+  views?: number;
 }
 
 export interface FirestoreShow {
@@ -122,6 +124,8 @@ export interface FirestoreShow {
   bannerImage?: string;
   description?: string;
   ticketLink?: string;
+  ticketPrice?: string;
+  status?: string;
   isOrganizedByTrust?: boolean;
   showInNotification?: boolean;
   createdAt?: string;

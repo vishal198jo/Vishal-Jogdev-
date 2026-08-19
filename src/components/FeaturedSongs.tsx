@@ -7,6 +7,7 @@ import { Song } from '../types';
 import { FEATURED_SONGS } from '../data/mockData';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { SongRowSkeleton } from './SkeletonLoader';
+import { downloadMediaFile, sanitizeDownloadFilename } from '../utils/downloadHelper';
 
 interface FeaturedSongsProps {
   onPlaySong: (song: Song) => void;
@@ -39,9 +40,8 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
       return;
     }
 
-    const safeTitle = (song.title || 'Devotional Track').replace(/[/\\?%*:|"<>]/g, ' ').trim();
-    const fileName = `${safeTitle} - ${song.singerName || 'Vishal Jogdeo'}.mp3`;
-    const proxyUrl = `/api/download-audio?url=${encodeURIComponent(song.audioUrl)}&filename=${encodeURIComponent(fileName)}`;
+    const baseTitle = song.title ? `${song.title} - ${song.singerName || 'Vishal Jogdeo'}` : 'Devotional Track - Vishal Jogdeo';
+    const fileName = sanitizeDownloadFilename(baseTitle, 'Vishal_Jogdeo_Track', 'mp3');
 
     const trackDownloadCount = async () => {
       try {
@@ -77,52 +77,18 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
     try {
       setDownloadingSongId(song.id);
 
-      // Method 1: Fetch blob from our direct download server API
-      const res = await fetch(proxyUrl);
-      if (!res.ok) throw new Error('Proxy download failed');
-
-      const blob = await res.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.style.display = 'none';
-      link.href = blobUrl;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
+      const downloaded = await downloadMediaFile(song.audioUrl, fileName, 'audio');
       
-      setTimeout(() => {
-        window.URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(link);
-      }, 1000);
-
-      // Increment download counter
-      await trackDownloadCount();
-
-      setDownloadingSongId(null);
-      setDownloadedSongId(song.id);
-      setTimeout(() => setDownloadedSongId(null), 2500);
-    } catch {
-      // Method 2: Invisible iframe fallback pointing to server attachment endpoint (zero redirect / zero URL exposure)
-      try {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = proxyUrl;
-        document.body.appendChild(iframe);
-        setTimeout(() => {
-          if (document.body.contains(iframe)) {
-            document.body.removeChild(iframe);
-          }
-        }, 60000);
-
+      if (downloaded) {
         // Increment download counter
         await trackDownloadCount();
-
-        setDownloadingSongId(null);
         setDownloadedSongId(song.id);
         setTimeout(() => setDownloadedSongId(null), 2500);
-      } catch {
-        setDownloadingSongId(null);
       }
+    } catch (err) {
+      console.error('Song download failed:', err);
+    } finally {
+      setDownloadingSongId(null);
     }
   };
 

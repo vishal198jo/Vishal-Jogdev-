@@ -2,80 +2,151 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper functions
+    // -------------------------------------------------------------
+    // Security Helper Functions
+    // -------------------------------------------------------------
     function isSignedIn() {
       return request.auth != null;
     }
 
     function isAdmin() {
-      return isSignedIn() && (
-        request.auth.token.email.lower() == 'vishaljogdeoweb@gmail.com'
+      return isSignedIn() && 
+        request.auth.token.email.lower() == 'vishaljogdeoweb@gmail.com';
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    function isValidNumber(val, minVal, maxVal) {
+      return val is number && val >= minVal && val <= maxVal;
+    }
+
+    // Rate-limited counter validation: only permits legitimate incremental increases up to +10 per write
+    function isValidCounterDiff(newVal, oldVal) {
+      return newVal is int && newVal >= oldVal && newVal <= (oldVal + 10);
+    }
+
+    // -------------------------------------------------------------
+    // Collection Validation Blueprints
+    // -------------------------------------------------------------
+
+    // Inquiry Payload Validator (Strict Anti-Poisoning & Anti-DOS)
+    function isValidInquiry(data) {
+      return data.keys().hasAll(['name', 'phone', 'createdAt', 'status']) &&
+        data.keys().hasOnly(['name', 'phone', 'email', 'city', 'message', 'eventType', 'eventDate', 'budgetRange', 'notes', 'createdAt', 'status']) &&
+        isValidString(data.name, 2, 100) &&
+        isValidString(data.phone, 5, 30) &&
+        (!('email' in data) || isValidString(data.email, 0, 100)) &&
+        (!('city' in data) || isValidString(data.city, 0, 100)) &&
+        (!('message' in data) || isValidString(data.message, 0, 3000)) &&
+        (!('eventType' in data) || isValidString(data.eventType, 0, 200)) &&
+        (!('eventDate' in data) || isValidString(data.eventDate, 0, 100)) &&
+        (!('budgetRange' in data) || isValidString(data.budgetRange, 0, 100)) &&
+        (!('notes' in data) || isValidString(data.notes, 0, 1500)) &&
+        isValidString(data.createdAt, 5, 60) &&
+        data.status in ['new', 'read'];
+    }
+
+    // Global Stats Validator
+    function isValidGlobalStats(data) {
+      return data.keys().hasOnly(['visitedUsers', 'totalLyricsRead', 'totalPhotoViews']) &&
+        (!('visitedUsers' in data) || isValidNumber(data.visitedUsers, 0, 1000000000)) &&
+        (!('totalLyricsRead' in data) || isValidNumber(data.totalLyricsRead, 0, 1000000000)) &&
+        (!('totalPhotoViews' in data) || isValidNumber(data.totalPhotoViews, 0, 1000000000));
+    }
+
+    // Global default catch-all deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------
+    // Core Entity Collections
+    // -------------------------------------------------------------
+
+    // 1. Songs Collection
+    match /songs/{songId} {
+      allow read: if true;
+      allow create, delete: if isAdmin() && isValidId(songId);
+      allow update: if isValidId(songId) && (
+        isAdmin() ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['plays', 'downloads']) &&
+          (!('plays' in request.resource.data.diff(resource.data).affectedKeys()) || 
+            isValidCounterDiff(request.resource.data.plays, resource.data.get('plays', 0))) &&
+          (!('downloads' in request.resource.data.diff(resource.data).affectedKeys()) || 
+            isValidCounterDiff(request.resource.data.downloads, resource.data.get('downloads', 0)))
+        )
       );
     }
 
-    // Allow public read on all collections
-    match /{document=**} {
-      allow read: if true;
-    }
-
-    // Songs collection (Admin can create, edit, delete songs; public can increment plays and downloads)
-    match /songs/{songId} {
-      allow read: if true;
-      allow create: if isAdmin() || (request.resource.data.keys().hasAny(['plays', 'downloads']));
-      allow update: if isAdmin() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['plays', 'downloads']));
-      allow delete: if isAdmin();
-    }
-
-    // Lyrics collection (Admin can create, edit, delete lyrics; public can increment views)
+    // 2. Lyrics Collection
     match /lyrics/{lyricId} {
       allow read: if true;
-      allow create, delete: if isAdmin();
-      allow update: if isAdmin() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']));
+      allow create, delete: if isAdmin() && isValidId(lyricId);
+      allow update: if isValidId(lyricId) && (
+        isAdmin() ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']) &&
+          isValidCounterDiff(request.resource.data.views, resource.data.get('views', 0))
+        )
+      );
     }
 
-    // Gallery folders management & sequence ordering (Only authenticated Admin can create, edit, reorder sequence, or delete folders)
+    // 3. Gallery Folders Collection
     match /gallery_folders/{folderId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(folderId);
     }
 
-    // Gallery photos management (Admin can create, edit/update, and delete photos; public can increment views)
+    // 4. Gallery Photos Collection
     match /gallery_photos/{photoId} {
       allow read: if true;
-      allow create, delete: if isAdmin();
-      allow update: if isAdmin() || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']));
+      allow create, delete: if isAdmin() && isValidId(photoId);
+      allow update: if isValidId(photoId) && (
+        isAdmin() ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views']) &&
+          isValidCounterDiff(request.resource.data.views, resource.data.get('views', 0))
+        )
+      );
     }
 
-    // Stats counter (allow public read and increment updates)
-    match /stats/{statId} {
-      allow read: if true;
-      allow create, update: if true;
-      allow delete: if isAdmin();
-    }
-
-    // Shows management (Admin can create, edit, delete shows)
+    // 5. Shows Collection
     match /shows/{showId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(showId);
     }
 
-    // Hero banner slides management (Admin can create, edit, delete slides)
+    // 6. Hero Slides Collection
     match /hero_slides/{slideId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(slideId);
     }
 
-    // Notifications ticker management (Admin can create, edit, delete alerts)
+    // 7. Notifications Collection
     match /notifications/{notificationId} {
       allow read: if true;
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(notificationId);
     }
 
-    // Event Inquiries (public can create inquiries; admin can update, delete)
-    match /inquiries/{inquiryId} {
+    // 8. Global Stats Collection (Anti-tampering)
+    match /stats/{statId} {
       allow read: if true;
-      allow create: if true;
-      allow update, delete: if isAdmin();
+      allow create, update: if isValidId(statId) && isValidGlobalStats(request.resource.data);
+      allow delete: if isAdmin() && isValidId(statId);
+    }
+
+    // 9. Inquiries Collection (Strict PII Protection & Rate/Input Validation)
+    // NOTE: Only authenticated Admin can READ/LIST customer inquiries to protect customer personal privacy
+    match /inquiries/{inquiryId} {
+      allow read, update, delete: if isAdmin() && isValidId(inquiryId);
+      allow create: if isValidId(inquiryId) && isValidInquiry(request.resource.data);
     }
   }
 }

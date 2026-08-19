@@ -196,6 +196,7 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({ slides, loading = false 
               className="w-full h-full object-contain sm:object-cover object-center pointer-events-none"
               referrerPolicy="no-referrer"
               loading="eager"
+              decoding="async"
             />
           </motion.div>
         </AnimatePresence>

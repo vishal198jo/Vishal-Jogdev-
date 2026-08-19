@@ -15,7 +15,11 @@ export const VishalGalleryPreview: React.FC = () => {
     ? galleryPhotos.filter(p => p.type !== 'video' && !p.videoUrl && !(p.imageUrl && (p.imageUrl.includes('.mp4') || p.imageUrl.includes('.webm') || p.imageUrl.includes('.mov') || p.imageUrl.includes('.m3u8'))))
     : GALLERY_ITEMS.filter(p => p.type !== 'video');
 
-  const sortedPhotos = [...photoList].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+  const sortedPhotos = [...photoList].sort((a, b) => {
+    const timeA = 'createdAt' in a && a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const timeB = 'createdAt' in b && b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return timeB - timeA;
+  });
 
   // Sabhi folders ke thode thode photo select karo taki sabhi cover ho
   const foldersToCover = galleryFolders.length > 0 ? galleryFolders : [];

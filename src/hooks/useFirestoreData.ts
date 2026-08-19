@@ -4,7 +4,19 @@ import {
   onSnapshot,
   doc
 } from 'firebase/firestore';
-import { db, COLLECTIONS, FirestoreSong, FirestoreLyric, FirestoreGalleryFolder, FirestoreGalleryPhoto, FirestoreShow, FirestoreHeroSlide, FirestoreNotification } from '../lib/firebase';
+import { 
+  db, 
+  COLLECTIONS, 
+  FirestoreSong, 
+  FirestoreLyric, 
+  FirestoreGalleryFolder, 
+  FirestoreGalleryPhoto, 
+  FirestoreShow, 
+  FirestoreHeroSlide, 
+  FirestoreNotification,
+  handleFirestoreError,
+  OperationType
+} from '../lib/firebase';
 
 export interface GlobalStats {
   visitedUsers: number;
@@ -12,15 +24,27 @@ export interface GlobalStats {
   totalPhotoViews: number;
 }
 
+export interface FirestoreDataState {
+  songs: FirestoreSong[];
+  lyrics: FirestoreLyric[];
+  galleryFolders: FirestoreGalleryFolder[];
+  galleryPhotos: FirestoreGalleryPhoto[];
+  shows: FirestoreShow[];
+  heroSlides: FirestoreHeroSlide[];
+  notifications: FirestoreNotification[];
+  globalStats: GlobalStats;
+  loading: boolean;
+}
+
 const CACHE_KEYS = {
-  SONGS: 'vj_cache_songs_v2',
-  LYRICS: 'vj_cache_lyrics_v2',
-  FOLDERS: 'vj_cache_folders_v2',
-  PHOTOS: 'vj_cache_photos_v2',
-  SHOWS: 'vj_cache_shows_v2',
-  SLIDES: 'vj_cache_slides_v2',
-  NOTIFICATIONS: 'vj_cache_notifications_v2',
-  STATS: 'vj_cache_stats_v2',
+  SONGS: 'vj_cache_songs_v3',
+  LYRICS: 'vj_cache_lyrics_v3',
+  FOLDERS: 'vj_cache_folders_v3',
+  PHOTOS: 'vj_cache_photos_v3',
+  SHOWS: 'vj_cache_shows_v3',
+  SLIDES: 'vj_cache_slides_v3',
+  NOTIFICATIONS: 'vj_cache_notifications_v3',
+  STATS: 'vj_cache_stats_v3',
 };
 
 function readCache<T>(key: string, defaultValue: T): T {
@@ -33,7 +57,7 @@ function readCache<T>(key: string, defaultValue: T): T {
       }
     }
   } catch (e) {
-    // ignore errors
+    // Ignore cache parsing errors safely
   }
   return defaultValue;
 }
@@ -42,195 +66,205 @@ function writeCache(key: string, data: any) {
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (e) {
-    // ignore
+    // Ignore cache write errors safely
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Singleton Master Store: Ensures exactly 1 listener per collection app-wide
+// ---------------------------------------------------------------------------
+const initialSongs = readCache<FirestoreSong[]>(CACHE_KEYS.SONGS, []);
+const initialLyrics = readCache<FirestoreLyric[]>(CACHE_KEYS.LYRICS, []);
+const initialFolders = readCache<FirestoreGalleryFolder[]>(CACHE_KEYS.FOLDERS, []);
+const initialPhotos = readCache<FirestoreGalleryPhoto[]>(CACHE_KEYS.PHOTOS, []);
+const initialShows = readCache<FirestoreShow[]>(CACHE_KEYS.SHOWS, []);
+const initialSlides = readCache<FirestoreHeroSlide[]>(CACHE_KEYS.SLIDES, []);
+const initialNotifications = readCache<FirestoreNotification[]>(CACHE_KEYS.NOTIFICATIONS, []);
+const initialStats = readCache<GlobalStats>(CACHE_KEYS.STATS, {
+  visitedUsers: 0,
+  totalLyricsRead: 0,
+  totalPhotoViews: 0
+});
+
+const hasInitialData = initialSongs.length > 0 || initialSlides.length > 0 || initialLyrics.length > 0 || initialShows.length > 0;
+
+let storeState: FirestoreDataState = {
+  songs: initialSongs,
+  lyrics: initialLyrics,
+  galleryFolders: initialFolders,
+  galleryPhotos: initialPhotos,
+  shows: initialShows,
+  heroSlides: initialSlides,
+  notifications: initialNotifications,
+  globalStats: initialStats,
+  loading: !hasInitialData
+};
+
+const listeners = new Set<() => void>();
+
+function notifySubscribers() {
+  listeners.forEach(fn => fn());
+}
+
+let isInitialized = false;
+
+function initSharedListeners() {
+  if (isInitialized) return;
+  isInitialized = true;
+
+  try {
+    // 1. Subscribe to Songs
+    onSnapshot(collection(db, COLLECTIONS.SONGS), (snap) => {
+      const songsList: FirestoreSong[] = [];
+      snap.forEach(docSnap => {
+        songsList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreSong);
+      });
+      songsList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      storeState.songs = songsList;
+      storeState.loading = false;
+      writeCache(CACHE_KEYS.SONGS, songsList);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.SONGS);
+    });
+
+    // 2. Subscribe to Lyrics
+    onSnapshot(collection(db, COLLECTIONS.LYRICS), (snap) => {
+      const list: FirestoreLyric[] = [];
+      snap.forEach(docSnap => {
+        list.push({ id: docSnap.id, ...docSnap.data() } as FirestoreLyric);
+      });
+      list.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      storeState.lyrics = list;
+      storeState.loading = false;
+      writeCache(CACHE_KEYS.LYRICS, list);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.LYRICS);
+    });
+
+    // 3. Subscribe to Gallery Folders
+    onSnapshot(collection(db, COLLECTIONS.GALLERY_FOLDERS), (snap) => {
+      const foldersList: FirestoreGalleryFolder[] = [];
+      snap.forEach(docSnap => {
+        foldersList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryFolder);
+      });
+      foldersList.sort((a, b) => {
+        const orderA = typeof a.order === 'number' ? a.order : 99999;
+        const orderB = typeof b.order === 'number' ? b.order : 99999;
+        if (orderA !== orderB) return orderA - orderB;
+        return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+      });
+      storeState.galleryFolders = foldersList;
+      writeCache(CACHE_KEYS.FOLDERS, foldersList);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.GALLERY_FOLDERS);
+    });
+
+    // 4. Subscribe to Gallery Photos
+    onSnapshot(collection(db, COLLECTIONS.GALLERY_PHOTOS), (snap) => {
+      const photosList: FirestoreGalleryPhoto[] = [];
+      snap.forEach(docSnap => {
+        photosList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryPhoto);
+      });
+      photosList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      storeState.galleryPhotos = photosList;
+      writeCache(CACHE_KEYS.PHOTOS, photosList);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.GALLERY_PHOTOS);
+    });
+
+    // 5. Subscribe to Shows
+    onSnapshot(collection(db, COLLECTIONS.SHOWS), (snap) => {
+      const showsList: FirestoreShow[] = [];
+      snap.forEach(docSnap => {
+        showsList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreShow);
+      });
+      showsList.sort((a, b) => {
+        const timeA = a.date ? new Date(a.date).getTime() : 0;
+        const timeB = b.date ? new Date(b.date).getTime() : 0;
+        const validA = isNaN(timeA) ? 0 : timeA;
+        const validB = isNaN(timeB) ? 0 : timeB;
+        return validA - validB;
+      });
+      storeState.shows = showsList;
+      storeState.loading = false;
+      writeCache(CACHE_KEYS.SHOWS, showsList);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.SHOWS);
+    });
+
+    // 6. Subscribe to Hero Slides
+    onSnapshot(collection(db, COLLECTIONS.HERO_SLIDES), (snap) => {
+      const slidesList: FirestoreHeroSlide[] = [];
+      snap.forEach(docSnap => {
+        slidesList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreHeroSlide);
+      });
+      storeState.heroSlides = slidesList;
+      storeState.loading = false;
+      writeCache(CACHE_KEYS.SLIDES, slidesList);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.HERO_SLIDES);
+    });
+
+    // 7. Subscribe to Notifications
+    onSnapshot(collection(db, COLLECTIONS.NOTIFICATIONS), (snap) => {
+      const list: FirestoreNotification[] = [];
+      snap.forEach(docSnap => {
+        list.push({ id: docSnap.id, ...docSnap.data() } as FirestoreNotification);
+      });
+      storeState.notifications = list;
+      writeCache(CACHE_KEYS.NOTIFICATIONS, list);
+      notifySubscribers();
+    }, (err) => {
+      handleFirestoreError(err, OperationType.LIST, COLLECTIONS.NOTIFICATIONS);
+    });
+
+    // 8. Subscribe to Global Stats
+    onSnapshot(doc(db, 'stats', 'global'), (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        const statsObj: GlobalStats = {
+          visitedUsers: typeof data.visitedUsers === 'number' ? data.visitedUsers : 0,
+          totalLyricsRead: typeof data.totalLyricsRead === 'number' ? data.totalLyricsRead : 0,
+          totalPhotoViews: typeof data.totalPhotoViews === 'number' ? data.totalPhotoViews : 0
+        };
+        storeState.globalStats = statsObj;
+        writeCache(CACHE_KEYS.STATS, statsObj);
+        notifySubscribers();
+      }
+    }, (err) => {
+      handleFirestoreError(err, OperationType.GET, 'stats/global');
+    });
+
+  } catch (err) {
+    console.warn('Firestore initial connection notice:', err);
+    storeState.loading = false;
+    notifySubscribers();
   }
 }
 
 export function useFirestoreData() {
-  const [songs, setSongs] = useState<FirestoreSong[]>(() => readCache(CACHE_KEYS.SONGS, []));
-  const [lyrics, setLyrics] = useState<FirestoreLyric[]>(() => readCache(CACHE_KEYS.LYRICS, []));
-  const [galleryFolders, setGalleryFolders] = useState<FirestoreGalleryFolder[]>(() => readCache(CACHE_KEYS.FOLDERS, []));
-  const [galleryPhotos, setGalleryPhotos] = useState<FirestoreGalleryPhoto[]>(() => readCache(CACHE_KEYS.PHOTOS, []));
-  const [shows, setShows] = useState<FirestoreShow[]>(() => readCache(CACHE_KEYS.SHOWS, []));
-  const [heroSlides, setHeroSlides] = useState<FirestoreHeroSlide[]>(() => readCache(CACHE_KEYS.SLIDES, []));
-  const [notifications, setNotifications] = useState<FirestoreNotification[]>(() => readCache(CACHE_KEYS.NOTIFICATIONS, []));
-  const [globalStats, setGlobalStats] = useState<GlobalStats>(() => readCache(CACHE_KEYS.STATS, {
-    visitedUsers: 0,
-    totalLyricsRead: 0,
-    totalPhotoViews: 0
-  }));
-
-  // If local cache exists, do not block UI with loading spinner (instant load)
-  const hasLocalCache = songs.length > 0 || heroSlides.length > 0 || lyrics.length > 0 || shows.length > 0;
-  const [loading, setLoading] = useState<boolean>(!hasLocalCache);
+  const [, setTick] = useState(0);
 
   useEffect(() => {
-    let unsubscribeSongs: () => void;
-    let unsubscribeLyrics: () => void;
-    let unsubscribeFolders: () => void;
-    let unsubscribePhotos: () => void;
-    let unsubscribeShows: () => void;
-    let unsubscribeSlides: () => void;
-    let unsubscribeTicker: () => void;
-    let unsubscribeStats: () => void;
+    // Initialize shared singleton once
+    initSharedListeners();
 
-    // Fast fallback timer: never block the user for more than 800ms
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 800);
+    const handleUpdate = () => {
+      setTick(t => t + 1);
+    };
 
-    async function initAndSubscribe() {
-      try {
-        // 0. Subscribe to Songs
-        unsubscribeSongs = onSnapshot(collection(db, COLLECTIONS.SONGS), (snap) => {
-          const songsList: FirestoreSong[] = [];
-          snap.forEach(docSnap => {
-            songsList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreSong);
-          });
-          songsList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-          setSongs(songsList);
-          writeCache(CACHE_KEYS.SONGS, songsList);
-          setLoading(false);
-        }, (err) => {
-          console.warn('Songs snapshot listener:', err);
-        });
-
-        // 1. Subscribe to Lyrics
-        unsubscribeLyrics = onSnapshot(collection(db, COLLECTIONS.LYRICS), (snap) => {
-          const list: FirestoreLyric[] = [];
-          snap.forEach(docSnap => {
-            list.push({ id: docSnap.id, ...docSnap.data() } as FirestoreLyric);
-          });
-          list.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-          setLyrics(list);
-          writeCache(CACHE_KEYS.LYRICS, list);
-          setLoading(false);
-        }, (err) => {
-          console.warn('Lyrics snapshot listener:', err);
-          setLoading(false);
-        });
-
-        // 2. Subscribe to Gallery Folders & Photos
-        unsubscribeFolders = onSnapshot(collection(db, COLLECTIONS.GALLERY_FOLDERS), (snap) => {
-          const foldersList: FirestoreGalleryFolder[] = [];
-          snap.forEach(docSnap => {
-            foldersList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryFolder);
-          });
-          foldersList.sort((a, b) => {
-            const orderA = typeof a.order === 'number' ? a.order : 99999;
-            const orderB = typeof b.order === 'number' ? b.order : 99999;
-            if (orderA !== orderB) return orderA - orderB;
-            return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
-          });
-          setGalleryFolders(foldersList);
-          writeCache(CACHE_KEYS.FOLDERS, foldersList);
-        }, (err) => {
-          console.warn('Folders snapshot listener:', err);
-        });
-
-        unsubscribePhotos = onSnapshot(collection(db, COLLECTIONS.GALLERY_PHOTOS), (snap) => {
-          const photosList: FirestoreGalleryPhoto[] = [];
-          snap.forEach(docSnap => {
-            photosList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreGalleryPhoto);
-          });
-          photosList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-          setGalleryPhotos(photosList);
-          writeCache(CACHE_KEYS.PHOTOS, photosList);
-        }, (err) => {
-          console.warn('Photos snapshot listener:', err);
-        });
-
-        // 3. Subscribe to Shows
-        unsubscribeShows = onSnapshot(collection(db, COLLECTIONS.SHOWS), (snap) => {
-          const showsList: FirestoreShow[] = [];
-          snap.forEach(docSnap => {
-            showsList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreShow);
-          });
-          showsList.sort((a, b) => {
-            const timeA = a.date ? new Date(a.date).getTime() : 0;
-            const timeB = b.date ? new Date(b.date).getTime() : 0;
-            const validA = isNaN(timeA) ? 0 : timeA;
-            const validB = isNaN(timeB) ? 0 : timeB;
-            return validA - validB;
-          });
-          setShows(showsList);
-          writeCache(CACHE_KEYS.SHOWS, showsList);
-          setLoading(false);
-        }, (err) => {
-          console.warn('Shows snapshot listener:', err);
-        });
-
-        // 4. Subscribe to Hero Slides
-        unsubscribeSlides = onSnapshot(collection(db, COLLECTIONS.HERO_SLIDES), (snap) => {
-          const slidesList: FirestoreHeroSlide[] = [];
-          snap.forEach(docSnap => {
-            slidesList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreHeroSlide);
-          });
-          setHeroSlides(slidesList);
-          writeCache(CACHE_KEYS.SLIDES, slidesList);
-          setLoading(false);
-        }, (err) => {
-          console.warn('Slides snapshot listener:', err);
-        });
-
-        // 5. Subscribe to Notifications
-        unsubscribeTicker = onSnapshot(collection(db, COLLECTIONS.NOTIFICATIONS), (snap) => {
-          const list: FirestoreNotification[] = [];
-          snap.forEach(docSnap => {
-            list.push({ id: docSnap.id, ...docSnap.data() } as FirestoreNotification);
-          });
-          setNotifications(list);
-          writeCache(CACHE_KEYS.NOTIFICATIONS, list);
-        }, (err) => {
-          console.warn('Notifications snapshot listener:', err);
-        });
-
-        // 6. Subscribe to Global Stats
-        unsubscribeStats = onSnapshot(doc(db, 'stats', 'global'), (snap) => {
-          if (snap.exists()) {
-            const data = snap.data();
-            const statsObj = {
-              visitedUsers: typeof data.visitedUsers === 'number' ? data.visitedUsers : 0,
-              totalLyricsRead: typeof data.totalLyricsRead === 'number' ? data.totalLyricsRead : 0,
-              totalPhotoViews: typeof data.totalPhotoViews === 'number' ? data.totalPhotoViews : 0
-            };
-            setGlobalStats(statsObj);
-            writeCache(CACHE_KEYS.STATS, statsObj);
-          }
-        }, (err) => {
-          console.warn('Stats snapshot listener:', err);
-        });
-
-      } catch (err) {
-        console.error('Firestore subscription error:', err);
-        setLoading(false);
-      }
-    }
-
-    initAndSubscribe();
+    listeners.add(handleUpdate);
 
     return () => {
-      clearTimeout(timer);
-      if (unsubscribeSongs) unsubscribeSongs();
-      if (unsubscribeLyrics) unsubscribeLyrics();
-      if (unsubscribeFolders) unsubscribeFolders();
-      if (unsubscribePhotos) unsubscribePhotos();
-      if (unsubscribeShows) unsubscribeShows();
-      if (unsubscribeSlides) unsubscribeSlides();
-      if (unsubscribeTicker) unsubscribeTicker();
-      if (unsubscribeStats) unsubscribeStats();
+      listeners.delete(handleUpdate);
     };
   }, []);
 
-  return {
-    songs,
-    lyrics,
-    galleryFolders,
-    galleryPhotos,
-    shows,
-    heroSlides,
-    notifications,
-    globalStats,
-    loading
-  };
+  return storeState;
 }

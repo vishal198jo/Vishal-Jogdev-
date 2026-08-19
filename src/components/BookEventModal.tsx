@@ -36,17 +36,29 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+
+    const trimmedName = formData.name.trim().slice(0, 100);
+    const trimmedPhone = formData.phone.trim().slice(0, 30);
+    const trimmedEmail = formData.email.trim().slice(0, 100);
+    const trimmedCity = formData.city.trim().slice(0, 100);
+    const trimmedNotes = formData.notes.trim().slice(0, 1500);
+
+    if (trimmedName.length < 2 || trimmedPhone.length < 5) {
+      alert('कृपया आपले पूर्ण नाव आणि संपर्क क्रमांक प्रविष्ट करा.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await addDoc(collection(db, COLLECTIONS.INQUIRIES), {
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        eventType: formData.eventType,
-        eventDate: formData.eventDate,
-        city: formData.city,
-        budgetRange: formData.budgetRange,
-        notes: formData.notes,
+        name: trimmedName,
+        phone: trimmedPhone,
+        email: trimmedEmail || 'no-email-provided@domain.com',
+        eventType: (formData.eventType || 'Devotional Event').slice(0, 200),
+        eventDate: (formData.eventDate || '').slice(0, 100),
+        city: trimmedCity,
+        budgetRange: (formData.budgetRange || '').slice(0, 100),
+        notes: trimmedNotes,
         createdAt: new Date().toISOString(),
         status: 'new'
       });

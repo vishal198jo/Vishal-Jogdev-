@@ -21,14 +21,25 @@ export const ContactSection: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting) return;
+
+    const trimmedName = formData.name.trim().slice(0, 100);
+    const trimmedPhone = formData.phone.trim().slice(0, 30);
+    const trimmedCity = formData.city.trim().slice(0, 100);
+    const trimmedMessage = formData.message.trim().slice(0, 3000);
+
+    if (trimmedName.length < 2 || trimmedPhone.length < 5) {
+      alert('कृपया आपले नाव आणि फोन नंबर प्रविष्ट करा.');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await addDoc(collection(db, COLLECTIONS.INQUIRIES), {
-        name: formData.name,
-        email: '', // Not required as per request, keep empty string to match admin expectations safely
-        phone: formData.phone,
-        city: formData.city,
-        message: formData.message,
+        name: trimmedName,
+        email: 'direct-contact-inquiry@vishaljogdeo.com',
+        phone: trimmedPhone,
+        city: trimmedCity,
+        message: trimmedMessage,
         eventType: 'Website Contact Page Inquiry',
         createdAt: new Date().toISOString(),
         status: 'new'
