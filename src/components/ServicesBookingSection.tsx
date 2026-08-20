@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Music, Sparkles, Heart, PhoneCall, CalendarCheck } from 'lucide-react';
+import { Music, Flame, Heart, PhoneCall, CalendarCheck } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export const ServicesBookingSection: React.FC = () => {
@@ -40,7 +40,7 @@ export const ServicesBookingSection: React.FC = () => {
       title: 'विशाल भगवती जागरण 🌺',
       badge: 'Devi Jagran Group',
       subTitle: 'जसगायक- विशाल जोगदेव (T-Series Playback Singer)',
-      icon: <Sparkles className="w-6 h-6 text-orange-400" />,
+      icon: <Flame className="w-6 h-6 text-orange-400" />,
       description: 'संपूर्ण मध्यभारत में धूम मचानेवाला कलाकारो का संच, साथ ही साईबाबा, भोलेबाबा, काली मां, राधा कृष्ण ऐसी असंख्य नयनरम्य झांकीयो से सजा मध्यभारत का सुप्रसिद्ध जागरण ग्रुप…',
       whatsappText: 'नमस्कार, मला विशाल भगवती जागरण कार्यक्रमाच्या बुकिंगबद्दल माहिती हवी आहे.',
       phoneText: 'Contact For Devi Jagran',

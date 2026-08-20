@@ -50,22 +50,65 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
 
     setIsSubmitting(true);
     try {
-      await addDoc(collection(db, COLLECTIONS.INQUIRIES), {
+      const inquiryPayload = {
         name: trimmedName,
         phone: trimmedPhone,
-        email: trimmedEmail || 'no-email-provided@domain.com',
+        email: trimmedEmail || 'direct-booking@vishaljogdeo.com',
         eventType: (formData.eventType || 'Devotional Event').slice(0, 200),
         eventDate: (formData.eventDate || '').slice(0, 100),
-        city: trimmedCity,
+        city: trimmedCity || 'Not Specified',
         budgetRange: (formData.budgetRange || '').slice(0, 100),
         notes: trimmedNotes,
+        message: `${formData.eventType ? `Event: ${formData.eventType}. ` : ''}${formData.eventDate ? `Date: ${formData.eventDate}. ` : ''}${trimmedNotes}`,
         createdAt: new Date().toISOString(),
         status: 'new'
-      });
+      };
+
+      await addDoc(collection(db, COLLECTIONS.INQUIRIES), inquiryPayload);
+
+      // Prepare WhatsApp text with clean emojis and booking details
+      const eventDetails = [
+        `🚩 *जय श्रीकृष्ण! नवीन कॉन्सर्ट व कार्यक्रम बुकिंग चौकशी* 🚩`,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `👤 *नाव (Name):* ${trimmedName}`,
+        `📞 *फोन नंबर (Phone):* ${trimmedPhone}`,
+        `📍 *शहर / ठिकाण (City):* ${trimmedCity}`,
+        formData.eventType ? `🎭 *प्रकार (Event Type):* ${formData.eventType}` : '',
+        formData.eventDate ? `📅 *दिनांक (Date):* ${formData.eventDate}` : '',
+        trimmedNotes ? `💬 *तपशील व संदेश (Message):*\n${trimmedNotes}` : '',
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `🌐 *Official Website:* https://vishaljogdeo.com`,
+        `🙏 *गायक विशाल जोगदेव (Vishal Jogdeo) अधिकृत व्यवस्थापन*`
+      ].filter(Boolean).join('\n');
+
+      const waUrl = `https://wa.me/917038086864?text=${encodeURIComponent(eventDetails)}`;
+      
+      const link = document.createElement('a');
+      link.href = waUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        if (document.body.contains(link)) {
+          document.body.removeChild(link);
+        }
+      }, 500);
+
       setSubmitted(true);
     } catch (error) {
       console.error('Error submitting booking inquiry:', error);
-      alert('Failed to submit booking request. Please try again or contact via WhatsApp.');
+      const fallbackText = [
+        `🚩 *नवीन बुकिंग चौकशी* 🚩`,
+        `👤 *नाव:* ${trimmedName}`,
+        `📞 *फोन:* ${trimmedPhone}`,
+        `📍 *शहर:* ${trimmedCity}`,
+        `💬 *तपशील:* ${trimmedNotes || formData.eventType}`,
+        `🌐 https://vishaljogdeo.com`
+      ].join('\n');
+      const waUrl = `https://wa.me/917038086864?text=${encodeURIComponent(fallbackText)}`;
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+      setSubmitted(true);
     } finally {
       setIsSubmitting(false);
     }

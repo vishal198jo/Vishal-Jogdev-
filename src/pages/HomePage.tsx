@@ -109,14 +109,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={() => navigate('/contact')}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-gold-gradient hover:opacity-95 text-black font-extrabold text-xs transition-all shadow-lg hover:scale-105 active:scale-95"
-              >
-                Book Event Show
-              </button>
-            </div>
+
           </motion.section>
 
         </div>

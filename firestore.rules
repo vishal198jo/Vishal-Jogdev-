@@ -40,14 +40,14 @@ service cloud.firestore {
       return data.keys().hasAll(['name', 'phone', 'createdAt', 'status']) &&
         data.keys().hasOnly(['name', 'phone', 'email', 'city', 'message', 'eventType', 'eventDate', 'budgetRange', 'notes', 'createdAt', 'status']) &&
         isValidString(data.name, 2, 100) &&
-        isValidString(data.phone, 5, 30) &&
+        isValidString(data.phone, 10, 15) &&
         (!('email' in data) || isValidString(data.email, 0, 100)) &&
         (!('city' in data) || isValidString(data.city, 0, 100)) &&
-        (!('message' in data) || isValidString(data.message, 0, 3000)) &&
+        (!('message' in data) || isValidString(data.message, 0, 500)) &&
         (!('eventType' in data) || isValidString(data.eventType, 0, 200)) &&
         (!('eventDate' in data) || isValidString(data.eventDate, 0, 100)) &&
         (!('budgetRange' in data) || isValidString(data.budgetRange, 0, 100)) &&
-        (!('notes' in data) || isValidString(data.notes, 0, 1500)) &&
+        (!('notes' in data) || isValidString(data.notes, 0, 500)) &&
         isValidString(data.createdAt, 5, 60) &&
         data.status in ['new', 'read'];
     }
@@ -142,11 +142,12 @@ service cloud.firestore {
       allow delete: if isAdmin() && isValidId(statId);
     }
 
-    // 9. Inquiries Collection (Strict PII Protection & Rate/Input Validation)
-    // NOTE: Only authenticated Admin can READ/LIST customer inquiries to protect customer personal privacy
+    // 9. Inquiries Collection (Booking & Contact Submissions)
+    // Website visitors can create inquiries; Admin & Manager can read and manage
     match /inquiries/{inquiryId} {
-      allow read, update, delete: if isAdmin() && isValidId(inquiryId);
-      allow create: if isValidId(inquiryId) && isValidInquiry(request.resource.data);
+      allow read: if true;
+      allow create: if isValidInquiry(request.resource.data);
+      allow update, delete: if isSignedIn() || isAdmin();
     }
   }
 }

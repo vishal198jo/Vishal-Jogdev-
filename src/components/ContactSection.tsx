@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, MapPin, Send, CheckCircle, Instagram, Facebook } from 'lucide-react';
+import { Mail, MapPin, Send, CheckCircle, Instagram, Facebook, Youtube, Phone } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
 import { db, COLLECTIONS } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
@@ -23,32 +23,95 @@ export const ContactSection: React.FC = () => {
     if (isSubmitting) return;
 
     const trimmedName = formData.name.trim().slice(0, 100);
-    const trimmedPhone = formData.phone.trim().slice(0, 30);
+    // Ensure 10 digits
+    const trimmedPhone = formData.phone.trim().replace(/\D/g, '').slice(0, 10);
     const trimmedCity = formData.city.trim().slice(0, 100);
-    const trimmedMessage = formData.message.trim().slice(0, 3000);
+    const trimmedMessage = formData.message.trim().slice(0, 500);
 
-    if (trimmedName.length < 2 || trimmedPhone.length < 5) {
-      alert('कृपया आपले नाव आणि फोन नंबर प्रविष्ट करा.');
+    if (trimmedName.length < 2) {
+      alert('Please enter your full name.');
+      return;
+    }
+    if (trimmedPhone.length !== 10) {
+      alert('Please enter a valid 10-digit contact number.');
+      return;
+    }
+    if (trimmedCity.length < 2) {
+      alert('Please enter your location.');
+      return;
+    }
+    if (trimmedMessage.length < 2 || trimmedMessage.length > 500) {
+      alert('Message must be between 2 and 500 characters.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      await addDoc(collection(db, COLLECTIONS.INQUIRIES), {
+      // 1. Prepare clean data payload for Admin Panel (Firestore)
+      const inquiryPayload = {
         name: trimmedName,
-        email: 'direct-contact-inquiry@vishaljogdeo.com',
         phone: trimmedPhone,
+        email: 'direct-contact-inquiry@vishaljogdeo.com',
         city: trimmedCity,
-        message: trimmedMessage,
         eventType: 'Website Contact Page Inquiry',
+        eventDate: '',
+        budgetRange: '',
+        message: trimmedMessage,
+        notes: trimmedMessage,
         createdAt: new Date().toISOString(),
         status: 'new'
-      });
+      };
+
+      // Save directly to Admin Panel database (Firestore inquiries collection)
+      await addDoc(collection(db, COLLECTIONS.INQUIRIES), inquiryPayload);
+
+      // 2. Prepare beautifully formatted WhatsApp message with Emojis & Official Website Link
+      const whatsappText = [
+        `🚩 *जय श्रीकृष्ण! नवीन बुकिंग / चौकशी संदेश* 🚩`,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `👤 *Name:* ${trimmedName}`,
+        `📍 *Location:* ${trimmedCity}`,
+        `📞 *Contact Number:* ${trimmedPhone}`,
+        `💬 *Message:*`,
+        `${trimmedMessage}`,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `🌐 *Official Website:* https://vishaljogdeo.com`,
+        `🙏 *Vishal Jogdeo Management Desk*`
+      ].join('\n');
+      
+      const whatsappUrl = `https://wa.me/917038086864?text=${encodeURIComponent(whatsappText)}`;
+
+      // 3. Open WhatsApp in new tab or app smoothly
+      const link = document.createElement('a');
+      link.href = whatsappUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        if (document.body.contains(link)) {
+          document.body.removeChild(link);
+        }
+      }, 500);
+
       setSubmitted(true);
       setFormData({ name: '', phone: '', city: '', message: '' });
     } catch (error) {
-      console.error('Error submitting inquiry:', error);
-      alert('Error submitting inquiry. Please try again or contact via WhatsApp/Call.');
+      console.error('Error submitting inquiry to Firestore:', error);
+      
+      // Fallback: Open WhatsApp directly so inquiry is never missed
+      const fallbackText = [
+        `🚩 *नवीन बुकिंग / चौकशी संदेश* 🚩`,
+        `👤 *Name:* ${trimmedName}`,
+        `📍 *Location:* ${trimmedCity}`,
+        `📞 *Contact:* ${trimmedPhone}`,
+        `💬 *Message:* ${trimmedMessage}`,
+        `🌐 https://vishaljogdeo.com`
+      ].join('\n');
+      
+      const fallbackUrl = `https://wa.me/917038086864?text=${encodeURIComponent(fallbackText)}`;
+      window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+      setSubmitted(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -56,7 +119,7 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section id="contact" className="py-12 bg-[#0b0b0e] text-stone-100 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Header */}
         <motion.div 
@@ -64,7 +127,7 @@ export const ContactSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-10 space-y-3 border-b border-stone-800 pb-6"
+          className="text-center max-w-3xl mx-auto space-y-3 border-b border-stone-800 pb-6"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
             <Mail className="w-3.5 h-3.5 text-amber-400" />
@@ -74,17 +137,133 @@ export const ContactSection: React.FC = () => {
             Get in <span className="font-serif italic text-gold-gradient font-normal">Touch</span>
           </h2>
           <p className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto font-sans">
-            लाइव्ह शो, महानुभाव पंथीय भजनसंध्या व स्टुडिओ रेकॉर्डिंगसाठी खालील माहितीनुसार थेट संपर्क साधा.
+            लाईव्ह शो, महानुभाव पंथीय भजनसंध्या व स्टुडिओ रेकॉर्डिंगसाठी खालील फॉर्म भरून थेट संपर्क साधा.
           </p>
         </motion.div>
 
-        {/* POINT-TO-POINT BOOKING SERVICES HIGHLIGHT BOX */}
+        {/* 1. SUBSE PAHLE: INQUIRY FORM */}
+        <motion.div 
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-4xl mx-auto bg-[#121218] p-6 sm:p-10 rounded-3xl border border-amber-500/30 shadow-2xl relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+
+          {submitted ? (
+            <div className="p-8 text-center space-y-4 my-4 animate-in zoom-in duration-300">
+              <div className="w-14 h-14 mx-auto bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 rounded-full flex items-center justify-center shadow-lg shadow-emerald-950/50">
+                <CheckCircle className="w-7 h-7" />
+              </div>
+              <h3 className="text-2xl font-bold font-heading text-white">Inquiry Sent Successfully!</h3>
+              <p className="text-stone-300 text-sm sm:text-base font-sans max-w-md mx-auto leading-relaxed">
+                आपली चौकशी यशस्वीरित्या पाठवली गेली आहे. विशाल जोगदेव यांची मॅनेजमेंट टीम लवकरच आपल्याशी संपर्क साधेल.
+              </p>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="px-6 py-2.5 bg-gold-gradient text-black font-extrabold text-xs rounded-full hover:opacity-95 shadow-md transition-all"
+              >
+                Submit Another Inquiry
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              
+              {/* Form Title & Description as requested */}
+              <div className="border-b border-stone-800 pb-4 mb-2">
+                <h3 className="text-xl sm:text-2xl font-bold text-white font-heading tracking-wide">
+                  Send Booking & Inquiry Message to Vishal Jogdeo
+                </h3>
+                <p className="text-xs text-stone-300 font-sans mt-1">
+                  तुमची माहिती भरा आणि तुमचा Booking किंवा Inquiry संदेश थेट Vishal Jogdeo यांच्यापर्यंत पाठवा.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Enter your full name"
+                    className="w-full px-4 py-3 bg-stone-900/90 border border-stone-800 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                    Contact Number (10 digits) *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    maxLength={10}
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                    placeholder="Enter 10-digit mobile number"
+                    className="w-full px-4 py-3 bg-stone-900/90 border border-stone-800 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                  Location *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  placeholder="Enter your city / location"
+                  className="w-full px-4 py-3 bg-stone-900/90 border border-stone-800 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-300">
+                    Message *
+                  </label>
+                  <span className={`text-[11px] font-mono ${formData.message.length > 450 ? 'text-amber-400' : 'text-stone-400'}`}>
+                    {formData.message.length}/500 chars
+                  </span>
+                </div>
+                <textarea
+                  rows={4}
+                  required
+                  maxLength={500}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value.slice(0, 500) })}
+                  placeholder="Enter your booking details or inquiry message (max 500 characters)..."
+                  className="w-full px-4 py-3 bg-stone-900/90 border border-stone-800 rounded-xl text-white text-xs sm:text-sm focus:outline-none focus:border-amber-400 transition-colors leading-relaxed"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-4 bg-gold-gradient text-black font-extrabold text-sm rounded-full hover:opacity-95 disabled:opacity-50 shadow-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <Send className="w-4 h-4 text-black animate-pulse" />
+                <span>{isSubmitting ? 'Submitting...' : 'Submit Now'}</span>
+              </button>
+            </form>
+          )}
+        </motion.div>
+
+        {/* 2. FIR: BHAJAN SANDHYA & SHOW BOOKING SERVICES */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-10 bg-[#121218] border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+          className="bg-[#121218] border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-stone-800 pb-4 mb-6 gap-3">
             <div>
@@ -99,7 +278,7 @@ export const ContactSection: React.FC = () => {
               href="https://wa.me/917038086864?text=नमस्कार,%20मला%20भजनसंध्या%20आणि%20शो%20बुकिंगबद्दल%20माहिती%20हवी%20आहे."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition-all"
             >
               <WhatsAppIcon className="w-4 h-4" />
               <span>WhatsApp Direct Message</span>
@@ -203,222 +382,143 @@ export const ContactSection: React.FC = () => {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          
-          {/* Left Info Column */}
-          <motion.div 
-            initial={{ opacity: 0, x: -25 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-5 space-y-8 bg-[#121218] p-6 sm:p-8 rounded-3xl border border-stone-800 shadow-xl"
-          >
-            <div className="space-y-6 text-xs sm:text-sm text-stone-300">
-              
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-xs text-stone-400 font-medium">Official Email</p>
-                  <a href={`mailto:${SINGER_PROFILE.contact.email}`} className="text-white font-bold hover:text-amber-300 transition-colors">
-                    {SINGER_PROFILE.contact.email}
-                  </a>
-                </div>
+        {/* 3. USKE NICHE: E-MAIL, WHATSAPP, PHONE & SOCIAL MEDIA PLATFORMS */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-[#121218] p-6 sm:p-8 rounded-3xl border border-stone-800 shadow-xl space-y-8"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-stone-300 pb-8 border-b border-stone-800">
+            
+            {/* Email */}
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-stone-900/60 border border-stone-800/80 hover:border-amber-500/40 transition-colors">
+              <div className="w-11 h-11 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
+                <Mail className="w-5 h-5" />
               </div>
+              <div className="space-y-1">
+                <p className="text-xs text-stone-400 font-medium uppercase tracking-wider">Official Email</p>
+                <a href={`mailto:${SINGER_PROFILE.contact.email}`} className="text-white font-bold text-sm hover:text-amber-300 transition-colors break-all">
+                  {SINGER_PROFILE.contact.email}
+                </a>
+              </div>
+            </div>
 
-              <div className="flex items-start gap-4">
+            {/* Helpline / WhatsApp */}
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-stone-900/60 border border-emerald-500/20 hover:border-emerald-500/40 transition-colors">
+              <a 
+                href="https://wa.me/917038086864" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-11 h-11 bg-stone-900 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-emerald-400 hover:bg-emerald-500/10 transition-colors shrink-0"
+              >
+                <WhatsAppIcon className="w-6 h-6 text-emerald-400" />
+              </a>
+              <div className="space-y-1">
+                <p className="text-xs text-stone-400 font-medium uppercase tracking-wider">Management & WhatsApp</p>
                 <a 
                   href="https://wa.me/917038086864" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-stone-900 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-emerald-400 hover:bg-emerald-500/10 transition-colors shrink-0"
+                  className="text-white font-bold text-sm hover:text-emerald-400 transition-colors flex items-center gap-2"
                 >
-                  <WhatsAppIcon className="w-5 h-5 text-emerald-400" />
-                </a>
-                <div>
-                  <p className="text-xs text-stone-400 font-medium">Management Helpline</p>
-                  <a 
-                    href="https://wa.me/917038086864" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-white font-bold hover:text-emerald-400 transition-colors flex items-center gap-1"
-                  >
-                    {SINGER_PROFILE.contact.phone}
-                    <span className="text-[10px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20">WhatsApp</span>
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-xs text-stone-400 font-medium">Studio & Office Address</p>
-                  <p className="text-stone-300 font-sans">
-                    {SINGER_PROFILE.contact.officeAddress}
-                  </p>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Social Media Links */}
-            <div className="pt-4 border-t border-stone-800 space-y-3">
-              <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest font-sans">
-                Social Contacts
-              </p>
-              <div className="flex items-center gap-4">
-                <a 
-                  href="https://wa.me/917038086864" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-emerald-400 hover:text-white hover:bg-emerald-500 transition-all duration-300"
-                  title="WhatsApp"
-                >
-                  <WhatsAppIcon className="w-5 h-5" />
-                </a>
-                <a 
-                  href={SINGER_PROFILE.contact.socials.instagram} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-pink-400 hover:text-white hover:bg-pink-500 transition-all duration-300"
-                  title="Instagram"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a 
-                  href={SINGER_PROFILE.contact.socials.facebook} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-600 transition-all duration-300"
-                  title="Facebook"
-                >
-                  <Facebook className="w-5 h-5" />
-                </a>
-                <a 
-                  href={SINGER_PROFILE.contact.socials.spotify} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 rounded-full bg-stone-900 border border-stone-800 flex items-center justify-center text-emerald-400 hover:text-white hover:bg-emerald-500 transition-all duration-300"
-                  title="Spotify"
-                >
-                  <SpotifyIcon className="w-5 h-5" />
+                  {SINGER_PROFILE.contact.phone}
+                  <span className="text-[10px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">WhatsApp</span>
                 </a>
               </div>
             </div>
 
-          </motion.div>
-
-          {/* Right Form Column */}
-          <motion.div 
-            initial={{ opacity: 0, x: 25 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-7 bg-[#121218] p-6 sm:p-8 rounded-3xl border border-stone-800 shadow-xl"
-          >
-            {submitted ? (
-              <div className="p-8 text-center space-y-4 my-4 animate-in zoom-in duration-300">
-                <div className="w-12 h-12 mx-auto bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold font-heading text-white">Inquiry Sent Successfully!</h3>
-                <p className="text-stone-300 text-xs sm:text-sm font-sans max-w-md mx-auto">
-                  Thank you for reaching out. Vishal Jogdeo's official management team will review your details and contact you shortly.
+            {/* Studio / Office Address */}
+            <div className="flex items-start gap-4 p-4 rounded-2xl bg-stone-900/60 border border-stone-800/80 hover:border-amber-500/40 transition-colors">
+              <div className="w-11 h-11 bg-stone-900 border border-amber-500/30 rounded-2xl flex items-center justify-center text-amber-400 shrink-0">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs text-stone-400 font-medium uppercase tracking-wider">Studio & Office Address</p>
+                <p className="text-white font-bold text-sm font-sans">
+                  {SINGER_PROFILE.contact.officeAddress}
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-6 py-2.5 bg-gold-gradient text-black font-extrabold text-xs rounded-full"
-                >
-                  Send Another Inquiry
-                </button>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                
-                {/* Form Title */}
-                <div className="border-b border-stone-800 pb-3 mb-2">
-                  <h3 className="text-lg font-bold text-white font-heading tracking-wide">
-                    Send Booking & Inquiry Massage Vishal Jogdeo
-                  </h3>
-                  <p className="text-[11px] text-stone-400 font-sans mt-0.5">
-                    Please fill out the details below to reach our official booking desk.
-                  </p>
-                </div>
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-300 mb-1">
-                      Your Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Your Full Name (e.g. Rajesh Sharma)"
-                      className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
-                    />
-                  </div>
+          </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-stone-300 mb-1">
-                      Location / City *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      placeholder="e.g. Nagpur / Mumbai"
-                      className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
-                    />
-                  </div>
-                </div>
+          {/* Social Media Platform Icons Bar */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-2">
+            <div>
+              <h4 className="text-base font-bold text-white font-heading flex items-center gap-2">
+                <span>Follow & Connect on Official Social Media</span>
+              </h4>
+              <p className="text-xs text-stone-400 mt-0.5">
+                विशाल जोगदेव यांच्या अधिकृत सोशल मीडिया प्लॅटफॉर्म्सवर नवीन भजने व लाईव्ह अपडेट्ससाठी कनेक्ट व्हा:
+              </p>
+            </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1">
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="e.g. +91 70380 86864"
-                    className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400 transition-colors"
-                  />
-                </div>
+            <div className="flex flex-wrap items-center gap-3">
+              {/* WhatsApp */}
+              <a 
+                href="https://wa.me/917038086864" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 hover:text-white hover:bg-emerald-600 transition-all duration-300 text-xs font-bold shadow-md"
+                title="WhatsApp Direct Contact"
+              >
+                <WhatsAppIcon className="w-4 h-4" />
+                <span>WhatsApp</span>
+              </a>
 
-                <div>
-                  <label className="block text-xs font-semibold text-stone-300 mb-1">
-                    Your Message / Requirements *
-                  </label>
-                  <textarea
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Booking inquiry for devotional concert (Abhanga Sandhya) in Nagpur on Nov 2026..."
-                    className="w-full px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-white text-xs focus:outline-none focus:border-amber-400 transition-colors leading-relaxed"
-                  />
-                </div>
+              {/* YouTube */}
+              <a 
+                href={SINGER_PROFILE.contact.socials.youtube} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-red-950/60 border border-red-500/40 text-red-400 hover:text-white hover:bg-red-600 transition-all duration-300 text-xs font-bold shadow-md"
+                title="YouTube Channel"
+              >
+                <Youtube className="w-4 h-4" />
+                <span>YouTube</span>
+              </a>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3.5 bg-gold-gradient text-black font-extrabold text-xs rounded-full hover:opacity-95 disabled:opacity-50 shadow-lg flex items-center justify-center gap-2 transition-all"
-                >
-                  <Send className="w-4 h-4 text-black animate-pulse" />
-                  <span>{isSubmitting ? 'Sending Inquiry...' : 'Send Booking Message'}</span>
-                </button>
-              </form>
-            )}
-          </motion.div>
+              {/* Instagram */}
+              <a 
+                href={SINGER_PROFILE.contact.socials.instagram} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-pink-950/60 border border-pink-500/40 text-pink-400 hover:text-white hover:bg-pink-600 transition-all duration-300 text-xs font-bold shadow-md"
+                title="Instagram Profile"
+              >
+                <Instagram className="w-4 h-4" />
+                <span>Instagram</span>
+              </a>
 
-        </div>
+              {/* Facebook */}
+              <a 
+                href={SINGER_PROFILE.contact.socials.facebook} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-blue-950/60 border border-blue-500/40 text-blue-400 hover:text-white hover:bg-blue-600 transition-all duration-300 text-xs font-bold shadow-md"
+                title="Facebook Page"
+              >
+                <Facebook className="w-4 h-4" />
+                <span>Facebook</span>
+              </a>
+
+              {/* Spotify */}
+              <a 
+                href={SINGER_PROFILE.contact.socials.spotify} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 hover:text-white hover:bg-emerald-600 transition-all duration-300 text-xs font-bold shadow-md"
+                title="Spotify Artist Profile"
+              >
+                <SpotifyIcon className="w-4 h-4" />
+                <span>Spotify</span>
+              </a>
+            </div>
+          </div>
+
+        </motion.div>
 
       </div>
     </section>

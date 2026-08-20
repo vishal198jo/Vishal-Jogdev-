@@ -16,11 +16,11 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
     "mainEntity": {
       "@type": "Person",
       "name": "Vishal Jogdeo",
-      "telephone": "+91-9822606555",
-      "email": "vishaljogdeoweb@gmail.com",
+      "telephone": "+91-7038086864",
+      "email": "vishaljogdeo22@gmail.com",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Pune / Chhatrapati Sambhajinagar",
+        "addressLocality": "Nagpur",
         "addressRegion": "Maharashtra",
         "addressCountry": "IN"
       }

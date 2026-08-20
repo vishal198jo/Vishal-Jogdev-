@@ -54,7 +54,6 @@ const SingleLyricPage = lazyWithRetry(() => import('./pages/SingleLyricPage'), '
 const GalleryPage = lazyWithRetry(() => import('./pages/GalleryPage'), 'GalleryPage');
 const ShowsPage = lazyWithRetry(() => import('./pages/ShowsPage'), 'ShowsPage');
 const ContactPage = lazyWithRetry(() => import('./pages/ContactPage'), 'ContactPage');
-const AdminPage = lazyWithRetry(() => import('./pages/AdminPage'), 'AdminPage');
 const PrivacyPolicyPage = lazyWithRetry(() => import('./pages/PrivacyPolicyPage'), 'PrivacyPolicyPage');
 const TermsPage = lazyWithRetry(() => import('./pages/TermsPage'), 'TermsPage');
 
@@ -218,9 +217,6 @@ export default function App() {
                   />
                 } 
               />
-
-              {/* Admin Panel Route */}
-              <Route path="/admin" element={<AdminPage />} />
 
               {/* Legal Pages */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
