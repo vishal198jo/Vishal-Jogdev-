@@ -151,9 +151,9 @@ export const SongsPage: React.FC<SongsPageProps> = ({
   return (
     <>
       <SEO 
-        title="Vishal Jogdeo Devotional Songs & Audio Collection | Official Music Player" 
-        description="Listen to all popular Vishal Jogdeo songs, devotional MP3 tracks, Marathi Abhangas, Mahanubhav Panth Bhajans, and classical audio compositions performed by Vishal Jogdeo (Vishal Jogdev)." 
-        keywords="Vishal Jogdeo Song, Vishal Jogdeo music, Vishal Jogdeo Songs, Vishal Jogdeo Devotional Music, Vishal Jogdeo Audio Tracks, Vishal Jogdeo Spotify, Vishal Jogdeo MP3, Vishal Jogdeo Bhajan, Vishal Jogdev, Abhanga MP3" 
+        title="Vishal Jogdeo Devotional Songs & Audio Tracks | Official Music Catalog" 
+        description="Listen to all popular Vishal Jogdeo songs, devotional MP3 tracks, Marathi Abhangas, Krishna Bhajans, and Mahanubhav Panth audio compositions by Vishal Jogdeo (Vishal Jogdev)." 
+        keywords="Vishal Jogdeo Song, Vishal Jogdeo Songs, Vishal Jogdeo music, Vishal Jogdeo Devotional Music, Vishal Jogdeo Audio Tracks, Vishal Jogdeo Spotify, Vishal Jogdeo MP3, Vishal Jogdeo Bhajan, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव गाणी, भजन एमपी३" 
         url="/songs"
         schema={playlistSchema}
       />
@@ -162,10 +162,10 @@ export const SongsPage: React.FC<SongsPageProps> = ({
         <div className="bg-[#121218] border-b border-amber-500/20 py-10 sm:py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
-              Devotional <span className="font-serif italic text-gold-gradient font-normal">Songs Catalog</span>
+              Vishal Jogdeo <span className="font-serif italic text-gold-gradient font-normal">Devotional Songs Catalog</span>
             </h1>
             <p className="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-sans leading-relaxed">
-              Listen to complete devotional tracks performed by <strong>Vishal Jogdeo</strong> on Spotify and YouTube Music.
+              विशाल जोगदेव यांनी गायलेली १५००+ सुप्रसिद्ध भक्तीगीते, अभंग, आरत्या व भजनांचा अधिकृत ऑडिओ संग्रह.
             </p>
             <div className="flex flex-wrap justify-center items-center gap-3 pt-2">
               <a 

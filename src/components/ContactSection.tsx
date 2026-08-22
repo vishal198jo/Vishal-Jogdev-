@@ -133,9 +133,9 @@ export const ContactSection: React.FC = () => {
             <Mail className="w-3.5 h-3.5 text-amber-400" />
             <span>भजनसंध्या व शो बुकिंग - थेट संपर्क</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
-            Get in <span className="font-serif italic text-gold-gradient font-normal">Touch</span>
-          </h2>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
+            Contact & Book <span className="font-serif italic text-gold-gradient font-normal">Vishal Jogdeo</span>
+          </h1>
           <p className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto font-sans">
             लाईव्ह शो, महानुभाव पंथीय भजनसंध्या व स्टुडिओ रेकॉर्डिंगसाठी खालील फॉर्म भरून थेट संपर्क साधा.
           </p>

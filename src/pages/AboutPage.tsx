@@ -27,9 +27,9 @@ export const AboutPage: React.FC = () => {
   return (
     <>
       <SEO 
-        title="Vishal Jogdeo Lifestyle & Biography | Official Profile & Musical Journey" 
-        description="Discover Vishal Jogdeo (Vishal Jogdev) lifestyle, age, musical journey, family, and 25-year career as a renowned devotional playback singer and Mahanubhav Panth Bhajan Samrat." 
-        keywords="Vishal Jogdeo Lifestyle, Vishal Jogdeo Biography, Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Age, Vishal Jogdeo Family, Vishal Jogdeo Musical Journey, Vishal Jogdeo Photos, महानुभाव पंथ भजनसम्राट, विशाल जोगदेव जीवनपट" 
+        title="Vishal Jogdeo Lifestyle & Biography | Official Profile & Musical Career" 
+        description="Discover Vishal Jogdeo (Vishal Jogdev) lifestyle, age, musical career, family, wife, son, early life, and 25-year journey as Mahanubhav Panth Bhajan Samrat & devotional playback singer." 
+        keywords="Vishal Jogdeo Lifestyle, Vishal Jogdeo About, Vishal Jogdeo Biography, Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Age, Vishal Jogdeo Family, Vishal Jogdeo Wife, Vishal Jogdeo Son, Vishal Jogdeo Musical Journey, Vishal Jogdeo Photos, महानुभाव पंथ भजनसम्राट, विशाल जोगदेव जीवनपट, विशाल जोगदेव" 
         url="/about"
         schema={aboutPersonSchema}
       />
@@ -47,10 +47,10 @@ export const AboutPage: React.FC = () => {
             <span>Official Biography & Profile</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
-            About Vishal Jogdeo
+            Vishal Jogdeo – Lifestyle & Biography
           </h1>
           <p className="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto font-sans">
-            महाराष्ट्रातील सुप्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट विशाल जोगदेव यांचा संगीत प्रवास.
+            महाराष्ट्रातील सुप्रसिद्ध भक्तीगीत गायक व महानुभाव पंथ भजनसम्राट विशाल जोगदेव यांचा जीवनपट व सांगीतिक प्रवास.
           </p>
         </div>
       </motion.div>

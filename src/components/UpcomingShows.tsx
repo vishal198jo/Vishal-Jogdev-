@@ -88,13 +88,13 @@ export const UpcomingShows: React.FC<UpcomingShowsProps> = ({ shows, loading = f
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest shadow-sm">
             <Calendar className="w-3.5 h-3.5 text-amber-400" />
-            <span>Upcoming Concerts</span>
+            <span>Official Concert Schedule</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold font-heading text-white">
-            Upcoming <span className="font-serif italic text-gold-gradient font-normal">Shows</span>
-          </h2>
+          <h1 className="text-3xl sm:text-5xl font-extrabold font-heading text-white">
+            Vishal Jogdeo <span className="font-serif italic text-gold-gradient font-normal">Upcoming Live Shows</span>
+          </h1>
           <p className="text-stone-300 text-sm sm:text-base font-sans leading-relaxed">
-            Discover upcoming Abhang sandhya concerts, devotional events, and Wedding shows.
+            विशाल जोगदेव यांचे आगामी भक्ती संगीत महोत्सव, अभंग संध्या व लाईव्ह कॉन्सर्ट वेळापत्रक.
           </p>
         </div>
 

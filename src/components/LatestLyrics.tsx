@@ -56,9 +56,9 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
         {/* 1. Header: Devotional Lyrics Library */}
         {!hideHeader && (
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
-              Devotional Lyrics Library By Vishal Jogdeo
-            </h2>
+            <h1 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
+              Vishal Jogdeo <span className="font-serif italic text-gold-gradient font-normal">Devotional Lyrics Library</span>
+            </h1>
             <p className="text-xs sm:text-sm text-amber-200/80 font-sans">
               महानुभाव पंथ भजनसम्राट व सुप्रसिद्ध भक्तीगीत गायक विशाल जोगदेव यांच्या लोकप्रिय अभंग, भजने आणि भावगीतांचे अधिकृत शब्दसंग्रह.
             </p>
