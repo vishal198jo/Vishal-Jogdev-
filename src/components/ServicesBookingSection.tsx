@@ -10,11 +10,11 @@ export const ServicesBookingSection: React.FC = () => {
   const services = [
     {
       id: 'wedding-sangeet',
-      title: 'सुगम संगीत एवं लग्न गीते 💕',
+      title: 'सुगम संगीत एवं लग्न गीते',
       badge: 'Wedding & Live Show',
       icon: <Heart className="w-6 h-6 text-rose-400" />,
       description: 'महाराष्ट्राचे सुप्रसिद्ध गायक विशाल जोगदेव यांची महानुभाव पंथीय गाजलेली भजने, लग्न गीते, तसेच महानुभाव पंथीय मंगलाष्टकांसोबत हिंदी मराठी फिल्मी गाण्यांच्या कार्यक्रमाचा एक अनोखा संगम.',
-      specialNote: '✨ आपल्याकडील लग्न समारंभात आम्हाला नक्की बोलवा',
+      specialNote: 'आपल्याकडील लग्न समारंभात आम्हाला नक्की बोलवा',
       whatsappText: 'नमस्कार, मला सुगम संगीत एवं लग्न गीते शो बुकिंगबद्दल माहिती हवी आहे.',
       phoneText: 'Contact for All Type Live & Wedding Show',
       phones: [primaryPhone],
@@ -24,7 +24,8 @@ export const ServicesBookingSection: React.FC = () => {
     },
     {
       id: 'bhajan-sandhya',
-      title: 'श्री चक्रधर भक्तीधारा (महानुभाव पंथ भजनसंध्या) 🌸',
+      title: 'श्री चक्रधर भक्तीधारा',
+      subTitle: '(महानुभाव पंथ भजनसंध्या)',
       badge: 'महानुभाव पंथ भजनसंध्या',
       icon: <Music className="w-6 h-6 text-amber-400" />,
       description: 'महानुभाव पंथाचे सुप्रसिद्ध व लाडके, भजनसम्राट श्री विशाल जोगदेव यांचा सुमधुर आवाज, उत्कृष्ट वाद्यवृंद आणि श्रीकृष्ण, सुदामा, मिरा तथा अनेक नयनरम्य सजीव झाक्यानी सजलेला व महाराष्ट्रात गाजलेला एक दर्जेदार कार्यक्रम.',
@@ -37,7 +38,7 @@ export const ServicesBookingSection: React.FC = () => {
     },
     {
       id: 'devi-jagran',
-      title: 'विशाल भगवती जागरण 🌺',
+      title: 'विशाल भगवती जागरण',
       badge: 'Devi Jagran Group',
       subTitle: 'जसगायक- विशाल जोगदेव (T-Series Playback Singer)',
       icon: <Flame className="w-6 h-6 text-orange-400" />,

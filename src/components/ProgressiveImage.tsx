@@ -41,8 +41,8 @@ export const ProgressiveImage: React.FC<ProgressiveImageProps> = ({
           setHasError(true);
           setIsLoaded(true);
         }}
-        className={`w-full h-full object-cover transition-all duration-500 ease-out select-none pointer-events-none ${
-          isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-105'
+        className={`w-full h-full object-cover transition-opacity duration-300 ease-out select-none pointer-events-none transform-gpu ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         {...props}
       />

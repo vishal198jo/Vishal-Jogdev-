@@ -65,25 +65,26 @@ export const VishalGalleryPreview: React.FC = () => {
       </div>
 
       {/* SQUARE PHOTOS GRID (7-8 PHOTOS) - CLICKS GO DIRECTLY TO /gallery */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 transform-gpu">
         {displayPhotos.map((photo, idx) => (
           <motion.div
             key={photo.id || idx}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: idx * 0.03 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "50px" }}
+            transition={{ duration: 0.25, delay: Math.min(idx * 0.03, 0.2) }}
             onClick={handlePhotoClick}
-            className="group cursor-pointer relative aspect-square rounded-2xl overflow-hidden bg-[#121218] border border-stone-800 hover:border-amber-400/80 shadow-lg hover:shadow-amber-500/20 transition-all duration-300"
+            className="group cursor-pointer relative aspect-square rounded-2xl overflow-hidden bg-[#121218] border border-stone-800 hover:border-amber-400/80 shadow-lg hover:shadow-amber-500/20 transition-all duration-300 transform-gpu will-change-transform"
+            style={{ contentVisibility: 'auto', containIntrinsicSize: '200px 200px' }}
           >
             <ProgressiveImage
               src={photo.imageUrl}
               alt={photo.title}
-              thumbnailWidth={400}
-              className="w-full h-full group-hover:scale-108 transition-transform duration-500"
+              thumbnailWidth={350}
+              className="w-full h-full group-hover:scale-105 transition-transform duration-300"
             />
             {/* Subtle Hover Overlay */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
               <span className="px-3 py-1.5 rounded-full bg-amber-500 text-black text-[11px] font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
                 Open Gallery
               </span>

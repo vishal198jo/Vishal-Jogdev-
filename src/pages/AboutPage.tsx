@@ -2,8 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { AboutSection } from '../components/AboutSection';
 import { StatsSection } from '../components/StatsSection';
-import { TestimonialsSection } from '../components/TestimonialsSection';
-import { Award, Music, Heart, Globe, BookOpen, Sparkles, Mic, Trophy } from 'lucide-react';
+import { Award, BookOpen, Mic, Trophy } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
 import { SEO } from '../components/SEO';
 
@@ -114,9 +113,6 @@ export const AboutPage: React.FC = () => {
           </div>
         </motion.div>
       </section>
-
-      {/* Testimonials */}
-      <TestimonialsSection />
     </div>
   </>
   );

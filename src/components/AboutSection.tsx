@@ -51,7 +51,8 @@ export const AboutSection: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white">विदर्भातील पहिला Silver Button Winner</p>
-                  <p className="text-[11px] text-amber-200/70">YouTube Silver Play Button (By Nitin Gadkari)</p>
+                  <p className="text-[12px] font-semibold text-amber-300">YouTube Silver Play Button</p>
+                  <p className="text-[11px] text-stone-400 font-medium">(By Nitin Gadkari)</p>
                 </div>
               </div>
             </div>
@@ -73,7 +74,10 @@ export const AboutSection: React.FC = () => {
               </div>
 
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-heading text-white leading-tight">
-                विशाल जोगदेव (महानुभाव पंथ भजनसम्राट)
+                विशाल जोगदेव
+                <span className="block text-base sm:text-xl lg:text-2xl font-normal text-amber-300 mt-1 sm:mt-1.5">
+                  (महानुभाव पंथ भजनसम्राट)
+                </span>
               </h2>
               
               {/* EXACT USER REQUESTED HOME PAGE TEXT */}
@@ -257,8 +261,11 @@ export const AboutSection: React.FC = () => {
                   <Calendar className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white font-heading">प्रारंभिक जीवन (Early Life)</h4>
-                  <p className="text-[11px] text-amber-300/80 font-medium">जन्म, बालपण आणि संगीताची सुरुवात</p>
+                  <h4 className="text-lg font-bold text-white font-heading leading-tight">
+                    प्रारंभिक जीवन
+                    <span className="block text-xs text-stone-400 font-normal mt-0.5">(Early Life)</span>
+                  </h4>
+                  <p className="text-[11px] text-amber-300/80 font-medium mt-1">जन्म, बालपण आणि संगीताची सुरुवात</p>
                 </div>
               </div>
 
@@ -288,8 +295,11 @@ export const AboutSection: React.FC = () => {
                   <Mic className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white font-heading">संगीत कारकीर्द (Musical Career)</h4>
-                  <p className="text-[11px] text-amber-300/80 font-medium">१५००+ भक्तीगीते व ५००+ महानुभाव भजने</p>
+                  <h4 className="text-lg font-bold text-white font-heading leading-tight">
+                    संगीत कारकीर्द
+                    <span className="block text-xs text-stone-400 font-normal mt-0.5">(Musical Career)</span>
+                  </h4>
+                  <p className="text-[11px] text-amber-300/80 font-medium mt-1">१५००+ भक्तीगीते व ५००+ महानुभाव भजने</p>
                 </div>
               </div>
 
@@ -322,8 +332,11 @@ export const AboutSection: React.FC = () => {
                   <Trophy className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white font-heading">प्रमुख सन्मान व अनावरण (VIP Honors)</h4>
-                  <p className="text-[11px] text-amber-300/80 font-medium">केंद्रीय मंत्री व मुख्यमंत्र्यांच्या हस्ते विशेष गौरव</p>
+                  <h4 className="text-lg font-bold text-white font-heading leading-tight">
+                    प्रमुख सन्मान व अनावरण
+                    <span className="block text-xs text-stone-400 font-normal mt-0.5">(VIP Honors)</span>
+                  </h4>
+                  <p className="text-[11px] text-amber-300/80 font-medium mt-1">केंद्रीय मंत्री व मुख्यमंत्र्यांच्या हस्ते विशेष गौरव</p>
                 </div>
               </div>
 
@@ -356,8 +369,11 @@ export const AboutSection: React.FC = () => {
                   <User className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white font-heading">वैयक्तिक माहिती (Personal Details)</h4>
-                  <p className="text-[11px] text-amber-300/80 font-medium">कुटुंब, शिक्षण व जन्मस्थान</p>
+                  <h4 className="text-lg font-bold text-white font-heading leading-tight">
+                    वैयक्तिक माहिती
+                    <span className="block text-xs text-stone-400 font-normal mt-0.5">(Personal Details)</span>
+                  </h4>
+                  <p className="text-[11px] text-amber-300/80 font-medium mt-1">कुटुंब, शिक्षण व जन्मस्थान</p>
                 </div>
               </div>
 

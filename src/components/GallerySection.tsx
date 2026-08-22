@@ -326,28 +326,29 @@ export const GallerySection: React.FC = () => {
               <CardSkeleton />
             </div>
           ) : activeFolders.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 transform-gpu">
               {activeFolders.map((folder, idx) => (
               <motion.div
                 key={folder.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: idx * 0.05 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "50px" }}
+                transition={{ duration: 0.25, delay: Math.min(idx * 0.03, 0.2) }}
                 onClick={() => setSelectedFolderId(folder.id)}
-                className="group cursor-pointer flex flex-col items-center gap-2"
+                className="group cursor-pointer flex flex-col items-center gap-2 transform-gpu will-change-transform"
+                style={{ contentVisibility: 'auto', containIntrinsicSize: '180px 220px' }}
               >
                 <div className="w-full aspect-square overflow-hidden bg-[#121218] rounded-2xl border border-stone-800 hover:border-amber-500/50 relative shadow-lg hover:shadow-amber-500/10 transition-all">
                   <ProgressiveImage
                     src={folder.coverImage}
                     alt={folder.name}
-                    thumbnailWidth={400}
-                    className="w-full h-full group-hover:scale-105 transition-transform duration-500"
+                    thumbnailWidth={350}
+                    className="w-full h-full group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 pointer-events-none" />
                   
                   {/* Folder Icon & Count Badge */}
-                  <div className="absolute bottom-2 left-2 bg-black/40 border border-white/20 text-xs font-bold text-amber-300 px-2.5 py-0.5 rounded-lg backdrop-blur-md flex items-center gap-1.5 shadow-md">
+                  <div className="absolute bottom-2 left-2 bg-black/50 border border-white/20 text-xs font-bold text-amber-300 px-2.5 py-0.5 rounded-lg backdrop-blur-sm flex items-center gap-1.5 shadow-md pointer-events-none">
                     <Folder className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20" />
                     <span>{folder.count}</span>
                   </div>
@@ -369,15 +370,16 @@ export const GallerySection: React.FC = () => {
 
         {/* Media Items Grid (When inside a selected folder) */}
         {selectedFolderId && (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2 transform-gpu">
             {displayItems.map((item, idx) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: idx * 0.03 }}
+                transition={{ duration: 0.2, delay: Math.min(idx * 0.02, 0.15) }}
                 onClick={() => handleOpenItem(item, idx)}
-                className="cursor-pointer relative aspect-square bg-[#121218] rounded-xl overflow-hidden border border-stone-800 hover:border-amber-500/50 group flex flex-col items-center justify-center"
+                className="cursor-pointer relative aspect-square bg-[#121218] rounded-xl overflow-hidden border border-stone-800 hover:border-amber-500/50 group flex flex-col items-center justify-center transform-gpu will-change-transform"
+                style={{ contentVisibility: 'auto', containIntrinsicSize: '120px 120px' }}
               >
                 {item.type === 'video' ? (
                   <div className="w-full h-full bg-stone-950 flex flex-col items-center justify-center p-2 text-center relative group-hover:bg-stone-900 transition-colors">
@@ -385,12 +387,12 @@ export const GallerySection: React.FC = () => {
                       <ProgressiveImage
                         src={item.imageUrl}
                         alt={item.title}
-                        thumbnailWidth={350}
+                        thumbnailWidth={300}
                         className="w-full h-full object-cover group-hover:opacity-75 transition-opacity"
                       />
                     ) : null}
                     {/* Clean Centered Play Icon & Video Title */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-2 z-10">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-2 z-10 pointer-events-none">
                       <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gold-gradient flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
                         <Play className="w-4 h-4 sm:w-5 sm:h-5 text-black ml-0.5 fill-black" />
                       </div>
@@ -400,7 +402,7 @@ export const GallerySection: React.FC = () => {
                     </div>
 
                     {/* Simple Realtime Views Meter (Only Plain Number) */}
-                    <div className="absolute bottom-1.5 left-1.5 bg-black/70 backdrop-blur-sm text-[10px] sm:text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-20 select-none shadow">
+                    <div className="absolute bottom-1.5 left-1.5 bg-black/70 backdrop-blur-sm text-[10px] sm:text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-20 select-none shadow pointer-events-none">
                       <span className="leading-none">{item.views || 0}</span>
                     </div>
                   </div>
@@ -409,12 +411,12 @@ export const GallerySection: React.FC = () => {
                     <ProgressiveImage
                       src={item.imageUrl}
                       alt={item.title}
-                      thumbnailWidth={350}
+                      thumbnailWidth={300}
                       className="w-full h-full group-hover:opacity-90 transition-opacity"
                     />
 
                     {/* Simple Realtime Views Meter (Only Plain Number) */}
-                    <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-10 select-none shadow">
+                    <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-10 select-none shadow pointer-events-none">
                       <span className="leading-none">{item.views || 0}</span>
                     </div>
                   </>
