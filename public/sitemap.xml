@@ -8,7 +8,15 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- 2. Songs Page -->
+  <!-- 2. About & Biography -->
+  <url>
+    <loc>https://vishaljogdeo.com/about</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 3. Songs Collection -->
   <url>
     <loc>https://vishaljogdeo.com/songs</loc>
     <lastmod>2026-08-25</lastmod>
@@ -16,7 +24,7 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- 3. Lyrics Library -->
+  <!-- 4. Lyrics Library -->
   <url>
     <loc>https://vishaljogdeo.com/lyrics</loc>
     <lastmod>2026-08-25</lastmod>
@@ -24,7 +32,7 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- 4. Upcoming Shows & Live Concerts -->
+  <!-- 5. Upcoming Shows & Live Concerts -->
   <url>
     <loc>https://vishaljogdeo.com/shows</loc>
     <lastmod>2026-08-25</lastmod>
@@ -32,19 +40,11 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- 5. Photo & Video Gallery -->
+  <!-- 6. Photo & Video Gallery -->
   <url>
     <loc>https://vishaljogdeo.com/gallery</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 6. About & Biography -->
-  <url>
-    <loc>https://vishaljogdeo.com/about</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
@@ -54,5 +54,13 @@
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- 8. Privacy Policy -->
+  <url>
+    <loc>https://vishaljogdeo.com/privacy</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

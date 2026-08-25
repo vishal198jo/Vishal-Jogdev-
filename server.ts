@@ -33,132 +33,19 @@ async function generateLiveSitemapXml(): Promise<string> {
     { url: `${domain}/shows`, freq: 'daily', prio: '0.9' },
     { url: `${domain}/gallery`, freq: 'weekly', prio: '0.8' },
     { url: `${domain}/contact`, freq: 'monthly', prio: '0.8' },
-    { url: `${domain}/privacy`, freq: 'monthly', prio: '0.3' },
-    { url: `${domain}/terms`, freq: 'monthly', prio: '0.3' },
+    { url: `${domain}/privacy`, freq: 'monthly', prio: '0.5' },
   ];
 
-  // Pre-populate with default known IDs
-  const songIds = new Set<string>([
-    'song-1', 'song-2', 'song-3', 'song-4', 'song-5', 
-    'song-6', 'song-7', 'song-8', 'song-9', 'song-10'
-  ]);
-  const lyricIds = new Set<string>([
-    'lyric-1', 'lyric-2', 'lyric-3', 'lyric-4',
-    '2MkeIqZeX56cGL51JwoO', '2Zm7jvpvgV5L36K7Qc02', '3bvK7euecja2qzaFSt6E',
-    '4Y16g0gxyQMgQzdhHoQE', '9TJl5vZKXWw14D5RUEuN', 'COrVsEMJT1GYY9zzSKDP',
-    'KAmhMCjzP65wqeMH0NTa', 'OU2bAPSns2wfKhX2HKls', 'VjeSwMyXKkp22dF3ChRe',
-    'Y9UsDnxzSSXT7cveI7hR', 'YMzsP2xeSs0MFwPlEJ36', 'ZF63DJP5Bh44i0X5FdoQ',
-    'czpw1LmtGg8KDECQh9cp', 'dnx19f8AL7FFU2iun75t', 'ennphbaxSaPTQF5foIB3',
-    'fDNDSXCWFZpBLrPRVcaa', 'hhtEOH6iRDijwNuUdh2h', 'qyg2tZU0PAhfjBJlw8Qd',
-    'rGywRbv4TJ7j2QN0Vvgn', 's8TW4sPGoRgATa0EKIg9', 'uc0M7C53Nn53UImuMAo0',
-    'uoXqqFQHzZhtogDuMHlo', 'xe8bpGygNhzmigDCv4Wc', 'z48kY7zus92uQKdSRYap',
-    'zaSMd4sDj0pvr2ieJJhQ'
-  ]);
-  const galleryFolderIds = new Set<string>(['folder-1', 'folder-2', 'folder-3']);
-
-  // 1. Fetch live Firestore songs dynamically
-  try {
-    let pageToken = '';
-    do {
-      const firestoreSongsUrl = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/songs?pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}`;
-      const res = await fetch(firestoreSongsUrl);
-      if (res.ok) {
-        const data = (await res.json()) as { documents?: Array<{ name: string }>; nextPageToken?: string };
-        if (data.documents && Array.isArray(data.documents)) {
-          data.documents.forEach((doc) => {
-            const id = doc.name.split('/').pop();
-            if (id) songIds.add(id);
-          });
-        }
-        pageToken = data.nextPageToken || '';
-      } else {
-        break;
-      }
-    } while (pageToken);
-  } catch (err) {
-    console.error('[Sitemap] Error fetching live Firestore songs:', err);
-  }
-
-  // 2. Fetch live Firestore lyrics dynamically
-  try {
-    let pageToken = '';
-    do {
-      const firestoreLyricsUrl = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/lyrics?pageSize=1000${pageToken ? `&pageToken=${pageToken}` : ''}`;
-      const res = await fetch(firestoreLyricsUrl);
-      if (res.ok) {
-        const data = (await res.json()) as { documents?: Array<{ name: string }>; nextPageToken?: string };
-        if (data.documents && Array.isArray(data.documents)) {
-          data.documents.forEach((doc) => {
-            const id = doc.name.split('/').pop();
-            if (id) lyricIds.add(id);
-          });
-        }
-        pageToken = data.nextPageToken || '';
-      } else {
-        break;
-      }
-    } while (pageToken);
-  } catch (err) {
-    console.error('[Sitemap] Error fetching live Firestore lyrics:', err);
-  }
-
-  // 3. Fetch live Firestore gallery folders dynamically
-  try {
-    const firestoreGalleryUrl = `https://firestore.googleapis.com/v1/projects/vishal-jogdeo-website/databases/(default)/documents/gallery_folders?pageSize=100`;
-    const res = await fetch(firestoreGalleryUrl);
-    if (res.ok) {
-      const data = (await res.json()) as { documents?: Array<{ name: string }> };
-      if (data.documents && Array.isArray(data.documents)) {
-        data.documents.forEach((doc) => {
-          const id = doc.name.split('/').pop();
-          if (id) galleryFolderIds.add(id);
-        });
-      }
-    }
-  } catch (err) {
-    console.error('[Sitemap] Error fetching live Firestore gallery folders:', err);
-  }
-
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
-  // Base pages
+  // Base main pages
   baseRoutes.forEach((r) => {
     xml += '  <url>\n';
     xml += `    <loc>${r.url}</loc>\n`;
     xml += `    <lastmod>${today}</lastmod>\n`;
     xml += `    <changefreq>${r.freq}</changefreq>\n`;
     xml += `    <priority>${r.prio}</priority>\n`;
-    xml += '  </url>\n';
-  });
-
-  // Lyric individual pages (High priority indexable content)
-  lyricIds.forEach((id) => {
-    xml += '  <url>\n';
-    xml += `    <loc>${domain}/lyrics/${id}</loc>\n`;
-    xml += `    <lastmod>${today}</lastmod>\n`;
-    xml += `    <changefreq>weekly</changefreq>\n`;
-    xml += `    <priority>0.85</priority>\n`;
-    xml += '  </url>\n';
-  });
-
-  // Song individual track routes
-  songIds.forEach((id) => {
-    xml += '  <url>\n';
-    xml += `    <loc>${domain}/songs/${id}</loc>\n`;
-    xml += `    <lastmod>${today}</lastmod>\n`;
-    xml += `    <changefreq>weekly</changefreq>\n`;
-    xml += `    <priority>0.80</priority>\n`;
-    xml += '  </url>\n';
-  });
-
-  // Gallery folder deep links
-  galleryFolderIds.forEach((folderId) => {
-    xml += '  <url>\n';
-    xml += `    <loc>${domain}/gallery?folder=${folderId}</loc>\n`;
-    xml += `    <lastmod>${today}</lastmod>\n`;
-    xml += `    <changefreq>weekly</changefreq>\n`;
-    xml += `    <priority>0.75</priority>\n`;
     xml += '  </url>\n';
   });
 
