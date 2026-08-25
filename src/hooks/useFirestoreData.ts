@@ -13,6 +13,7 @@ import {
   FirestoreGalleryPhoto, 
   FirestoreShow, 
   FirestoreHeroSlide, 
+  FirestoreHomeGalleryItem,
   FirestoreNotification,
   handleFirestoreError,
   OperationType
@@ -31,6 +32,7 @@ export interface FirestoreDataState {
   galleryPhotos: FirestoreGalleryPhoto[];
   shows: FirestoreShow[];
   heroSlides: FirestoreHeroSlide[];
+  homeGalleryItems: FirestoreHomeGalleryItem[];
   notifications: FirestoreNotification[];
   globalStats: GlobalStats;
   loading: boolean;
@@ -43,6 +45,7 @@ const CACHE_KEYS = {
   PHOTOS: 'vj_cache_photos_v3',
   SHOWS: 'vj_cache_shows_v3',
   SLIDES: 'vj_cache_slides_v3',
+  HOME_GALLERY: 'vj_cache_home_gallery_v3',
   NOTIFICATIONS: 'vj_cache_notifications_v3',
   STATS: 'vj_cache_stats_v3',
 };
@@ -79,6 +82,7 @@ const initialFolders = readCache<FirestoreGalleryFolder[]>(CACHE_KEYS.FOLDERS, [
 const initialPhotos = readCache<FirestoreGalleryPhoto[]>(CACHE_KEYS.PHOTOS, []);
 const initialShows = readCache<FirestoreShow[]>(CACHE_KEYS.SHOWS, []);
 const initialSlides = readCache<FirestoreHeroSlide[]>(CACHE_KEYS.SLIDES, []);
+const initialHomeGallery = readCache<FirestoreHomeGalleryItem[]>(CACHE_KEYS.HOME_GALLERY, []);
 const initialNotifications = readCache<FirestoreNotification[]>(CACHE_KEYS.NOTIFICATIONS, []);
 const initialStats = readCache<GlobalStats>(CACHE_KEYS.STATS, {
   visitedUsers: 0,
@@ -86,7 +90,7 @@ const initialStats = readCache<GlobalStats>(CACHE_KEYS.STATS, {
   totalPhotoViews: 0
 });
 
-const hasInitialData = initialSongs.length > 0 || initialSlides.length > 0 || initialLyrics.length > 0 || initialShows.length > 0;
+const hasInitialData = initialSongs.length > 0 || initialSlides.length > 0 || initialHomeGallery.length > 0 || initialLyrics.length > 0 || initialShows.length > 0;
 
 let storeState: FirestoreDataState = {
   songs: initialSongs,
@@ -95,6 +99,7 @@ let storeState: FirestoreDataState = {
   galleryPhotos: initialPhotos,
   shows: initialShows,
   heroSlides: initialSlides,
+  homeGalleryItems: initialHomeGallery,
   notifications: initialNotifications,
   globalStats: initialStats,
   loading: !hasInitialData
@@ -210,6 +215,30 @@ function initSharedListeners() {
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.HERO_SLIDES);
     });
+
+    // 6b. Subscribe to Home Gallery (Vishal's Gallery on Homepage)
+    try {
+      onSnapshot(collection(db, COLLECTIONS.HOME_GALLERY), (snap) => {
+        const homeList: FirestoreHomeGalleryItem[] = [];
+        snap.forEach(docSnap => {
+          homeList.push({ id: docSnap.id, ...docSnap.data() } as FirestoreHomeGalleryItem);
+        });
+        homeList.sort((a, b) => {
+          const orderA = typeof a.order === 'number' ? a.order : 99999;
+          const orderB = typeof b.order === 'number' ? b.order : 99999;
+          if (orderA !== orderB) return orderA - orderB;
+          return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+        });
+        storeState.homeGalleryItems = homeList;
+        writeCache(CACHE_KEYS.HOME_GALLERY, homeList);
+        notifySubscribers();
+      }, (err) => {
+        // Fallback silently if remote firestore collection rules not yet propagated
+        console.warn('Home gallery collection note:', err.message);
+      });
+    } catch (e) {
+      console.warn('Could not subscribe to home_gallery:', e);
+    }
 
     // 7. Subscribe to Notifications
     onSnapshot(collection(db, COLLECTIONS.NOTIFICATIONS), (snap) => {

@@ -1,7 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, X, ArrowLeft, Folder, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Eye, Download, Loader2 } from 'lucide-react';
+import { 
+  Play, 
+  X, 
+  ArrowLeft, 
+  Folder, 
+  ChevronLeft, 
+  ChevronRight, 
+  ZoomIn, 
+  ZoomOut, 
+  RotateCcw, 
+  Eye, 
+  Download, 
+  Loader2,
+  MoreVertical
+} from 'lucide-react';
 import { GalleryItem } from '../types';
 import { GALLERY_FOLDERS, GALLERY_ITEMS, SINGER_PROFILE } from '../data/mockData';
 import { useFirestoreData } from '../hooks/useFirestoreData';
@@ -36,6 +50,7 @@ export const GallerySection: React.FC = () => {
   const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
@@ -149,11 +164,13 @@ export const GallerySection: React.FC = () => {
 
   const paginate = (newDirection: number) => {
     if (displayItems.length <= 1) return;
+    setMenuOpen(false);
     setZoomScale(1); // Reset zoom on photo change
     setPage(([prevPage]) => [prevPage + newDirection, newDirection]);
   };
 
   const handleOpenItem = (item: GalleryItem, index: number) => {
+    setMenuOpen(false);
     setZoomScale(1);
     setPage([index, 0]);
     setSelectedItem(item);
@@ -185,6 +202,7 @@ export const GallerySection: React.FC = () => {
   const handleClose = () => {
     setSelectedItem(null);
     setZoomScale(1);
+    setMenuOpen(false);
   };
 
   const [isDownloading, setIsDownloading] = useState(false);
@@ -202,6 +220,7 @@ export const GallerySection: React.FC = () => {
       console.error('Error downloading media:', e);
     } finally {
       setIsDownloading(false);
+      setMenuOpen(false);
     }
   };
 
@@ -433,27 +452,77 @@ export const GallerySection: React.FC = () => {
         <div 
           className="fixed inset-0 z-[99999] w-screen h-screen bg-black flex items-center justify-center overflow-hidden select-none touch-none"
           onContextMenu={(e) => e.preventDefault()}
+          onClick={() => {
+            if (menuOpen) setMenuOpen(false);
+          }}
         >
-          {/* Top Right Controls (Download & Close) */}
+          {/* Top Left Title & Media Index Indicator */}
+          {currentItem.type === 'photo' && (
+            <div className="absolute top-4 left-4 z-[100000] flex items-center gap-2.5 bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10 text-white shadow-2xl max-w-[55vw] sm:max-w-md pointer-events-auto select-none">
+              <span className="text-amber-400 font-bold text-xs shrink-0">{activeIndex + 1} / {displayItems.length}</span>
+              <span className="text-stone-200 text-xs truncate">{currentItem.title}</span>
+            </div>
+          )}
+
+          {/* Top Right Controls (3-Dots Menu & Close) */}
           <div className="absolute top-4 right-4 z-[100000] flex items-center gap-2">
-            <button
-              onClick={() => {
-                const downloadUrl = currentItem.type === 'video'
-                  ? (currentItem.videoUrl || (currentItem.imageUrl && !currentItem.imageUrl.includes('unsplash') ? currentItem.imageUrl : ''))
-                  : (currentItem.imageUrl || currentItem.videoUrl);
-                handleDownloadMedia(downloadUrl, currentItem.title, currentItem.type);
-              }}
-              disabled={isDownloading}
-              className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-amber-400 hover:text-amber-300 transition-all border border-amber-500/30 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto disabled:opacity-50"
-              title="Download Photo/Video"
-              aria-label="Download Media"
-            >
-              {isDownloading ? (
-                <Loader2 className="w-5 h-5 animate-spin text-amber-400" />
-              ) : (
-                <Download className="w-5 h-5 text-amber-400" />
-              )}
-            </button>
+            {/* 3-Dot Options Menu for Photos (Contains Download, Open Tab, Copy, Zoom, Share) */}
+            {currentItem.type === 'photo' && (
+              <div className="relative pointer-events-auto">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setMenuOpen(!menuOpen);
+                  }}
+                  className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white/90 hover:text-white transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center"
+                  title="More options"
+                  aria-label="More options"
+                >
+                  <MoreVertical className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+
+                {/* 3-Dot Dropdown Menu */}
+                {menuOpen && (
+                  <div 
+                    className="absolute right-0 top-14 w-48 py-1.5 rounded-2xl bg-stone-900/95 border border-stone-700/80 shadow-2xl backdrop-blur-xl z-[100001] flex flex-col text-left overflow-hidden"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Download Image */}
+                    <button
+                      onClick={() => {
+                        const downloadUrl = currentItem.imageUrl || currentItem.videoUrl;
+                        handleDownloadMedia(downloadUrl, currentItem.title, currentItem.type);
+                      }}
+                      disabled={isDownloading}
+                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-medium text-stone-200 hover:text-white hover:bg-white/10 transition-colors w-full disabled:opacity-50"
+                    >
+                      {isDownloading ? (
+                        <Loader2 className="w-4 h-4 text-amber-400 animate-spin" />
+                      ) : (
+                        <Download className="w-4 h-4 text-amber-400" />
+                      )}
+                      <span>{isDownloading ? 'Downloading...' : 'Download Image'}</span>
+                    </button>
+
+                    {/* Zoom Toggle */}
+                    <button
+                      onClick={() => {
+                        toggleZoom();
+                        setMenuOpen(false);
+                      }}
+                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-medium text-stone-200 hover:text-white hover:bg-white/10 transition-colors w-full border-t border-stone-800"
+                    >
+                      {zoomScale > 1 ? (
+                        <ZoomOut className="w-4 h-4 text-amber-400" />
+                      ) : (
+                        <ZoomIn className="w-4 h-4 text-stone-400" />
+                      )}
+                      <span>{zoomScale > 1 ? 'Reset Zoom (100%)' : 'Zoom In'}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             <button
               onClick={handleClose}
@@ -463,26 +532,6 @@ export const GallerySection: React.FC = () => {
               <X className="w-6 h-6 sm:w-7 sm:h-7" />
             </button>
           </div>
-
-
-
-          {/* Floating Zoom Control (Only Zoom Icon - No Prev/Next Buttons) */}
-          {currentItem.type === 'photo' && (
-            <div className="absolute bottom-6 right-6 z-[100000] flex items-center bg-black/60 p-1.5 rounded-full border border-white/15 backdrop-blur-md shadow-2xl">
-              <button
-                onClick={toggleZoom}
-                className="p-2.5 hover:bg-white/20 rounded-full text-white transition-all active:scale-90"
-                title={zoomScale > 1 ? "Zoom Out" : "Zoom In"}
-                aria-label="Toggle Zoom"
-              >
-                {zoomScale > 1 ? (
-                  <ZoomOut className="w-5 h-5 text-amber-400" />
-                ) : (
-                  <ZoomIn className="w-5 h-5 text-white" />
-                )}
-              </button>
-            </div>
-          )}
 
           {/* Chevron Navigation Arrows on both sides (Hidden when video player is active) */}
           {displayItems.length > 1 && currentItem.type !== 'video' && (
@@ -539,18 +588,17 @@ export const GallerySection: React.FC = () => {
               >
                 {currentItem.type === 'video' ? (
                   <div 
-                    className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl relative"
+                    className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl relative z-10 pointer-events-auto"
+                    onClick={(e) => e.stopPropagation()}
                     onPointerDownCapture={(e) => {
-                      const target = e.target as HTMLElement;
-                      if (target.tagName === 'BUTTON' || target.tagName === 'INPUT' || target.closest('.pointer-events-auto')) {
-                        e.stopPropagation();
-                      }
+                      e.stopPropagation();
                     }}
                   >
                     <HLSVideoPlayer 
                       src={currentItem.videoUrl || currentItem.imageUrl} 
                       title={currentItem.title} 
                       poster={!currentItem.imageUrl.includes('unsplash') ? currentItem.imageUrl : undefined}
+                      autoPlay={true}
                     />
                   </div>
                 ) : (

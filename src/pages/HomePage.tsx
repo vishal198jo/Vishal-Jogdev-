@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { HeroSection } from '../components/HeroSection';
 import { AnnouncementTicker } from '../components/AnnouncementTicker';
@@ -166,39 +166,6 @@ export const HomePage: React.FC<HomePageProps> = ({
             >
               Book Vishal Jogdeo Now
             </button>
-          </motion.section>
-
-          {/* SEO AUTHORITY TEXT OVERVIEW */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="p-6 sm:p-8 rounded-3xl bg-[#121218]/60 border border-amber-500/20 text-stone-300 space-y-4"
-          >
-            <h2 className="text-xl sm:text-2xl font-bold font-heading text-white">
-              Vishal Jogdeo – Official Devotional Singer & Music Archive
-            </h2>
-            <p className="text-xs sm:text-sm leading-relaxed text-stone-300">
-              <strong>Vishal Jogdeo (Vishal Jogdev)</strong> is one of Maharashtra's most distinguished classical vocalists and devotional playback singers, celebrated as the <em>Mahanubhav Panth Bhajan Samrat</em>. With a musical career spanning over 15 years, Vishal Jogdeo has rendered more than 1500 devotional songs, Marathi Abhangas, Krishna Bhajans, and classical ragas. This official portal serves as the definitive digital repository for Vishal Jogdeo's complete song catalog, original Devanagari lyrics library, high-definition photo gallery, lifestyle biography, and live concert bookings.
-            </p>
-            <div className="flex flex-wrap gap-2 pt-2">
-              <Link to="/songs" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
-                → Devotional Songs MP3
-              </Link>
-              <Link to="/lyrics" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
-                → Abhanga Lyrics Library
-              </Link>
-              <Link to="/about" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
-                → Biography & Lifestyle
-              </Link>
-              <Link to="/shows" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
-                → Upcoming Concerts
-              </Link>
-              <Link to="/gallery" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4">
-                → Photo Gallery
-              </Link>
-            </div>
           </motion.section>
 
         </div>

@@ -375,43 +375,50 @@ export const SingleLyricPage: React.FC = () => {
 
         </div>
 
-        {/* 3. MAIN LYRICS CONTENT - STRICT COPY PROTECTED CONTAINER WITH SUBTLE WATERMARK */}
+        {/* 3. MAIN LYRICS CONTENT - STRICT COPY PROTECTED CONTAINER WITH WATERMARK */}
         <div 
           onContextMenu={handleSilentPrevent}
           onCopy={handleSilentPrevent}
           onCut={handleSilentPrevent}
           onDragStart={handleSilentPrevent}
-          className="strict-no-copy select-none relative my-6 rounded-2xl bg-[#121110] border border-amber-500/30 p-6 sm:p-10 shadow-2xl overflow-hidden"
+          className="strict-no-copy select-none relative my-6 rounded-3xl bg-[#121110] border border-amber-500/30 p-6 sm:p-10 shadow-2xl overflow-hidden"
         >
           
-          {/* Subtle WATERMARK BACKGROUND IMAGE */}
+          {/* FULL BOX RECTANGULAR WATERMARK BACKGROUND (Visible for screenshots & brand protection) */}
           <div 
-            className="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden z-0"
+            className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
             aria-hidden="true"
           >
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden opacity-15 filter contrast-125 brightness-110">
-              <img
-                src={SINGER_PROFILE.watermarkImage}
-                alt="Vishal Jogdeo Watermark"
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
-            </div>
+            <img
+              src="https://cnd.vishaljogdeo.com/IMG_4246.PNG"
+              alt="Vishal Jogdeo Watermark"
+              className="w-full h-full object-cover object-top opacity-55 filter contrast-125 brightness-110 select-none pointer-events-none"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = 'true';
+                  target.src = 'https://cdn.vishaljogdeo.com/IMG_4246.PNG';
+                }
+              }}
+            />
+            {/* Subtle soft dark tint to keep edges clean while watermark is prominently visible */}
+            <div className="absolute inset-0 bg-[#121110]/20 pointer-events-none" />
           </div>
 
-          {/* LYRICS CONTENT (STRICT NO COPY, HIGH CONTRAST & CLEAN READABILITY) */}
+          {/* LYRICS CONTENT (STRICT NO COPY, HIGH CONTRAST & CRISP READABILITY OVER WATERMARK) */}
           <div className="relative z-10 space-y-6 strict-no-copy select-none">
             
             {/* Devanagari Lyrics */}
             <div className="space-y-3">
-              <div className={`font-heading text-stone-100 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
+              <div className={`font-heading text-white space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
                 {lyric.devanagariText.map((line, idx) => (
                   line === "" ? (
                     <div key={idx} className="my-3 h-2" />
                   ) : (
                     <p 
                       key={idx} 
-                      className="py-0.5 text-stone-100 font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors select-none"
+                      className="py-0.5 text-white font-bold drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] hover:text-amber-300 transition-colors select-none"
                     >
                       {line}
                     </p>
@@ -422,15 +429,15 @@ export const SingleLyricPage: React.FC = () => {
 
             {/* Roman / English Lyrics (If available) */}
             {lyric.romanText && lyric.romanText.length > 0 && (
-              <div className="space-y-3 pt-5 border-t border-stone-800/80">
-                <div className={`font-sans text-stone-300 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
+              <div className="space-y-3 pt-5 border-t border-amber-500/20">
+                <div className={`font-sans text-stone-100 space-y-2.5 whitespace-pre-line tracking-wide transition-all ${fontClasses[fontSize]} ${alignClasses[textAlign]}`}>
                   {lyric.romanText.map((line, idx) => (
                     line === "" ? (
                       <div key={idx} className="my-2 h-2" />
                     ) : (
                       <p 
                         key={idx} 
-                        className="py-0.5 italic text-stone-300 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] hover:text-amber-300 transition-colors select-none"
+                        className="py-0.5 italic text-stone-200 font-semibold drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)] hover:text-amber-300 transition-colors select-none"
                       >
                         {line}
                       </p>

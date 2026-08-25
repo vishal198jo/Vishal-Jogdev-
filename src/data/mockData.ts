@@ -18,8 +18,8 @@ export const SINGER_PROFILE = {
   showsCount: 1000,
   followersCount: "500K+",
   spotifyListeners: "250K+ monthly",
-  portraitImage: "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
-  watermarkImage: "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+  portraitImage: "https://cnd.vishaljogdeo.com/IMG_4239.PNG",
+  watermarkImage: "https://cnd.vishaljogdeo.com/IMG_4246.PNG",
   
   // FIXED HOME PAGE ABOUT TEXT (As requested by user)
   shortBio: `विशाल जोगदेव हे महाराष्ट्रातील सुप्रसिद्ध भक्तीगीत गायक आहेत. त्यांनी आजवर अनेक चित्रपट, मालिका आणि अल्बमसाठी अनेक अजरामर गाणी गायली आहेत .

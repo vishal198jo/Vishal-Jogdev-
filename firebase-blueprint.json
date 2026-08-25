@@ -121,6 +121,21 @@
       },
       "required": ["text"]
     },
+    "HomeGalleryItem": {
+      "title": "HomeGalleryItem",
+      "description": "Homepage Vishal's Gallery 8 highlight photo item",
+      "type": "object",
+      "properties": {
+        "imageUrl": { "type": "string", "description": "Image URL" },
+        "title": { "type": "string", "description": "Photo title" },
+        "description": { "type": "string", "description": "Photo caption" },
+        "order": { "type": "number", "description": "Order sequence" },
+        "linkUrl": { "type": "string", "description": "Link URL" },
+        "createdAt": { "type": "string", "description": "ISO Timestamp" },
+        "updatedAt": { "type": "string", "description": "ISO Timestamp" }
+      },
+      "required": ["imageUrl"]
+    },
     "Inquiry": {
       "title": "Inquiry",
       "description": "Contact and concert booking inquiry submissions",
@@ -167,6 +182,10 @@
     "/notifications/{notificationId}": {
       "schema": { "$ref": "#/entities/Notification" },
       "description": "Collection of ticker notifications"
+    },
+    "/home_gallery/{itemId}": {
+      "schema": { "$ref": "#/entities/HomeGalleryItem" },
+      "description": "Collection of homepage Vishal's gallery 8 photos"
     },
     "/inquiries/{inquiryId}": {
       "schema": { "$ref": "#/entities/Inquiry" },

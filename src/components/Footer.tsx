@@ -119,7 +119,7 @@ export const Footer: React.FC<FooterProps> = () => {
           <div className="space-y-4 md:text-right flex flex-col md:items-end justify-between text-left">
             <div className="space-y-2 w-full">
               <a
-                href="/Developers.html"
+                href="https://ykstudio.store"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-semibold text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors inline-block"
@@ -149,13 +149,6 @@ export const Footer: React.FC<FooterProps> = () => {
               className="hover:text-amber-300 transition-colors"
             >
               Privacy Policy
-            </Link>
-            <span>•</span>
-            <Link
-              to="/terms"
-              className="hover:text-amber-300 transition-colors"
-            >
-              Terms & Conditions
             </Link>
           </div>
         </div>

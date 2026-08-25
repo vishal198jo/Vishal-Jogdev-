@@ -8,40 +8,80 @@ import { ProgressiveImage } from './ProgressiveImage';
 
 export const VishalGalleryPreview: React.FC = () => {
   const navigate = useNavigate();
-  const { galleryPhotos, galleryFolders } = useFirestoreData();
+  const { galleryPhotos, galleryFolders, homeGalleryItems } = useFirestoreData();
 
-  // Filter ONLY photos (exclude videos)
-  const photoList = galleryPhotos.length > 0
-    ? galleryPhotos.filter(p => p.type !== 'video' && !p.videoUrl && !(p.imageUrl && (p.imageUrl.includes('.mp4') || p.imageUrl.includes('.webm') || p.imageUrl.includes('.mov') || p.imageUrl.includes('.m3u8'))))
-    : GALLERY_ITEMS.filter(p => p.type !== 'video');
+  // If custom Home Gallery photos are configured via Admin Panel, use them directly!
+  let displayPhotos: Array<{
+    id: string;
+    imageUrl: string;
+    title?: string;
+    description?: string;
+  }> = [];
 
-  const sortedPhotos = [...photoList].sort((a, b) => {
-    const timeA = 'createdAt' in a && a.createdAt ? new Date(a.createdAt).getTime() : 0;
-    const timeB = 'createdAt' in b && b.createdAt ? new Date(b.createdAt).getTime() : 0;
-    return timeB - timeA;
-  });
+  // 1. First priority: homeGalleryItems
+  // 2. Second priority: galleryPhotos tagged with isHomeGallery or folderId === 'home_gallery'
+  const customHomePhotosFromGallery = galleryPhotos.filter(p => p.isHomeGallery || p.folderId === 'home_gallery' || p.category === 'Home Gallery');
 
-  // Sabhi folders ke thode thode photo select karo taki sabhi cover ho
-  const foldersToCover = galleryFolders.length > 0 ? galleryFolders : [];
-  const selectedPhotos: typeof sortedPhotos = [];
+  if (homeGalleryItems && homeGalleryItems.length > 0) {
+    const sortedHomeItems = [...homeGalleryItems].sort((a, b) => {
+      const orderA = typeof a.order === 'number' ? a.order : 99999;
+      const orderB = typeof b.order === 'number' ? b.order : 99999;
+      if (orderA !== orderB) return orderA - orderB;
+      return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+    });
+    displayPhotos = sortedHomeItems.slice(0, 8).map(item => ({
+      id: item.id,
+      imageUrl: item.imageUrl,
+      title: item.title,
+      description: item.description
+    }));
+  } else if (customHomePhotosFromGallery.length > 0) {
+    const sortedCustom = [...customHomePhotosFromGallery].sort((a, b) => {
+      const orderA = typeof a.order === 'number' ? a.order : 99999;
+      const orderB = typeof b.order === 'number' ? b.order : 99999;
+      if (orderA !== orderB) return orderA - orderB;
+      return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+    });
+    displayPhotos = sortedCustom.slice(0, 8).map(item => ({
+      id: item.id,
+      imageUrl: item.imageUrl,
+      title: item.title,
+      description: item.description
+    }));
+  } else {
+    // Filter ONLY photos (exclude videos)
+    const photoList = galleryPhotos.length > 0
+      ? galleryPhotos.filter(p => p.type !== 'video' && !p.videoUrl && !(p.imageUrl && (p.imageUrl.includes('.mp4') || p.imageUrl.includes('.webm') || p.imageUrl.includes('.mov') || p.imageUrl.includes('.m3u8'))))
+      : GALLERY_ITEMS.filter(p => p.type !== 'video');
 
-  // First pass: pick 1 photo from each folder to guarantee all folders are covered
-  foldersToCover.forEach(folder => {
-    const folderPhoto = sortedPhotos.find(p => p.folderId === folder.id && !selectedPhotos.some(sp => sp.id === p.id));
-    if (folderPhoto) {
-      selectedPhotos.push(folderPhoto);
-    }
-  });
+    const sortedPhotos = [...photoList].sort((a, b) => {
+      const timeA = 'createdAt' in a && a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const timeB = 'createdAt' in b && b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return timeB - timeA;
+    });
 
-  // Second pass: fill up to 8 photos with remaining recent photos
-  sortedPhotos.forEach(p => {
-    if (selectedPhotos.length < 8 && !selectedPhotos.some(sp => sp.id === p.id)) {
-      selectedPhotos.push(p);
-    }
-  });
+    // Sabhi folders ke thode thode photo select karo taki sabhi cover ho
+    const foldersToCover = galleryFolders.length > 0 ? galleryFolders : [];
+    const selectedPhotos: typeof sortedPhotos = [];
 
-  // Fallback if list is empty
-  const displayPhotos = (selectedPhotos.length > 0 ? selectedPhotos : sortedPhotos).slice(0, 8);
+    // First pass: pick 1 photo from each folder to guarantee all folders are covered
+    foldersToCover.forEach(folder => {
+      const folderPhoto = sortedPhotos.find(p => p.folderId === folder.id && !selectedPhotos.some(sp => sp.id === p.id));
+      if (folderPhoto) {
+        selectedPhotos.push(folderPhoto);
+      }
+    });
+
+    // Second pass: fill up to 8 photos with remaining recent photos
+    sortedPhotos.forEach(p => {
+      if (selectedPhotos.length < 8 && !selectedPhotos.some(sp => sp.id === p.id)) {
+        selectedPhotos.push(p);
+      }
+    });
+
+    // Fallback if list is empty
+    displayPhotos = (selectedPhotos.length > 0 ? selectedPhotos : sortedPhotos).slice(0, 8);
+  }
 
   const handlePhotoClick = () => {
     navigate('/gallery');

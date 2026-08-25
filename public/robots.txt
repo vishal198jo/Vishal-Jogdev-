@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /Admin.html
-Disallow: /Developers.html
 
 # Major Search Engine Crawlers
 User-agent: Googlebot
@@ -15,5 +14,15 @@ Allow: /
 Disallow: /admin
 Disallow: /Admin.html
 
-Sitemap: https://vishaljogdeo.com/sitemap.xml
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+Disallow: /Admin.html
 
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+Sitemap: https://vishaljogdeo.com/sitemap.xml

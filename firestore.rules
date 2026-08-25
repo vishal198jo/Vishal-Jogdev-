@@ -135,6 +135,12 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin() && isValidId(notificationId);
     }
 
+    // 7b. Homepage Vishal's Gallery (8 Photos)
+    match /home_gallery/{itemId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(itemId);
+    }
+
     // 8. Global Stats Collection (Anti-tampering)
     match /stats/{statId} {
       allow read: if true;

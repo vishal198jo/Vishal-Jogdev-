@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { 
   getFirestore, 
+  initializeFirestore,
   collection, 
   getDocs, 
   doc, 
@@ -29,7 +30,19 @@ export const firebaseConfig = {
 
 // Initialize Firebase App
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const db = getFirestore(app);
+
+// Initialize Firestore with robust connection settings for iframe & varying network environments
+let firestoreDb;
+try {
+  firestoreDb = initializeFirestore(app, {
+    experimentalAutoDetectLongPolling: true,
+    ignoreUndefinedProperties: true
+  });
+} catch {
+  firestoreDb = getFirestore(app);
+}
+
+export const db = firestoreDb;
 export const auth = getAuth(app);
 
 export enum OperationType {
@@ -105,6 +118,8 @@ export interface FirestoreGalleryPhoto {
   title?: string;
   category?: string;
   description?: string;
+  order?: number;
+  isHomeGallery?: boolean;
   createdAt?: string;
   type?: 'photo' | 'video';
   videoUrl?: string;
@@ -139,6 +154,16 @@ export interface FirestoreHeroSlide {
   buttonText?: string;
   buttonIcon?: string;
   order?: number;
+  createdAt?: string;
+}
+
+export interface FirestoreHomeGalleryItem {
+  id: string;
+  imageUrl: string;
+  title?: string;
+  description?: string;
+  order?: number;
+  linkUrl?: string;
   createdAt?: string;
 }
 
@@ -193,6 +218,7 @@ export const COLLECTIONS = {
   GALLERY_PHOTOS: 'gallery_photos',
   SHOWS: 'shows',
   HERO_SLIDES: 'hero_slides',
+  HOME_GALLERY: 'home_gallery',
   NOTIFICATIONS: 'notifications',
   INQUIRIES: 'inquiries'
 };

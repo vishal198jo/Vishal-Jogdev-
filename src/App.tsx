@@ -55,7 +55,6 @@ const GalleryPage = lazyWithRetry(() => import('./pages/GalleryPage'), 'GalleryP
 const ShowsPage = lazyWithRetry(() => import('./pages/ShowsPage'), 'ShowsPage');
 const ContactPage = lazyWithRetry(() => import('./pages/ContactPage'), 'ContactPage');
 const PrivacyPolicyPage = lazyWithRetry(() => import('./pages/PrivacyPolicyPage'), 'PrivacyPolicyPage');
-const TermsPage = lazyWithRetry(() => import('./pages/TermsPage'), 'TermsPage');
 
 // Sleek fallback component during page lazy load
 const PageFallback = () => (
@@ -220,7 +219,6 @@ export default function App() {
 
               {/* Legal Pages */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
-              <Route path="/terms" element={<TermsPage />} />
             </Routes>
           </Suspense>
         </main>
