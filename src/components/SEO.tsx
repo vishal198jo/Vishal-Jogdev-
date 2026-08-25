@@ -40,10 +40,10 @@ export const SEO: React.FC<SEOProps> = ({
     }
   }
   
-  const defaultDesc = "Official portal of Vishal Jogdeo (Vishal Jogdev) - classical vocalist and Marathi devotional playback singer. Listen to 1500+ Abhangas, Mahanubhav Bhajans, read lyrics, explore biography, and book live shows.";
+  const defaultDesc = "Official website of Vishal Jogdeo (Vishal Jogdev) - acclaimed classical vocalist and Marathi devotional playback singer. Explore Vishal Jogdeo songs, lyrics, music, lifestyle, biography, photo gallery, upcoming live shows, and concert bookings.";
   const metaDesc = description || defaultDesc;
   
-  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya";
+  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya, विशाल जोगदेव";
   const metaKeywords = keywords ? `${keywords}, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव` : defaultKeywords;
   
   const currentPath = url || location.pathname;
@@ -66,9 +66,9 @@ export const SEO: React.FC<SEOProps> = ({
   const pathNameMap: Record<string, string> = {
     'songs': 'Devotional Songs',
     'lyrics': 'Lyrics Library',
-    'shows': 'Upcoming Shows',
-    'about': 'Biography',
-    'gallery': 'Media Gallery',
+    'shows': 'Upcoming Live Shows',
+    'about': 'Biography & Lifestyle',
+    'gallery': 'Photos & Gallery',
     'contact': 'Contact & Booking',
     'terms': 'Terms & Conditions',
     'privacy': 'Privacy Policy'
@@ -91,15 +91,27 @@ export const SEO: React.FC<SEOProps> = ({
     "itemListElement": breadcrumbItems
   };
 
-  const defaultMusicGroupSchema = {
+  const defaultPersonSchema = {
     "@context": "https://schema.org",
-    "@type": "MusicGroup",
+    "@type": "Person",
+    "@id": "https://vishaljogdeo.com/#person",
     "name": "Vishal Jogdeo",
-    "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव"],
+    "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव", "Singer Vishal Jogdeo"],
     "url": siteUrl,
     "image": ogImage,
+    "jobTitle": "Devotional Playback Singer & Classical Vocalist",
     "description": defaultDesc,
-    "genre": ["Indian Classical", "Marathi Devotional", "Bhajan", "Abhanga", "Mahanubhav Panth Bhajan"],
+    "nationality": {
+      "@type": "Country",
+      "name": "India"
+    },
+    "knowsAbout": [
+      "Marathi Abhanga",
+      "Mahanubhav Panth Bhajan",
+      "Indian Classical Music",
+      "Devotional Playback Singing",
+      "Bhakti Sangeet"
+    ],
     "sameAs": [
       SINGER_PROFILE.contact.socials.youtube || "https://youtube.com/@vishaljogdeo",
       SINGER_PROFILE.contact.socials.instagram || "https://www.instagram.com/vishaljogdeo",
@@ -116,7 +128,7 @@ export const SEO: React.FC<SEOProps> = ({
       finalSchemas.push(schema);
     }
   } else {
-    finalSchemas.push(defaultMusicGroupSchema);
+    finalSchemas.push(defaultPersonSchema);
   }
 
   // Include breadcrumb schema for all non-root pages
@@ -140,6 +152,10 @@ export const SEO: React.FC<SEOProps> = ({
       ) : (
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       )}
+
+      {/* Geo / Regional SEO */}
+      <meta name="geo.region" content="IN-MH" />
+      <meta name="geo.placename" content="Maharashtra, India" />
 
       {/* Language Alternates */}
       <link rel="alternate" href={fullUrl} hrefLang="x-default" />

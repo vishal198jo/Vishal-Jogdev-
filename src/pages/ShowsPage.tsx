@@ -47,9 +47,9 @@ export const ShowsPage: React.FC<ShowsPageProps> = ({ onOpenBooking }) => {
   return (
     <>
       <SEO 
-        title="Vishal Jogdeo Live Shows & Concert Schedule | Abhanga Sandhya Booking" 
+        title="Vishal Jogdeo Upcoming Live Shows & Concerts | Bhajan Sandhya Tour Dates" 
         description="Check upcoming live show dates, concert venues, and event tickets for Vishal Jogdeo (Vishal Jogdev). Book live Abhanga Sandhya, Bhagwati Jagran, and temple programs." 
-        keywords="Vishal Jogdeo Live Show, Vishal Jogdeo Concerts, Vishal Jogdeo Tour Dates, Abhanga Sandhya Booking, Bhagwati Jagran Vishal Jogdeo, Bhajan Sandhya, विशाल जोगदेव लाईव्ह शो, अभंग संध्या, Vishal Jogdev Live" 
+        keywords="Vishal Jogdeo Shows, Vishal Jogdeo Concerts, Vishal Jogdeo Tour Dates, Vishal Jogdeo Live, Abhanga Sandhya Booking, Bhajan Sandhya, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव लाईव्ह शो" 
         url="/shows"
         schema={eventsSchema.length > 0 ? eventsSchema : undefined}
       />

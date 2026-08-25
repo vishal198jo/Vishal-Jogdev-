@@ -49,17 +49,43 @@ export const VishalGalleryPreview: React.FC = () => {
 
   return (
     <section className="py-8 space-y-6 w-full border-t border-amber-500/20" id="vishal-gallery-preview">
+      {/* JSON-LD Structured Data for Google Image Search */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ImageGallery",
+          "name": "Vishal Jogdeo Official Photo & Concert Gallery",
+          "description": "High resolution photos, concert moments, and lifestyle gallery of singer Vishal Jogdeo.",
+          "author": {
+            "@type": "Person",
+            "name": "Vishal Jogdeo",
+            "url": "https://vishaljogdeo.com"
+          },
+          "image": displayPhotos.map(p => ({
+            "@type": "ImageObject",
+            "contentUrl": p.imageUrl,
+            "name": `Vishal Jogdeo - ${p.title || 'Devotional Singer'}`,
+            "description": p.description || `Official photo of Marathi devotional singer Vishal Jogdeo (${p.title || 'Live Performance'}).`,
+            "caption": `Vishal Jogdeo - ${p.title || 'Concert Image'}`
+          }))
+        })
+      }} />
+
       {/* CLEAN HEADING ONLY */}
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white">
-          Vishal's Gallery
-        </h2>
+        <div>
+          <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block">छायाचित्रे व क्षणचित्रे</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white">
+            Vishal's Gallery
+          </h2>
+        </div>
 
         <button
           onClick={() => navigate('/gallery')}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-gradient text-black text-xs font-bold transition-all shadow-md hover:scale-105 active:scale-95 shrink-0"
+          title="View all Vishal Jogdeo photos"
         >
-          <span>View All</span>
+          <span>View All Photos</span>
           <ArrowRight className="w-3.5 h-3.5 text-black" />
         </button>
       </div>
@@ -79,13 +105,16 @@ export const VishalGalleryPreview: React.FC = () => {
           >
             <ProgressiveImage
               src={photo.imageUrl}
-              alt={photo.title}
+              alt={`Vishal Jogdeo photo - ${photo.title || 'Devotional Singer Concert Photo'}`}
               thumbnailWidth={350}
-              className="w-full h-full group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             {/* Subtle Hover Overlay */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-              <span className="px-3 py-1.5 rounded-full bg-amber-500 text-black text-[11px] font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 text-center pointer-events-none">
+              <span className="text-[11px] font-bold text-white mb-1 line-clamp-1">
+                {photo.title || 'Vishal Jogdeo'}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-amber-500 text-black text-[10px] font-extrabold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
                 Open Gallery
               </span>
             </div>

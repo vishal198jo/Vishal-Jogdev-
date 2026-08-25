@@ -10,12 +10,32 @@ export const AboutPage: React.FC = () => {
   const aboutPersonSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://vishaljogdeo.com/about#person",
     "name": "Vishal Jogdeo",
-    "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव"],
+    "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव", "Singer Vishal Jogdeo"],
     "jobTitle": "Devotional Playback Singer & Classical Vocalist",
     "url": "https://vishaljogdeo.com/about",
     "image": SINGER_PROFILE.portraitImage,
     "description": SINGER_PROFILE.bio || "Maharashtra's leading devotional playback singer and classical vocalist with 15+ years of musical experience in Abhangas and Bhajans.",
+    "nationality": {
+      "@type": "Country",
+      "name": "India"
+    },
+    "birthPlace": {
+      "@type": "Place",
+      "name": "Maharashtra, India"
+    },
+    "knowsAbout": [
+      "Marathi Abhangas",
+      "Mahanubhav Panth Bhajans",
+      "Indian Classical Music",
+      "Devotional Music Composition",
+      "Vocal Performance"
+    ],
+    "award": [
+      "Mahanubhav Panth Bhajan Samrat",
+      "State Level Devotional Vocalist Honors"
+    ],
     "sameAs": [
       SINGER_PROFILE.contact.socials.youtube || "https://youtube.com/@vishaljogdeo",
       SINGER_PROFILE.contact.socials.instagram || "https://www.instagram.com/vishaljogdeo",
@@ -27,9 +47,9 @@ export const AboutPage: React.FC = () => {
   return (
     <>
       <SEO 
-        title="Vishal Jogdeo Lifestyle & Biography | Official Profile & Musical Career" 
-        description="Discover Vishal Jogdeo (Vishal Jogdev) lifestyle, age, musical career, family, wife, son, early life, and 25-year journey as Mahanubhav Panth Bhajan Samrat & devotional playback singer." 
-        keywords="Vishal Jogdeo Lifestyle, Vishal Jogdeo About, Vishal Jogdeo Biography, Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Age, Vishal Jogdeo Family, Vishal Jogdeo Wife, Vishal Jogdeo Son, Vishal Jogdeo Musical Journey, Vishal Jogdeo Photos, महानुभाव पंथ भजनसम्राट, विशाल जोगदेव जीवनपट, विशाल जोगदेव" 
+        title="Vishal Jogdeo Lifestyle, Biography & Career | Official Profile, Age & Family" 
+        description="Explore Vishal Jogdeo (Vishal Jogdev) lifestyle, biography, age, family, musical training, awards, and 25-year career as Mahanubhav Panth Bhajan Samrat and devotional playback singer." 
+        keywords="Vishal Jogdeo Lifestyle, Vishal Jogdeo About, Vishal Jogdeo Biography, Vishal Jogdeo Age, Vishal Jogdeo Family, Vishal Jogdeo Wife, Vishal Jogdeo Son, Vishal Jogdeo Musical Journey, Vishal Jogdeo Photos, Vishal Jogdeo, Vishal Jogdev, महानुभाव पंथ भजनसम्राट, विशाल जोगदेव जीवनपट, विशाल जोगदेव" 
         url="/about"
         schema={aboutPersonSchema}
       />

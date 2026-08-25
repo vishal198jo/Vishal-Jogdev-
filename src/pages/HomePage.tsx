@@ -23,13 +23,64 @@ export const HomePage: React.FC<HomePageProps> = ({
   const { heroSlides, notifications, shows, loading } = useFirestoreData();
   const navigate = useNavigate();
 
+  const homeSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://vishaljogdeo.com/#website",
+      "url": "https://vishaljogdeo.com/",
+      "name": "Vishal Jogdeo | Official Devotional Music Portal",
+      "alternateName": ["Vishal Jogdev Official", "विशाल जोगदेव अधिकृत पोर्टल"],
+      "description": "Official website of Vishal Jogdeo (Vishal Jogdev) - classical vocalist and devotional playback singer. Discover songs, lyrics, music, lifestyle, biography, photos, and book live shows.",
+      "inLanguage": ["mr-IN", "en-IN", "hi-IN"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://vishaljogdeo.com/songs?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://vishaljogdeo.com/#person",
+      "name": "Vishal Jogdeo",
+      "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव", "Singer Vishal Jogdeo"],
+      "jobTitle": "Devotional Playback Singer & Classical Vocalist",
+      "url": "https://vishaljogdeo.com/",
+      "image": "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+      "description": "Acclaimed Marathi devotional singer and classical vocalist with 15+ years of stage and recording career in Abhangas, Mahanubhav Bhajans, and live spiritual concerts.",
+      "birthPlace": {
+        "@type": "Place",
+        "name": "Maharashtra, India"
+      },
+      "nationality": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "knowsAbout": [
+        "Marathi Abhangas",
+        "Mahanubhav Panth Bhajans",
+        "Indian Classical Music",
+        "Devotional Playback Singing",
+        "Bhakti Sangeet"
+      ],
+      "sameAs": [
+        "https://open.spotify.com/playlist/2LgZXXcDdeKV7CVa1DIQBq",
+        "https://youtube.com/@vishaljogdeo",
+        "https://www.instagram.com/vishaljogdeo",
+        "https://www.facebook.com/share/1AMnZnHGyd/"
+      ]
+    }
+  ];
+
   return (
     <>
       <SEO 
-        title="Vishal Jogdeo | Official Website – Devotional Singer & Songs Portal" 
-        description="Official Portal of Vishal Jogdeo (Vishal Jogdev) - 15+ years classical vocalist & devotional singer. Discover Vishal Jogdeo songs, lyrics, music playlist, lifestyle biography, and book live shows." 
-        keywords="Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Devotional Singer, Marathi Devotional Music, Vishal Jogdeo Live Show, Abhanga Sandhya" 
+        title="Vishal Jogdeo | Official Website – Devotional Playback Singer & Music Portal" 
+        description="Official website of Vishal Jogdeo (Vishal Jogdev) - acclaimed classical vocalist and Marathi devotional playback singer. Explore Vishal Jogdeo songs, lyrics, music, lifestyle, biography, photo gallery, upcoming live shows, and concert bookings." 
+        keywords="Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Songs, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya, विशाल जोगदेव" 
         url="/"
+        schema={homeSchema}
       />
       
       {/* Top Announcement Ticker Bar */}
@@ -109,7 +160,45 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
+            <button
+              onClick={() => navigate('/contact')}
+              className="px-6 py-3 rounded-full bg-gold-gradient text-black font-extrabold text-xs sm:text-sm shadow-xl hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
+            >
+              Book Vishal Jogdeo Now
+            </button>
+          </motion.section>
 
+          {/* SEO AUTHORITY TEXT OVERVIEW */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="p-6 sm:p-8 rounded-3xl bg-[#121218]/60 border border-amber-500/20 text-stone-300 space-y-4"
+          >
+            <h2 className="text-xl sm:text-2xl font-bold font-heading text-white">
+              Vishal Jogdeo – Official Devotional Singer & Music Archive
+            </h2>
+            <p className="text-xs sm:text-sm leading-relaxed text-stone-300">
+              <strong>Vishal Jogdeo (Vishal Jogdev)</strong> is one of Maharashtra's most distinguished classical vocalists and devotional playback singers, celebrated as the <em>Mahanubhav Panth Bhajan Samrat</em>. With a musical career spanning over 15 years, Vishal Jogdeo has rendered more than 1500 devotional songs, Marathi Abhangas, Krishna Bhajans, and classical ragas. This official portal serves as the definitive digital repository for Vishal Jogdeo's complete song catalog, original Devanagari lyrics library, high-definition photo gallery, lifestyle biography, and live concert bookings.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              <Link to="/songs" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
+                → Devotional Songs MP3
+              </Link>
+              <Link to="/lyrics" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
+                → Abhanga Lyrics Library
+              </Link>
+              <Link to="/about" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
+                → Biography & Lifestyle
+              </Link>
+              <Link to="/shows" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4 mr-3">
+                → Upcoming Concerts
+              </Link>
+              <Link to="/gallery" className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-4">
+                → Photo Gallery
+              </Link>
+            </div>
           </motion.section>
 
         </div>
