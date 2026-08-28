@@ -18,6 +18,7 @@ import {
   handleFirestoreError,
   OperationType
 } from '../lib/firebase';
+import { getPersistentCache, setPersistentCache, preloadImages } from '../lib/cacheManager';
 
 export interface GlobalStats {
   visitedUsers: number;
@@ -39,56 +40,46 @@ export interface FirestoreDataState {
 }
 
 const CACHE_KEYS = {
-  SONGS: 'vj_cache_songs_v3',
-  LYRICS: 'vj_cache_lyrics_v3',
-  FOLDERS: 'vj_cache_folders_v3',
-  PHOTOS: 'vj_cache_photos_v3',
-  SHOWS: 'vj_cache_shows_v3',
-  SLIDES: 'vj_cache_slides_v3',
-  HOME_GALLERY: 'vj_cache_home_gallery_v3',
-  NOTIFICATIONS: 'vj_cache_notifications_v3',
-  STATS: 'vj_cache_stats_v3',
+  SONGS: 'vj_cache_songs_v4',
+  LYRICS: 'vj_cache_lyrics_v4',
+  FOLDERS: 'vj_cache_folders_v4',
+  PHOTOS: 'vj_cache_photos_v4',
+  SHOWS: 'vj_cache_shows_v4',
+  SLIDES: 'vj_cache_slides_v4',
+  HOME_GALLERY: 'vj_cache_home_gallery_v4',
+  NOTIFICATIONS: 'vj_cache_notifications_v4',
+  STATS: 'vj_cache_stats_v4',
 };
 
-function readCache<T>(key: string, defaultValue: T): T {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(defaultValue) ? Array.isArray(parsed) : parsed) {
-        return parsed;
-      }
-    }
-  } catch (e) {
-    // Ignore cache parsing errors safely
-  }
-  return defaultValue;
-}
-
-function writeCache(key: string, data: any) {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (e) {
-    // Ignore cache write errors safely
-  }
-}
-
 // ---------------------------------------------------------------------------
-// Singleton Master Store: Ensures exactly 1 listener per collection app-wide
+// Singleton Master Store: Instant Cache-First + Stale-While-Revalidate Engine
 // ---------------------------------------------------------------------------
-const initialSongs = readCache<FirestoreSong[]>(CACHE_KEYS.SONGS, []);
-const initialLyrics = readCache<FirestoreLyric[]>(CACHE_KEYS.LYRICS, []);
-const initialFolders = readCache<FirestoreGalleryFolder[]>(CACHE_KEYS.FOLDERS, []);
-const initialPhotos = readCache<FirestoreGalleryPhoto[]>(CACHE_KEYS.PHOTOS, []);
-const initialShows = readCache<FirestoreShow[]>(CACHE_KEYS.SHOWS, []);
-const initialSlides = readCache<FirestoreHeroSlide[]>(CACHE_KEYS.SLIDES, []);
-const initialHomeGallery = readCache<FirestoreHomeGalleryItem[]>(CACHE_KEYS.HOME_GALLERY, []);
-const initialNotifications = readCache<FirestoreNotification[]>(CACHE_KEYS.NOTIFICATIONS, []);
-const initialStats = readCache<GlobalStats>(CACHE_KEYS.STATS, {
+const initialSongs = getPersistentCache<FirestoreSong[]>(CACHE_KEYS.SONGS, []);
+const initialLyrics = getPersistentCache<FirestoreLyric[]>(CACHE_KEYS.LYRICS, []);
+const initialFolders = getPersistentCache<FirestoreGalleryFolder[]>(CACHE_KEYS.FOLDERS, []);
+const initialPhotos = getPersistentCache<FirestoreGalleryPhoto[]>(CACHE_KEYS.PHOTOS, []);
+const initialShows = getPersistentCache<FirestoreShow[]>(CACHE_KEYS.SHOWS, []);
+const initialSlides = getPersistentCache<FirestoreHeroSlide[]>(CACHE_KEYS.SLIDES, []);
+const initialHomeGallery = getPersistentCache<FirestoreHomeGalleryItem[]>(CACHE_KEYS.HOME_GALLERY, []);
+const initialNotifications = getPersistentCache<FirestoreNotification[]>(CACHE_KEYS.NOTIFICATIONS, []);
+const initialStats = getPersistentCache<GlobalStats>(CACHE_KEYS.STATS, {
   visitedUsers: 0,
   totalLyricsRead: 0,
   totalPhotoViews: 0
 });
+
+// Preload initial cached images immediately into memory
+if (typeof window !== 'undefined') {
+  const initialImagesToPreload: string[] = [
+    ...initialSlides.map(s => s.image).filter(Boolean),
+    ...initialHomeGallery.map(g => g.imageUrl).filter(Boolean),
+    ...initialSongs.slice(0, 8).map(s => s.coverImage || '').filter(Boolean),
+    ...initialPhotos.slice(0, 10).map(p => p.imageUrl).filter(Boolean)
+  ];
+  if (initialImagesToPreload.length > 0) {
+    preloadImages(initialImagesToPreload);
+  }
+}
 
 const hasInitialData = initialSongs.length > 0 || initialSlides.length > 0 || initialHomeGallery.length > 0 || initialLyrics.length > 0 || initialShows.length > 0;
 
@@ -127,7 +118,11 @@ function initSharedListeners() {
       songsList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       storeState.songs = songsList;
       storeState.loading = false;
-      writeCache(CACHE_KEYS.SONGS, songsList);
+      setPersistentCache(CACHE_KEYS.SONGS, songsList);
+      
+      // Auto preload song cover images in background
+      preloadImages(songsList.slice(0, 12).map(s => s.coverImage || '').filter(Boolean));
+      
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.SONGS);
@@ -142,7 +137,7 @@ function initSharedListeners() {
       list.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       storeState.lyrics = list;
       storeState.loading = false;
-      writeCache(CACHE_KEYS.LYRICS, list);
+      setPersistentCache(CACHE_KEYS.LYRICS, list);
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.LYRICS);
@@ -161,7 +156,11 @@ function initSharedListeners() {
         return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
       });
       storeState.galleryFolders = foldersList;
-      writeCache(CACHE_KEYS.FOLDERS, foldersList);
+      setPersistentCache(CACHE_KEYS.FOLDERS, foldersList);
+      
+      // Preload folder cover images
+      preloadImages(foldersList.map(f => f.coverImage || '').filter(Boolean));
+      
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.GALLERY_FOLDERS);
@@ -175,7 +174,11 @@ function initSharedListeners() {
       });
       photosList.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
       storeState.galleryPhotos = photosList;
-      writeCache(CACHE_KEYS.PHOTOS, photosList);
+      setPersistentCache(CACHE_KEYS.PHOTOS, photosList);
+      
+      // Preload first batch of gallery thumbnails for instant viewing
+      preloadImages(photosList.slice(0, 16).map(p => p.imageUrl).filter(Boolean));
+      
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.GALLERY_PHOTOS);
@@ -196,7 +199,7 @@ function initSharedListeners() {
       });
       storeState.shows = showsList;
       storeState.loading = false;
-      writeCache(CACHE_KEYS.SHOWS, showsList);
+      setPersistentCache(CACHE_KEYS.SHOWS, showsList);
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.SHOWS);
@@ -210,7 +213,11 @@ function initSharedListeners() {
       });
       storeState.heroSlides = slidesList;
       storeState.loading = false;
-      writeCache(CACHE_KEYS.SLIDES, slidesList);
+      setPersistentCache(CACHE_KEYS.SLIDES, slidesList);
+      
+      // High priority preload for hero slide backgrounds
+      preloadImages(slidesList.map(s => s.image).filter(Boolean));
+      
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.HERO_SLIDES);
@@ -230,7 +237,10 @@ function initSharedListeners() {
           return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
         });
         storeState.homeGalleryItems = homeList;
-        writeCache(CACHE_KEYS.HOME_GALLERY, homeList);
+        setPersistentCache(CACHE_KEYS.HOME_GALLERY, homeList);
+        
+        preloadImages(homeList.map(item => item.imageUrl).filter(Boolean));
+        
         notifySubscribers();
       }, (err) => {
         // Fallback silently if remote firestore collection rules not yet propagated
@@ -247,7 +257,7 @@ function initSharedListeners() {
         list.push({ id: docSnap.id, ...docSnap.data() } as FirestoreNotification);
       });
       storeState.notifications = list;
-      writeCache(CACHE_KEYS.NOTIFICATIONS, list);
+      setPersistentCache(CACHE_KEYS.NOTIFICATIONS, list);
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.NOTIFICATIONS);
@@ -263,7 +273,7 @@ function initSharedListeners() {
           totalPhotoViews: typeof data.totalPhotoViews === 'number' ? data.totalPhotoViews : 0
         };
         storeState.globalStats = statsObj;
-        writeCache(CACHE_KEYS.STATS, statsObj);
+        setPersistentCache(CACHE_KEYS.STATS, statsObj);
         notifySubscribers();
       }
     }, (err) => {

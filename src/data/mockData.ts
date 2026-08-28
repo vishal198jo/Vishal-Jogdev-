@@ -18,7 +18,7 @@ export const SINGER_PROFILE = {
   showsCount: 1000,
   followersCount: "500K+",
   spotifyListeners: "250K+ monthly",
-  portraitImage: "https://cnd.vishaljogdeo.com/IMG_4239.PNG",
+  portraitImage: "https://cnd.vishaljogdeo.com/vishaljogedomain.png",
   watermarkImage: "https://cnd.vishaljogdeo.com/IMG_4246.PNG",
   
   // FIXED HOME PAGE ABOUT TEXT (As requested by user)

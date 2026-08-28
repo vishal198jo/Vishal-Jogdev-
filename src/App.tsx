@@ -11,6 +11,31 @@ import { FEATURED_SONGS } from './data/mockData';
 import { X, Music2 } from 'lucide-react';
 import { db } from './lib/firebase';
 import { doc, setDoc, increment } from 'firebase/firestore';
+import { 
+  registerRouteForPreload, 
+  preloadAllRegisteredRoutes 
+} from './lib/cacheManager';
+
+// Importer functions registered for intelligent preloading
+const importHome = () => import('./pages/HomePage');
+const importAbout = () => import('./pages/AboutPage');
+const importSongs = () => import('./pages/SongsPage');
+const importLyrics = () => import('./pages/LyricsPage');
+const importSingleLyric = () => import('./pages/SingleLyricPage');
+const importGallery = () => import('./pages/GalleryPage');
+const importShows = () => import('./pages/ShowsPage');
+const importContact = () => import('./pages/ContactPage');
+const importPrivacy = () => import('./pages/PrivacyPolicyPage');
+
+registerRouteForPreload('/', importHome);
+registerRouteForPreload('/about', importAbout);
+registerRouteForPreload('/songs', importSongs);
+registerRouteForPreload('/lyrics', importLyrics);
+registerRouteForPreload('/lyrics/detail', importSingleLyric);
+registerRouteForPreload('/gallery', importGallery);
+registerRouteForPreload('/shows', importShows);
+registerRouteForPreload('/contact', importContact);
+registerRouteForPreload('/privacy', importPrivacy);
 
 // Safe lazy import wrapper with auto-retry on dynamic import / chunk fetch errors
 function lazyWithRetry<T extends React.ComponentType<any>>(
@@ -46,15 +71,15 @@ function lazyWithRetry<T extends React.ComponentType<any>>(
 }
 
 // Lazy loaded page components for fast initial bundle loading
-const HomePage = lazyWithRetry(() => import('./pages/HomePage'), 'HomePage');
-const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'), 'AboutPage');
-const SongsPage = lazyWithRetry(() => import('./pages/SongsPage'), 'SongsPage');
-const LyricsPage = lazyWithRetry(() => import('./pages/LyricsPage'), 'LyricsPage');
-const SingleLyricPage = lazyWithRetry(() => import('./pages/SingleLyricPage'), 'SingleLyricPage');
-const GalleryPage = lazyWithRetry(() => import('./pages/GalleryPage'), 'GalleryPage');
-const ShowsPage = lazyWithRetry(() => import('./pages/ShowsPage'), 'ShowsPage');
-const ContactPage = lazyWithRetry(() => import('./pages/ContactPage'), 'ContactPage');
-const PrivacyPolicyPage = lazyWithRetry(() => import('./pages/PrivacyPolicyPage'), 'PrivacyPolicyPage');
+const HomePage = lazyWithRetry(importHome, 'HomePage');
+const AboutPage = lazyWithRetry(importAbout, 'AboutPage');
+const SongsPage = lazyWithRetry(importSongs, 'SongsPage');
+const LyricsPage = lazyWithRetry(importLyrics, 'LyricsPage');
+const SingleLyricPage = lazyWithRetry(importSingleLyric, 'SingleLyricPage');
+const GalleryPage = lazyWithRetry(importGallery, 'GalleryPage');
+const ShowsPage = lazyWithRetry(importShows, 'ShowsPage');
+const ContactPage = lazyWithRetry(importContact, 'ContactPage');
+const PrivacyPolicyPage = lazyWithRetry(importPrivacy, 'PrivacyPolicyPage');
 
 // Sleek fallback component during page lazy load
 const PageFallback = () => (
@@ -75,6 +100,65 @@ function ScrollToTop() {
 
 export default function App() {
   useFirestoreData();
+
+  // Background preload all routes and assets when idle for instant navigation
+  useEffect(() => {
+    preloadAllRegisteredRoutes();
+  }, []);
+
+  // Automatic Fullscreen Trigger on First User Interaction (No Buttons / Seamless Experience)
+  useEffect(() => {
+    let triggered = false;
+
+    const tryAutoFullscreen = () => {
+      if (triggered) return;
+      triggered = true;
+
+      const docEl = document.documentElement as any;
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      );
+
+      if (!isCurrentlyFullscreen && docEl) {
+        const reqFullscreen =
+          docEl.requestFullscreen ||
+          docEl.webkitRequestFullscreen ||
+          docEl.mozRequestFullScreen ||
+          docEl.msRequestFullscreen;
+
+        if (typeof reqFullscreen === 'function') {
+          try {
+            const promise = reqFullscreen.call(docEl);
+            if (promise && typeof promise.catch === 'function') {
+              promise.catch(() => {
+                // Silently ignore browser permission restrictions in iframes or unactivated contexts
+              });
+            }
+          } catch {
+            // Silently ignore
+          }
+        }
+      }
+
+      // Cleanup listeners once executed
+      window.removeEventListener('click', tryAutoFullscreen, true);
+      window.removeEventListener('touchstart', tryAutoFullscreen, true);
+      window.removeEventListener('pointerdown', tryAutoFullscreen, true);
+    };
+
+    window.addEventListener('click', tryAutoFullscreen, { capture: true, once: true });
+    window.addEventListener('touchstart', tryAutoFullscreen, { capture: true, once: true });
+    window.addEventListener('pointerdown', tryAutoFullscreen, { capture: true, once: true });
+
+    return () => {
+      window.removeEventListener('click', tryAutoFullscreen, true);
+      window.removeEventListener('touchstart', tryAutoFullscreen, true);
+      window.removeEventListener('pointerdown', tryAutoFullscreen, true);
+    };
+  }, []);
 
   // Track unique website visited users strictly
   useEffect(() => {

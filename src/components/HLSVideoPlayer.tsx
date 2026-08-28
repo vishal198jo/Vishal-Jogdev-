@@ -128,7 +128,7 @@ export const HLSVideoPlayer: React.FC<HLSVideoPlayerProps> = ({
   }, [src, isYoutube, autoPlay]);
 
   return (
-    <div className="w-full relative aspect-video bg-black overflow-hidden rounded-2xl border border-stone-800 shadow-2xl flex flex-col justify-center items-center">
+    <div className="w-full relative aspect-video bg-black overflow-hidden rounded-2xl shadow-2xl flex flex-col justify-center items-center">
       
       {/* Loading state indicator */}
       {isLoading && (

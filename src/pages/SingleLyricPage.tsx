@@ -392,7 +392,7 @@ export const SingleLyricPage: React.FC = () => {
             <img
               src="https://cnd.vishaljogdeo.com/IMG_4246.PNG"
               alt="Vishal Jogdeo Watermark"
-              className="w-full h-full object-cover object-top opacity-55 filter contrast-125 brightness-110 select-none pointer-events-none"
+              className="w-full h-full object-cover object-top opacity-100 filter contrast-110 select-none pointer-events-none"
               referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.currentTarget;

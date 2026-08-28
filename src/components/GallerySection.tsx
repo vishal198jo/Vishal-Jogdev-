@@ -8,9 +8,6 @@ import {
   Folder, 
   ChevronLeft, 
   ChevronRight, 
-  ZoomIn, 
-  ZoomOut, 
-  RotateCcw, 
   Eye, 
   Download, 
   Loader2,
@@ -43,6 +40,20 @@ const slideVariants = {
     x: direction < 0 ? '100%' : '-100%',
     opacity: 1,
   }),
+};
+
+// Helper function to format view counts cleanly (e.g. 100, 1.2k, 2k, 1m)
+const formatViewsCount = (views?: number): string => {
+  if (!views || views <= 0) return '0';
+  if (views < 1000) return `${views}`;
+  if (views < 1000000) {
+    const k = views / 1000;
+    const formatted = k < 100 ? (k % 1 === 0 ? k : Number(k.toFixed(1))) : Math.round(k);
+    return `${formatted}k`;
+  }
+  const m = views / 1000000;
+  const formatted = m < 100 ? (m % 1 === 0 ? m : Number(m.toFixed(1))) : Math.round(m);
+  return `${formatted}m`;
 };
 
 export const GallerySection: React.FC = () => {
@@ -420,9 +431,9 @@ export const GallerySection: React.FC = () => {
                       </span>
                     </div>
 
-                    {/* Simple Realtime Views Meter (Only Plain Number) */}
-                    <div className="absolute bottom-1.5 left-1.5 bg-black/70 backdrop-blur-sm text-[10px] sm:text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-20 select-none shadow pointer-events-none">
-                      <span className="leading-none">{item.views || 0}</span>
+                    {/* Simple Plain Realtime Views Count (No Background Box) */}
+                    <div className="absolute bottom-1.5 left-2 text-[11px] font-bold text-white/95 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] z-20 select-none pointer-events-none tracking-tight">
+                      <span className="leading-none">{formatViewsCount(item.views)}</span>
                     </div>
                   </div>
                 ) : (
@@ -434,9 +445,9 @@ export const GallerySection: React.FC = () => {
                       className="w-full h-full group-hover:opacity-90 transition-opacity"
                     />
 
-                    {/* Simple Realtime Views Meter (Only Plain Number) */}
-                    <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-[11px] font-bold text-white px-2 py-0.5 rounded-md flex items-center z-10 select-none shadow pointer-events-none">
-                      <span className="leading-none">{item.views || 0}</span>
+                    {/* Simple Plain Realtime Views Count (No Background Box) */}
+                    <div className="absolute bottom-1.5 left-2 text-[11px] font-bold text-white/95 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] z-10 select-none pointer-events-none tracking-tight">
+                      <span className="leading-none">{formatViewsCount(item.views)}</span>
                     </div>
                   </>
                 )}
@@ -456,38 +467,50 @@ export const GallerySection: React.FC = () => {
             if (menuOpen) setMenuOpen(false);
           }}
         >
-          {/* Top Left Title & Media Index Indicator */}
-          {currentItem.type === 'photo' && (
-            <div className="absolute top-4 left-4 z-[100000] flex items-center gap-2.5 bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10 text-white shadow-2xl max-w-[55vw] sm:max-w-md pointer-events-auto select-none">
-              <span className="text-amber-400 font-bold text-xs shrink-0">{activeIndex + 1} / {displayItems.length}</span>
+          {/* Top Left Title & Media Index Indicator (Auto-Scrolling Marquee for Long Video Titles) */}
+          <div className="absolute top-4 left-4 z-[100000] flex items-center gap-2.5 bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10 text-white shadow-2xl max-w-[55vw] sm:max-w-md pointer-events-auto select-none overflow-hidden">
+            <span className="text-amber-400 font-bold text-xs shrink-0">{activeIndex + 1} / {displayItems.length}</span>
+            {currentItem.type === 'video' ? (
+              <div className="overflow-hidden whitespace-nowrap mask-fade-edges relative flex-1">
+                <span className="text-stone-200 text-xs inline-block animate-title-scroll">
+                  {currentItem.title}
+                </span>
+              </div>
+            ) : (
               <span className="text-stone-200 text-xs truncate">{currentItem.title}</span>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Top Right Controls (3-Dots Menu & Close) */}
           <div className="absolute top-4 right-4 z-[100000] flex items-center gap-2">
-            {/* 3-Dot Options Menu for Photos (Contains Download, Open Tab, Copy, Zoom, Share) */}
-            {currentItem.type === 'photo' && (
-              <div className="relative pointer-events-auto">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setMenuOpen(!menuOpen);
-                  }}
-                  className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white/90 hover:text-white transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center"
-                  title="More options"
-                  aria-label="More options"
-                >
-                  <MoreVertical className="w-5 h-5 sm:w-6 sm:h-6" />
-                </button>
+            {/* 3-Dot Options Menu for Photos and Videos */}
+            <div className="relative pointer-events-auto">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(!menuOpen);
+                }}
+                className="p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white/90 hover:text-white transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center"
+                title="More options"
+                aria-label="More options"
+              >
+                <MoreVertical className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
 
-                {/* 3-Dot Dropdown Menu */}
-                {menuOpen && (
-                  <div 
-                    className="absolute right-0 top-14 w-48 py-1.5 rounded-2xl bg-stone-900/95 border border-stone-700/80 shadow-2xl backdrop-blur-xl z-[100001] flex flex-col text-left overflow-hidden"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* Download Image */}
+              {/* 3-Dot Dropdown Menu */}
+              {menuOpen && (
+                <div 
+                  className="absolute right-0 top-14 w-48 py-1.5 rounded-2xl bg-stone-900/95 border border-stone-700/80 shadow-2xl backdrop-blur-xl z-[100001] flex flex-col text-left overflow-hidden"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Views Count Display */}
+                  <div className={`flex items-center gap-3 px-4 py-2.5 text-xs font-medium text-stone-300 select-none ${currentItem.type === 'photo' ? 'border-b border-stone-800/90' : ''}`}>
+                    <Eye className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span>Views <strong className="text-amber-300 font-bold ml-1">{formatViewsCount(currentItem.views)}</strong></span>
+                  </div>
+
+                  {/* Download Action (Photos only) */}
+                  {currentItem.type === 'photo' && (
                     <button
                       onClick={() => {
                         const downloadUrl = currentItem.imageUrl || currentItem.videoUrl;
@@ -503,26 +526,10 @@ export const GallerySection: React.FC = () => {
                       )}
                       <span>{isDownloading ? 'Downloading...' : 'Download Image'}</span>
                     </button>
-
-                    {/* Zoom Toggle */}
-                    <button
-                      onClick={() => {
-                        toggleZoom();
-                        setMenuOpen(false);
-                      }}
-                      className="flex items-center gap-3 px-4 py-2.5 text-xs font-medium text-stone-200 hover:text-white hover:bg-white/10 transition-colors w-full border-t border-stone-800"
-                    >
-                      {zoomScale > 1 ? (
-                        <ZoomOut className="w-4 h-4 text-amber-400" />
-                      ) : (
-                        <ZoomIn className="w-4 h-4 text-stone-400" />
-                      )}
-                      <span>{zoomScale > 1 ? 'Reset Zoom (100%)' : 'Zoom In'}</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
+            </div>
 
             <button
               onClick={handleClose}
@@ -539,25 +546,25 @@ export const GallerySection: React.FC = () => {
               {/* Left Arrow Button */}
               <button
                 onClick={() => paginate(-1)}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-[100000] p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white hover:text-amber-400 transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto"
+                className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-[100003] p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-stone-800 text-white hover:text-amber-400 transition-all border border-white/15 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto"
                 aria-label="Previous Media"
               >
-                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
               </button>
 
               {/* Right Arrow Button */}
               <button
                 onClick={() => paginate(1)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-[100000] p-3 rounded-full bg-black/60 hover:bg-stone-800 text-white hover:text-amber-400 transition-all border border-white/10 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto"
+                className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-[100003] p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-stone-800 text-white hover:text-amber-400 transition-all border border-white/15 shadow-2xl backdrop-blur-md hover:scale-110 active:scale-95 flex items-center justify-center pointer-events-auto"
                 aria-label="Next Media"
               >
-                <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+                <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
               </button>
             </>
           )}
 
-          {/* Full Screen Media Display with Touch Swipe & Constrained Zoom */}
-          <div className="w-full h-full flex items-center justify-center relative overflow-hidden p-2 sm:p-4" ref={containerRef}>
+          {/* Full Screen Media Display with Fast Hardware-Accelerated Gestures */}
+          <div className="w-full h-full flex items-center justify-center relative overflow-hidden">
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={page}
@@ -567,28 +574,14 @@ export const GallerySection: React.FC = () => {
                 animate="center"
                 exit="exit"
                 transition={{
-                  x: { duration: 0.35, ease: [0.25, 1, 0.5, 1] },
-                  opacity: { duration: 0.2 }
+                  x: { duration: 0.3, ease: [0.25, 1, 0.5, 1] },
+                  opacity: { duration: 0.15 }
                 }}
-                drag={currentItem.type === 'photo' ? (zoomScale === 1 ? 'x' : false) : false}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.3}
-                onDragEnd={(e, { offset, velocity }) => {
-                  if (currentItem.type === 'photo' && zoomScale === 1) {
-                    const swipe = swipePower(offset.x, velocity.x);
-                    if (swipe < -swipeConfidenceThreshold) {
-                      paginate(1);
-                    } else if (swipe > swipeConfidenceThreshold) {
-                      paginate(-1);
-                    }
-                  }
-                }}
-                onDoubleClick={currentItem.type === 'photo' ? toggleZoom : undefined}
-                className="absolute inset-0 w-full h-full flex items-center justify-center transform-gpu p-2 sm:p-4 overflow-hidden"
+                className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden"
               >
                 {currentItem.type === 'video' ? (
                   <div 
-                    className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl relative z-10 pointer-events-auto"
+                    className="w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl relative z-10 pointer-events-auto p-2 sm:p-4"
                     onClick={(e) => e.stopPropagation()}
                     onPointerDownCapture={(e) => {
                       e.stopPropagation();
@@ -605,10 +598,8 @@ export const GallerySection: React.FC = () => {
                   <HDLightboxImage
                     imageUrl={currentItem.imageUrl}
                     title={currentItem.title}
-                    zoomScale={zoomScale}
-                    panConstraints={panConstraints}
-                    onImageLoad={handleImageLoad}
-                    toggleZoom={toggleZoom}
+                    onSwipeNext={() => paginate(1)}
+                    onSwipePrev={() => paginate(-1)}
                   />
                 )}
               </motion.div>

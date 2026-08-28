@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Award, CheckCircle, User, Calendar, Mic, Trophy, Youtube, Facebook, Instagram } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { SpotifyIcon } from './SpotifyIcon';
-import concertImage from '../assets/images/devotional_stage_concert_1785894013298.jpg';
+import { SINGER_PROFILE } from '../data/mockData';
 
 export const AboutSection: React.FC = () => {
   return (
@@ -21,23 +21,27 @@ export const AboutSection: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="lg:col-span-5 relative space-y-3"
           >
-            <div className="relative overflow-hidden p-1.5 bg-stone-900 rounded-2xl border border-amber-500/30 group shadow-xl">
+            <div className="relative overflow-hidden p-3 bg-gradient-to-b from-stone-900 via-[#16161d] to-stone-950 rounded-2xl border border-amber-500/30 group shadow-xl flex flex-col items-center justify-center min-h-[380px] sm:min-h-[440px]">
+              {/* Ambient Gold Glow behind portrait */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[85%] h-[85%] bg-gradient-to-br from-amber-500/20 via-yellow-600/15 to-orange-500/10 rounded-full blur-2xl opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+              </div>
+
               <img
-                src={concertImage}
-                alt="Vishal Jogdeo Devotional Performance"
-                className="w-full h-[380px] sm:h-[430px] object-cover rounded-xl group-hover:scale-[1.02] transition-transform duration-500"
+                src={SINGER_PROFILE.portraitImage}
+                alt="Vishal Jogdeo - Devotional Playback Singer"
+                className="relative z-10 w-full h-[320px] sm:h-[380px] object-contain drop-shadow-2xl group-hover:scale-[1.02] transition-transform duration-500"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent rounded-xl" />
               
-              <div className="absolute bottom-6 left-6 right-6 space-y-2">
-                <span className="px-3 py-1 bg-amber-400 text-black text-[11px] font-extrabold uppercase tracking-wider rounded-full shadow">
+              <div className="relative z-10 w-full mt-3 p-3 bg-stone-900/90 border border-amber-500/20 rounded-xl space-y-1 text-center">
+                <span className="inline-block px-2.5 py-0.5 bg-amber-400 text-black text-[10px] font-extrabold uppercase tracking-wider rounded-full shadow">
                   २४+ वर्षे संगीत कारकीर्द
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-white font-heading">
+                <h3 className="text-base sm:text-lg font-bold text-white font-heading">
                   महानुभाव पंथ भजनसम्राट
                 </h3>
-                <p className="text-xs text-amber-200/90 font-sans">
+                <p className="text-[11px] text-amber-200/90 font-sans">
                   १५००+ भक्तीगीते व ५००+ महानुभाव भजने
                 </p>
               </div>

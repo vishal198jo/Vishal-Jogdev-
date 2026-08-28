@@ -1,0 +1,28 @@
+{
+  "name": "Vishal Jogdeo | Official Devotional Music Portal",
+  "short_name": "Vishal Jogdeo",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone", "window-controls-overlay"],
+  "orientation": "portrait-primary",
+  "background_color": "#0b0b0e",
+  "theme_color": "#0b0b0e",
+  "description": "Official website of Vishal Jogdeo. Explore devotional songs, lyrics, videos, gallery, and upcoming live concerts.",
+  "categories": ["music", "entertainment", "lifestyle"],
+  "icons": [
+    {
+      "src": "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
