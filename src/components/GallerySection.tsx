@@ -63,6 +63,24 @@ export const GallerySection: React.FC = () => {
   const [zoomScale, setZoomScale] = useState<number>(1);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
+  // Automatically scroll to the top of the gallery whenever a folder is selected or unselected
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const galleryEl = document.getElementById('gallery');
+    if (galleryEl) {
+      galleryEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [selectedFolderId]);
+
+  const handleSelectFolder = (folderId: string | null) => {
+    setSelectedFolderId(folderId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const galleryEl = document.getElementById('gallery');
+    if (galleryEl) {
+      galleryEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [panConstraints, setPanConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 });
@@ -335,7 +353,7 @@ export const GallerySection: React.FC = () => {
         ) : (
           <div className="mb-6 flex items-center justify-between border-b border-stone-800 pb-4">
             <button 
-              onClick={() => setSelectedFolderId(null)}
+              onClick={() => handleSelectFolder(null)}
               className="flex items-center gap-2 text-stone-300 hover:text-amber-300 font-bold text-sm transition-colors"
             >
               <ArrowLeft className="w-4 h-4 text-amber-400" />
@@ -364,7 +382,7 @@ export const GallerySection: React.FC = () => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "50px" }}
                 transition={{ duration: 0.25, delay: Math.min(idx * 0.03, 0.2) }}
-                onClick={() => setSelectedFolderId(folder.id)}
+                onClick={() => handleSelectFolder(folder.id)}
                 className="group cursor-pointer flex flex-col items-center gap-2 transform-gpu will-change-transform"
                 style={{ contentVisibility: 'auto', containIntrinsicSize: '180px 220px' }}
               >
