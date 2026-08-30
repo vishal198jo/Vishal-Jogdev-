@@ -50,7 +50,7 @@ export const SEO: React.FC<SEOProps> = ({
   const cleanPath = currentPath.startsWith('/') ? currentPath : `/${currentPath}`;
   const fullUrl = cleanPath === '/' ? `${siteUrl}/` : `${siteUrl}${cleanPath}`;
   
-  const ogImage = image || SINGER_PROFILE.portraitImage || "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png";
+  const ogImage = image || SINGER_PROFILE.portraitImage || "https://cnd.vishaljogdeo.com/IMG_4239-removebg-preview.png";
 
   // Generate dynamic BreadcrumbList Schema for Google Search Rich Results
   const pathSegments = cleanPath.split('/').filter(Boolean);

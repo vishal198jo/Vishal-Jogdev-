@@ -50,8 +50,19 @@ export const LatestLyrics: React.FC<LatestLyricsProps> = ({
   });
 
   return (
-    <section id="lyrics" className="py-10 sm:py-12 bg-[#0b0b0e] text-stone-100 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <section id="lyrics" className="py-10 sm:py-12 bg-[#0b0b0e] text-stone-100 relative overflow-hidden">
+      {/* Ambient background image */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-15 overflow-hidden">
+        <img
+          src="https://cnd.vishaljogdeo.com/IMG_4246.PNG"
+          alt="Lyrics Background"
+          className="w-full h-full object-cover object-center filter blur-[2px]"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b0b0e] via-[#0b0b0e]/80 to-[#0b0b0e]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
         
         {/* 1. Header: Devotional Lyrics Library */}
         {!hideHeader && (

@@ -47,7 +47,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       "alternateName": ["विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव", "Singer Vishal Jogdeo"],
       "jobTitle": "Devotional Playback Singer & Classical Vocalist",
       "url": "https://vishaljogdeo.com/",
-      "image": "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+      "image": "https://cnd.vishaljogdeo.com/IMG_4239-removebg-preview.png",
       "description": "Acclaimed Marathi devotional singer and classical vocalist with 15+ years of stage and recording career in Abhangas, Mahanubhav Bhajans, and live spiritual concerts.",
       "birthPlace": {
         "@type": "Place",

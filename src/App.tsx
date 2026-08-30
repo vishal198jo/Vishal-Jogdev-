@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { AudioPlayerBar } from './components/AudioPlayerBar';
 import { BookEventModal } from './components/BookEventModal';
+import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { useFirestoreData } from './hooks/useFirestoreData';
 
 import { Song, Show } from './types';
@@ -323,6 +324,9 @@ export default function App() {
             setIsPlaying(true);
           }}
         />
+
+        {/* PWA Install Prompt & Offline Notification */}
+        <PWAInstallBanner />
 
         {/* Booking Event Modal */}
         <BookEventModal

@@ -108,9 +108,9 @@ export function preloadAllRegisteredRoutes() {
 
   // Preload critical core UI assets
   const criticalAssets = [
-    'https://cnd.vishaljogdeo.com/vishaljogedomain.png',
-    'https://cnd.vishaljogdeo.com/IMG_4246.PNG',
-    'https://cnd.vishaljogdeo.com/IMG_4187.PNG'
+    'https://cnd.vishaljogdeo.com/IMG_4239-removebg-preview.png',
+    'https://cnd.vishaljogdeo.com/IMG_0016.JPG',
+    'https://cnd.vishaljogdeo.com/IMG_4246.PNG'
   ];
   preloadImages(criticalAssets);
 

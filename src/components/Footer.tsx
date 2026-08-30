@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = () => {
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center shadow-md bg-stone-900 border border-amber-500/40 shrink-0 ring-2 ring-amber-500/10">
-                <img src={SINGER_PROFILE.portraitImage} alt="Vishal Jogdeo" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                <img src={SINGER_PROFILE.logoImage} alt="Vishal Jogdeo" className="w-full h-full object-cover" loading="lazy" decoding="async" />
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-bold text-lg text-white">Vishal Jogdeo</span>

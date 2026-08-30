@@ -5,24 +5,59 @@
   "id": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["fullscreen", "standalone", "window-controls-overlay"],
+  "display_override": ["standalone", "fullscreen", "window-controls-overlay"],
   "orientation": "portrait-primary",
   "background_color": "#0b0b0e",
   "theme_color": "#0b0b0e",
   "description": "Official website of Vishal Jogdeo. Explore devotional songs, lyrics, videos, gallery, and upcoming live concerts.",
   "categories": ["music", "entertainment", "lifestyle"],
-  "icons": [
+  "shortcuts": [
     {
-      "src": "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "name": "Listen to Songs",
+      "short_name": "Songs",
+      "description": "Listen to 1500+ devotional Marathi songs and abhangas",
+      "url": "/songs",
+      "icons": [{ "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG", "sizes": "192x192" }]
     },
     {
-      "src": "https://i.ibb.co/qMf4c75p/Picsart-26-08-05-18-05-33-103.png",
+      "name": "Song Lyrics",
+      "short_name": "Lyrics",
+      "description": "Read authentic Marathi and Devanagari lyrics",
+      "url": "/lyrics",
+      "icons": [{ "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG", "sizes": "192x192" }]
+    },
+    {
+      "name": "Upcoming Live Shows",
+      "short_name": "Shows",
+      "description": "Check live concert schedule and tour dates",
+      "url": "/shows",
+      "icons": [{ "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG", "sizes": "192x192" }]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cnd.vishaljogdeo.com/IMG_0016.JPG",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
     }
   ]
 }

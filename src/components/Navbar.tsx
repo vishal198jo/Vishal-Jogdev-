@@ -83,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               aria-label="Vishal Jogdeo Homepage"
             >
               <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center ring-2 ring-amber-400/80 shadow-md group-hover:scale-105 transition-transform duration-300 bg-black">
-                <img src={SINGER_PROFILE.portraitImage} alt="Vishal Jogdeo" className="w-full h-full object-cover" />
+                <img src={SINGER_PROFILE.logoImage} alt="Vishal Jogdeo" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-white group-hover:text-amber-300 transition-colors whitespace-nowrap">
