@@ -33,18 +33,18 @@ export const SEO: React.FC<SEOProps> = ({
   // Format title cleanly
   let fullTitle = siteName;
   if (title) {
-    if (title.toLowerCase().includes("vishal jogdeo") || title.toLowerCase().includes("vishal jogdev") || title.includes("विशाल जोगदेव")) {
+    if (title.toLowerCase().includes("vishal jogdeo") || title.includes("विशाल जोगदेव")) {
       fullTitle = title;
     } else {
       fullTitle = `${title} | Vishal Jogdeo`;
     }
   }
   
-  const defaultDesc = "Official website of Vishal Jogdeo (Vishal Jogdev) - acclaimed classical vocalist and Marathi devotional playback singer. Explore Vishal Jogdeo songs, lyrics, music, lifestyle, biography, photo gallery, upcoming live shows, and concert bookings.";
+  const defaultDesc = "Official website of Vishal Jogdeo - acclaimed classical vocalist and Marathi devotional playback singer. Explore Vishal Jogdeo songs, lyrics, music, lifestyle, biography, photo gallery, upcoming live shows, and concert bookings.";
   const metaDesc = description || defaultDesc;
   
-  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdev, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya, विशाल जोगदेव";
-  const metaKeywords = keywords ? `${keywords}, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव` : defaultKeywords;
+  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya, विशाल जोगदेव";
+  const metaKeywords = keywords ? `${keywords}, Vishal Jogdeo, विशाल जोगदेव` : defaultKeywords;
   
   const currentPath = url || location.pathname;
   const cleanPath = currentPath.startsWith('/') ? currentPath : `/${currentPath}`;
@@ -96,7 +96,7 @@ export const SEO: React.FC<SEOProps> = ({
     "@type": "Person",
     "@id": "https://vishaljogdeo.com/#person",
     "name": "Vishal Jogdeo",
-    "alternateName": ["Vishal Jogdev", "विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव", "Singer Vishal Jogdeo"],
+    "alternateName": ["विशाल जोगदेव", "भजनसम्राट विशाल जोगदेव", "Singer Vishal Jogdeo"],
     "url": siteUrl,
     "image": ogImage,
     "jobTitle": "Devotional Playback Singer & Classical Vocalist",

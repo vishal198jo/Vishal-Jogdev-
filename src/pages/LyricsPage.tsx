@@ -30,7 +30,7 @@ export const LyricsPage: React.FC<LyricsPageProps> = ({
       <SEO 
         title="Vishal Jogdeo Devotional Lyrics Library | Abhanga & Bhajan Song Words" 
         description="Explore authentic Marathi devotional lyrics and Devanagari text for all popular songs, Mahanubhav Panth bhajans, and Sant Sahitya abhangas by Vishal Jogdeo." 
-        keywords="Vishal Jogdeo lyrics, Vishal Jogdeo Song Lyrics, Marathi Bhajan Lyrics, Devanagari Abhanga Lyrics, Mahanubhav Bhajan Lyrics, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव लिरिक्स, अभंग शब्द" 
+        keywords="Vishal Jogdeo lyrics, Vishal Jogdeo Song Lyrics, Marathi Bhajan Lyrics, Devanagari Abhanga Lyrics, Mahanubhav Bhajan Lyrics, Vishal Jogdeo, विशाल जोगदेव लिरिक्स, अभंग शब्द" 
         url="/lyrics"
         schema={lyricsCollectionSchema}
       />

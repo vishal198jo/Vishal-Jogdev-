@@ -31,8 +31,8 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
     <>
       <SEO 
         title="Book Vishal Jogdeo | Official Contact, Phone Number & Event Inquiries" 
-        description="Book Vishal Jogdeo (Vishal Jogdev) for live Abhanga Sandhya concerts, Bhajan programs, weddings, and studio recordings. Official contact details and phone number." 
-        keywords="Book Vishal Jogdeo, Vishal Jogdeo Contact, Vishal Jogdeo Phone Number, Vishal Jogdeo Event Booking, Vishal Jogdeo Management, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव संपर्क" 
+        description="Book Vishal Jogdeo for live Abhanga Sandhya concerts, Bhajan programs, weddings, and studio recordings. Official contact details and phone number." 
+        keywords="Book Vishal Jogdeo, Vishal Jogdeo Contact, Vishal Jogdeo Phone Number, Vishal Jogdeo Event Booking, Vishal Jogdeo Management, Vishal Jogdeo, विशाल जोगदेव संपर्क" 
         url="/contact"
         schema={contactSchema}
       />

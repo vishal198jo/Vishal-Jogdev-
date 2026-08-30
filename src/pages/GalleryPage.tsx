@@ -21,8 +21,8 @@ export const GalleryPage: React.FC = () => {
     <>
       <SEO 
         title="Vishal Jogdeo Photos, Lifestyle & Concert Pictures | HD Image Gallery" 
-        description="Browse high-definition photos and concert gallery of Vishal Jogdeo (Vishal Jogdev). Explore live stage images, lifestyle photos, studio recordings, and award ceremonies." 
-        keywords="Vishal Jogdeo Photos, Vishal Jogdeo Lifestyle, Vishal Jogdeo HD Images, Vishal Jogdeo Gallery, Vishal Jogdeo Concert Pictures, Vishal Jogdev Photos, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव फोटो गॅलरी, विशाल जोगदेव" 
+        description="Browse high-definition photos and concert gallery of Vishal Jogdeo. Explore live stage images, lifestyle photos, studio recordings, and award ceremonies." 
+        keywords="Vishal Jogdeo Photos, Vishal Jogdeo Lifestyle, Vishal Jogdeo HD Images, Vishal Jogdeo Gallery, Vishal Jogdeo Concert Pictures, Vishal Jogdeo, विशाल जोगदेव फोटो गॅलरी, विशाल जोगदेव" 
         url="/gallery"
         schema={gallerySchema}
       />

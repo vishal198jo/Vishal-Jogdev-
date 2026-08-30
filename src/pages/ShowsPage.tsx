@@ -48,8 +48,8 @@ export const ShowsPage: React.FC<ShowsPageProps> = ({ onOpenBooking }) => {
     <>
       <SEO 
         title="Vishal Jogdeo Upcoming Live Shows & Concerts | Bhajan Sandhya Tour Dates" 
-        description="Check upcoming live show dates, concert venues, and event tickets for Vishal Jogdeo (Vishal Jogdev). Book live Abhanga Sandhya, Bhagwati Jagran, and temple programs." 
-        keywords="Vishal Jogdeo Shows, Vishal Jogdeo Concerts, Vishal Jogdeo Tour Dates, Vishal Jogdeo Live, Abhanga Sandhya Booking, Bhajan Sandhya, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव लाईव्ह शो" 
+        description="Check upcoming live show dates, concert venues, and event tickets for Vishal Jogdeo. Book live Abhanga Sandhya, Bhagwati Jagran, and temple programs." 
+        keywords="Vishal Jogdeo Shows, Vishal Jogdeo Concerts, Vishal Jogdeo Tour Dates, Vishal Jogdeo Live, Abhanga Sandhya Booking, Bhajan Sandhya, Vishal Jogdeo, विशाल जोगदेव लाईव्ह शो" 
         url="/shows"
         schema={eventsSchema.length > 0 ? eventsSchema : undefined}
       />

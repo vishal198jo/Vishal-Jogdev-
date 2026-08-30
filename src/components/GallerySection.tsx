@@ -285,13 +285,13 @@ export const GallerySection: React.FC = () => {
   if (selectedItem) {
     seoTitle = `${selectedItem.title} - Photo & Video Gallery | Vishal Jogdeo`;
     seoDescription = selectedItem.description || `View high-definition photo/video of "${selectedItem.title}" from Vishal Jogdeo's official archive.`;
-    seoKeywords = `${selectedItem.title}, Vishal Jogdeo Gallery, ${selectedItem.category || 'Concert'}, Devotional Singer Photos, Vishal Jogdev`;
+    seoKeywords = `${selectedItem.title}, Vishal Jogdeo Gallery, ${selectedItem.category || 'Concert'}, Devotional Singer Photos, Vishal Jogdeo`;
     seoImage = selectedItem.imageUrl;
     seoUrl = selectedFolderId ? `/gallery?folder=${selectedFolderId}&item=${selectedItem.id}` : `/gallery?item=${selectedItem.id}`;
   } else if (selectedFolderId && activeFolder) {
     seoTitle = `${activeFolder.name} Photos & Videos | Vishal Jogdeo`;
     seoDescription = activeFolder.description || `Browse the complete collection of high-definition photos and video highlights of Vishal Jogdeo in ${activeFolder.name} folder.`;
-    seoKeywords = `Vishal Jogdeo ${activeFolder.name}, ${activeFolder.name} photos, ${activeFolder.name} gallery, ${activeFolder.name} videos, Vishal Jogdev`;
+    seoKeywords = `Vishal Jogdeo ${activeFolder.name}, ${activeFolder.name} photos, ${activeFolder.name} gallery, ${activeFolder.name} videos, Vishal Jogdeo`;
     seoImage = activeFolder.coverImage || SINGER_PROFILE.portraitImage;
     seoUrl = `/gallery?folder=${selectedFolderId}`;
   }

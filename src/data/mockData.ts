@@ -766,7 +766,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     views: "1.2M",
     date: "2 days ago",
     mediaUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop",
-    postUrl: "https://youtube.com/@vishaljogdevsangeet"
+    postUrl: "https://youtube.com/@vishaljogdeo"
   },
   {
     id: "soc-2",
@@ -775,7 +775,7 @@ export const SOCIAL_POSTS: SocialPost[] = [
     likes: "28.4K",
     date: "1 week ago",
     mediaUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop",
-    postUrl: "https://instagram.com/vishaljogdevofficial"
+    postUrl: "https://instagram.com/vishaljogdeo"
   },
   {
     id: "soc-3",
@@ -784,6 +784,6 @@ export const SOCIAL_POSTS: SocialPost[] = [
     likes: "14.2K",
     date: "2 weeks ago",
     mediaUrl: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=800&auto=format&fit=crop",
-    postUrl: "https://facebook.com/vishaljogdevmusic"
+    postUrl: "https://www.facebook.com/share/1AMnZnHGyd/"
   }
 ];

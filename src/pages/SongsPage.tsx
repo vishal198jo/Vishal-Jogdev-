@@ -77,7 +77,7 @@ export const SongsPage: React.FC<SongsPageProps> = ({
         <SEO 
           title={pageTitle}
           description={pageDesc}
-          keywords={`${pageKeywords}, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo MP3, Marathi Bhajan MP3`}
+          keywords={`${pageKeywords}, Vishal Jogdeo, विशाल जोगदेव, Vishal Jogdeo Song, Vishal Jogdeo MP3, Marathi Bhajan MP3`}
           image={coverImage}
           url={`/songs?songId=${selectedSong.id}`}
           audio={selectedSong.audioUrl}
@@ -152,8 +152,8 @@ export const SongsPage: React.FC<SongsPageProps> = ({
     <>
       <SEO 
         title="Vishal Jogdeo Devotional Songs & Audio Tracks | Official Music Catalog" 
-        description="Listen to 1500+ devotional songs, MP3 tracks, Marathi Abhangas, Krishna Bhajans, and classical compositions sung by Vishal Jogdeo (Vishal Jogdev)." 
-        keywords="Vishal Jogdeo Songs, Vishal Jogdeo Song, Vishal Jogdeo MP3, Vishal Jogdeo Devotional Music, Vishal Jogdeo Spotify, Vishal Jogdeo Bhajan, Vishal Jogdeo, Vishal Jogdev, विशाल जोगदेव गाणी, भजन एमपी३, अभंग ऑडिओ" 
+        description="Listen to 1500+ devotional songs, MP3 tracks, Marathi Abhangas, Krishna Bhajans, and classical compositions sung by Vishal Jogdeo." 
+        keywords="Vishal Jogdeo Songs, Vishal Jogdeo Song, Vishal Jogdeo MP3, Vishal Jogdeo Devotional Music, Vishal Jogdeo Spotify, Vishal Jogdeo Bhajan, Vishal Jogdeo, विशाल जोगदेव गाणी, भजन एमपी३, अभंग ऑडिओ" 
         url="/songs"
         schema={playlistSchema}
       />
