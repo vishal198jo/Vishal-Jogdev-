@@ -27,6 +27,7 @@ const importGallery = () => import('./pages/GalleryPage');
 const importShows = () => import('./pages/ShowsPage');
 const importContact = () => import('./pages/ContactPage');
 const importPrivacy = () => import('./pages/PrivacyPolicyPage');
+const importEmbedLyric = () => import('./pages/EmbedLyricPage');
 
 registerRouteForPreload('/', importHome);
 registerRouteForPreload('/about', importAbout);
@@ -81,6 +82,7 @@ const GalleryPage = lazyWithRetry(importGallery, 'GalleryPage');
 const ShowsPage = lazyWithRetry(importShows, 'ShowsPage');
 const ContactPage = lazyWithRetry(importContact, 'ContactPage');
 const PrivacyPolicyPage = lazyWithRetry(importPrivacy, 'PrivacyPolicyPage');
+const EmbedLyricPage = lazyWithRetry(importEmbedLyric, 'EmbedLyricPage');
 
 // Sleek fallback component during page lazy load
 const PageFallback = () => (
@@ -179,6 +181,18 @@ export default function App() {
     }
   }, []);
 
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <AppContent />
+    </BrowserRouter>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+  const isEmbedRoute = location.pathname.startsWith('/embed');
+
   // Audio state
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -207,161 +221,175 @@ export default function App() {
     setSelectedLyricId(lyricsId);
   };
 
+  if (isEmbedRoute) {
+    return (
+      <main className="min-h-screen bg-[#0b0b0e]">
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/embed/lyrics/:lyricId" element={<EmbedLyricPage />} />
+          </Routes>
+        </Suspense>
+      </main>
+    );
+  }
+
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <div className="min-h-screen bg-[#0b0b0e] text-stone-100 font-sans selection:bg-amber-500 selection:text-black flex flex-col justify-between">
-        
-        {/* Sticky Header Navigation */}
-        <Navbar
-          onOpenBooking={() => { setPreselectedShow(null); setBookingModalOpen(true); }}
-        />
+    <div className="min-h-screen bg-[#0b0b0e] text-stone-100 font-sans selection:bg-amber-500 selection:text-black flex flex-col justify-between">
+      
+      {/* Sticky Header Navigation */}
+      <Navbar
+        onOpenBooking={() => { setPreselectedShow(null); setBookingModalOpen(true); }}
+      />
 
-        <main className="flex-1">
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
-              {/* Dynamic Home Page with Demos of all sections */}
-              <Route 
-                path="/" 
-                element={
-                  <HomePage
-                    currentSong={currentSong}
-                    isPlaying={isPlaying}
-                    onPlaySong={handlePlaySong}
-                    onOpenBooking={() => { setPreselectedShow(null); setBookingModalOpen(true); }}
-                  />
-                } 
-              />
+      <main className="flex-1">
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            {/* Dynamic Home Page with Demos of all sections */}
+            <Route 
+              path="/" 
+              element={
+                <HomePage
+                  currentSong={currentSong}
+                  isPlaying={isPlaying}
+                  onPlaySong={handlePlaySong}
+                  onOpenBooking={() => { setPreselectedShow(null); setBookingModalOpen(true); }}
+                />
+              } 
+            />
 
-              {/* Dedicated Pages for each section */}
-              <Route path="/about" element={<AboutPage />} />
-              
-              <Route 
-                path="/songs" 
-                element={
-                  <SongsPage
-                    currentSong={currentSong}
-                    isPlaying={isPlaying}
-                    onPlaySong={handlePlaySong}
-                    onOpenLyrics={handleSelectLyricsById}
-                  />
-                } 
-              />
+            {/* Dedicated Pages for each section */}
+            <Route path="/about" element={<AboutPage />} />
+            
+            <Route 
+              path="/songs" 
+              element={
+                <SongsPage
+                  currentSong={currentSong}
+                  isPlaying={isPlaying}
+                  onPlaySong={handlePlaySong}
+                  onOpenLyrics={handleSelectLyricsById}
+                />
+              } 
+            />
 
-              <Route 
-                path="/songs/:songId" 
-                element={
-                  <SongsPage
-                    currentSong={currentSong}
-                    isPlaying={isPlaying}
-                    onPlaySong={handlePlaySong}
-                    onOpenLyrics={handleSelectLyricsById}
-                  />
-                } 
-              />
-              
-              <Route 
-                path="/lyrics" 
-                element={
-                  <LyricsPage
-                    selectedLyricId={selectedLyricId}
-                    onPlaySong={(songId) => {
-                      const song = FEATURED_SONGS.find(s => s.id === songId);
-                      if (song) handlePlaySong(song);
-                    }}
-                  />
-                } 
-              />
+            <Route 
+              path="/songs/:songId" 
+              element={
+                <SongsPage
+                  currentSong={currentSong}
+                  isPlaying={isPlaying}
+                  onPlaySong={handlePlaySong}
+                  onOpenLyrics={handleSelectLyricsById}
+                />
+              } 
+            />
+            
+            <Route 
+              path="/lyrics" 
+              element={
+                <LyricsPage
+                  selectedLyricId={selectedLyricId}
+                  onPlaySong={(songId) => {
+                    const song = FEATURED_SONGS.find(s => s.id === songId);
+                    if (song) handlePlaySong(song);
+                  }}
+                />
+              } 
+            />
 
-              <Route 
-                path="/lyrics/:lyricId" 
-                element={
-                  <SingleLyricPage
-                    onPlaySong={handlePlaySong}
-                  />
-                } 
-              />
-              
-              <Route path="/gallery" element={<GalleryPage />} />
-              
-              <Route 
-                path="/shows" 
-                element={
-                  <ShowsPage
-                    onOpenBooking={() => setBookingModalOpen(true)}
-                  />
-                } 
-              />
-              
-              <Route 
-                path="/contact" 
-                element={
-                  <ContactPage
-                    onOpenBooking={() => setBookingModalOpen(true)}
-                  />
-                } 
-              />
+            <Route 
+              path="/lyrics/:lyricId" 
+              element={
+                <SingleLyricPage
+                  onPlaySong={handlePlaySong}
+                />
+              } 
+            />
 
-              {/* Legal Pages */}
-              <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            </Routes>
-          </Suspense>
-        </main>
+            <Route 
+              path="/embed/lyrics/:lyricId" 
+              element={<EmbedLyricPage />} 
+            />
+            
+            <Route path="/gallery" element={<GalleryPage />} />
+            
+            <Route 
+              path="/shows" 
+              element={
+                <ShowsPage
+                  onOpenBooking={() => setBookingModalOpen(true)}
+                />
+              } 
+            />
+            
+            <Route 
+              path="/contact" 
+              element={
+                <ContactPage
+                  onOpenBooking={() => setBookingModalOpen(true)}
+                />
+              } 
+            />
 
-        {/* Footer */}
-        <Footer
-          onOpenPrivacyModal={(title) => setPolicyModalTitle(title)}
-        />
+            {/* Legal Pages */}
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          </Routes>
+        </Suspense>
+      </main>
 
-        {/* Persistent Audio Player Bar */}
-        <AudioPlayerBar
-          currentSong={currentSong}
-          isPlaying={isPlaying}
-          onTogglePlay={() => setIsPlaying(!isPlaying)}
-          onClosePlayer={() => { setIsPlaying(false); setCurrentSong(null); }}
-          onSelectSong={(song) => {
-            setCurrentSong(song);
-            setIsPlaying(true);
-          }}
-        />
+      {/* Footer */}
+      <Footer
+        onOpenPrivacyModal={(title) => setPolicyModalTitle(title)}
+      />
 
-        {/* PWA Install Prompt & Offline Notification */}
-        <PWAInstallBanner />
+      {/* Persistent Audio Player Bar */}
+      <AudioPlayerBar
+        currentSong={currentSong}
+        isPlaying={isPlaying}
+        onTogglePlay={() => setIsPlaying(!isPlaying)}
+        onClosePlayer={() => { setIsPlaying(false); setCurrentSong(null); }}
+        onSelectSong={(song) => {
+          setCurrentSong(song);
+          setIsPlaying(true);
+        }}
+      />
 
-        {/* Booking Event Modal */}
-        <BookEventModal
-          isOpen={bookingModalOpen}
-          onClose={() => setBookingModalOpen(false)}
-          preselectedShow={preselectedShow}
-        />
+      {/* PWA Install Prompt & Offline Notification */}
+      <PWAInstallBanner />
 
-        {/* Privacy Policy / Terms Modal */}
-        {policyModalTitle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
-            <div className="bg-[#121218] border border-amber-500/30 rounded-3xl max-w-lg w-full p-6 space-y-4 text-stone-100 shadow-2xl relative">
+      {/* Booking Event Modal */}
+      <BookEventModal
+        isOpen={bookingModalOpen}
+        onClose={() => setBookingModalOpen(false)}
+        preselectedShow={preselectedShow}
+      />
+
+      {/* Privacy Policy / Terms Modal */}
+      {policyModalTitle && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="bg-[#121218] border border-amber-500/30 rounded-3xl max-w-lg w-full p-6 space-y-4 text-stone-100 shadow-2xl relative">
+            <button
+              onClick={() => setPolicyModalTitle(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-stone-900 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <h3 className="text-2xl font-bold font-heading text-white">{policyModalTitle}</h3>
+            <p className="text-xs text-stone-300 leading-relaxed font-sans">
+              All music compositions, recordings, lyrics transliterations, and imagery on this official portal are property of Vishal Jogdeo Sangeet and licensed partners. Unauthorized copying or commercial broadcast without prior written approval is prohibited.
+            </p>
+            <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setPolicyModalTitle(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-stone-900 text-stone-400 hover:text-white hover:bg-stone-800 border border-stone-800 transition-colors"
+                className="px-5 py-2 rounded-full bg-gold-gradient text-black hover:opacity-95 font-extrabold text-xs shadow-md transition-all"
               >
-                <X className="w-5 h-5" />
+                I Understand
               </button>
-              <h3 className="text-2xl font-bold font-heading text-white">{policyModalTitle}</h3>
-              <p className="text-xs text-stone-300 leading-relaxed font-sans">
-                All music compositions, recordings, lyrics transliterations, and imagery on this official portal are property of Vishal Jogdeo Sangeet and licensed partners. Unauthorized copying or commercial broadcast without prior written approval is prohibited.
-              </p>
-              <div className="pt-2 flex justify-end">
-                <button
-                  onClick={() => setPolicyModalTitle(null)}
-                  className="px-5 py-2 rounded-full bg-gold-gradient text-black hover:opacity-95 font-extrabold text-xs shadow-md transition-all"
-                >
-                  I Understand
-                </button>
-              </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-      </div>
-    </BrowserRouter>
+    </div>
   );
 }

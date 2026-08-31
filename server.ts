@@ -11,7 +11,7 @@ const ipRequestMap = new Map<string, RateLimitRecord>();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
 const MAX_REQUESTS_PER_WINDOW = 300; // 300 requests/minute per IP (ample for normal browsing, blocks rapid attack floods)
 
-// Clean up stale rate limit entries periodically
+    // Clean up stale rate limit entries periodically
 setInterval(() => {
   const now = Date.now();
   for (const [ip, record] of ipRequestMap.entries()) {
@@ -20,6 +20,60 @@ setInterval(() => {
     }
   }
 }, 60 * 1000);
+
+// SSRF Protection: Validate that proxy URLs only point to trusted public CDNs/media hosts
+function isAllowedMediaUrl(urlString: string): boolean {
+  try {
+    const parsed = new URL(urlString);
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return false;
+    }
+    const hostname = parsed.hostname.toLowerCase();
+    
+    // Block loopback, private networks, cloud metadata IP addresses
+    if (
+      hostname === 'localhost' ||
+      hostname.endsWith('.localhost') ||
+      hostname === '127.0.0.1' ||
+      hostname === '169.254.169.254' ||
+      hostname.startsWith('10.') ||
+      hostname.startsWith('192.168.') ||
+      hostname.startsWith('172.16.') ||
+      hostname.startsWith('172.17.') ||
+      hostname.startsWith('172.18.') ||
+      hostname.startsWith('172.19.') ||
+      hostname.startsWith('172.2') ||
+      hostname.startsWith('172.30.') ||
+      hostname.startsWith('172.31.') ||
+      hostname === '::1' ||
+      hostname.includes('metadata.google')
+    ) {
+      return false;
+    }
+
+    // Allow trusted domains or public web storage
+    const allowedSuffixes = [
+      'vishaljogdeo.com',
+      'cnd.vishaljogdeo.com',
+      'cdn.vishaljogdeo.com',
+      'googleapis.com',
+      'googleusercontent.com',
+      'firebase.com',
+      'firebasestorage.app',
+      'unsplash.com',
+      'youtube.com',
+      'ytimg.com',
+      'cloudinary.com',
+      'archive.org',
+      'github.com',
+      'githubusercontent.com'
+    ];
+
+    return allowedSuffixes.some(domain => hostname === domain || hostname.endsWith(`.${domain}`));
+  } catch {
+    return false;
+  }
+}
 
 async function generateLiveSitemapXml(): Promise<string> {
   const domain = 'https://vishaljogdeo.com';
@@ -91,13 +145,19 @@ async function startServer() {
   });
 
   // 2. Comprehensive Security & Hardening Headers
-  app.use((_req, res, next) => {
+  app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+
+    // Allow embedding ONLY for /embed/ routes; block framing elsewhere to prevent Clickjacking
+    if (req.path.startsWith('/embed')) {
+      res.setHeader('Content-Security-Policy', "frame-ancestors *;");
+    } else {
+      res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    }
     
     // High-performance media streaming header: allow seeking without re-downloading
     res.setHeader('Accept-Ranges', 'bytes');
@@ -116,14 +176,14 @@ async function startServer() {
     });
   });
 
-  // Direct Audio Download Proxy Route (Prevents URL exposure and redirects)
+  // Direct Audio Download Proxy Route (With Anti-SSRF & Whitelist Enforcement)
   app.get('/api/download-audio', async (req, res) => {
     try {
       const audioUrl = req.query.url as string;
       const customFilename = (req.query.filename as string) || 'Devotional Track - Vishal Jogdeo.mp3';
 
-      if (!audioUrl || typeof audioUrl !== 'string' || !audioUrl.startsWith('http')) {
-        res.status(400).json({ error: 'Invalid or missing audio URL' });
+      if (!audioUrl || typeof audioUrl !== 'string' || !isAllowedMediaUrl(audioUrl)) {
+        res.status(400).json({ error: 'Invalid or restricted media URL domain' });
         return;
       }
 
@@ -155,14 +215,14 @@ async function startServer() {
     }
   });
 
-  // Direct Media (Photo/Video) Download Proxy Route
+  // Direct Media (Photo/Video) Download Proxy Route (With Anti-SSRF & Whitelist Enforcement)
   app.get('/api/download-media', async (req, res) => {
     try {
       const mediaUrl = req.query.url as string;
       const customFilename = (req.query.filename as string) || 'vishal_jogdeo_media.jpg';
 
-      if (!mediaUrl || typeof mediaUrl !== 'string' || !mediaUrl.startsWith('http')) {
-        res.status(400).json({ error: 'Invalid or missing media URL' });
+      if (!mediaUrl || typeof mediaUrl !== 'string' || !isAllowedMediaUrl(mediaUrl)) {
+        res.status(400).json({ error: 'Invalid or restricted media URL domain' });
         return;
       }
 

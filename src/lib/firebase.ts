@@ -29,20 +29,20 @@ export const firebaseConfig = {
 };
 
 // Initialize Firebase App
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// Initialize Firestore with robust connection settings for iframe & varying network environments
-let firestoreDb;
+// Initialize Firestore and Auth cleanly with robust fallback
+let firestoreInstance: ReturnType<typeof getFirestore>;
 try {
-  firestoreDb = initializeFirestore(app, {
-    experimentalAutoDetectLongPolling: true,
-    ignoreUndefinedProperties: true
+  firestoreInstance = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+    ignoreUndefinedProperties: true,
   });
 } catch {
-  firestoreDb = getFirestore(app);
+  firestoreInstance = getFirestore(app);
 }
 
-export const db = firestoreDb;
+export const db = firestoreInstance;
 export const auth = getAuth(app);
 
 export enum OperationType {

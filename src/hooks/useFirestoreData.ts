@@ -126,6 +126,8 @@ function initSharedListeners() {
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.SONGS);
+      storeState.loading = false;
+      notifySubscribers();
     });
 
     // 2. Subscribe to Lyrics
@@ -141,6 +143,8 @@ function initSharedListeners() {
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.LYRICS);
+      storeState.loading = false;
+      notifySubscribers();
     });
 
     // 3. Subscribe to Gallery Folders
@@ -164,6 +168,8 @@ function initSharedListeners() {
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.GALLERY_FOLDERS);
+      storeState.loading = false;
+      notifySubscribers();
     });
 
     // 4. Subscribe to Gallery Photos
@@ -182,6 +188,8 @@ function initSharedListeners() {
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.GALLERY_PHOTOS);
+      storeState.loading = false;
+      notifySubscribers();
     });
 
     // 5. Subscribe to Shows
@@ -203,6 +211,8 @@ function initSharedListeners() {
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.SHOWS);
+      storeState.loading = false;
+      notifySubscribers();
     });
 
     // 6. Subscribe to Hero Slides
@@ -221,6 +231,8 @@ function initSharedListeners() {
       notifySubscribers();
     }, (err) => {
       handleFirestoreError(err, OperationType.LIST, COLLECTIONS.HERO_SLIDES);
+      storeState.loading = false;
+      notifySubscribers();
     });
 
     // 6b. Subscribe to Home Gallery (Vishal's Gallery on Homepage)
@@ -249,6 +261,14 @@ function initSharedListeners() {
     } catch (e) {
       console.warn('Could not subscribe to home_gallery:', e);
     }
+
+    // Fallback safety timer: ensure loading flag is released after 1.5s in offline mode
+    setTimeout(() => {
+      if (storeState.loading) {
+        storeState.loading = false;
+        notifySubscribers();
+      }
+    }, 1500);
 
     // 7. Subscribe to Notifications
     onSnapshot(collection(db, COLLECTIONS.NOTIFICATIONS), (snap) => {

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   Share2, 
+  Code2,
   AlignLeft,
   AlignCenter,
   AlignRight,
@@ -14,6 +15,7 @@ import { SEO } from '../components/SEO';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { db } from '../lib/firebase';
 import { doc, setDoc, updateDoc, increment } from 'firebase/firestore';
+import { EmbedLyricsModal } from '../components/EmbedLyricsModal';
 
 export const SingleLyricPage: React.FC = () => {
   const { lyricId } = useParams<{ lyricId: string }>();
@@ -106,6 +108,7 @@ export const SingleLyricPage: React.FC = () => {
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('sm');
   const [textAlign, setTextAlign] = useState<'left' | 'center' | 'right'>('left');
   const [shareSuccess, setShareSuccess] = useState(false);
+  const [embedModalOpen, setEmbedModalOpen] = useState(false);
 
   // Silent Anti-Copy Event Handlers
   const handleSilentPrevent = (e: React.SyntheticEvent) => {
@@ -277,13 +280,24 @@ export const SingleLyricPage: React.FC = () => {
                 Link Copied!
               </span>
             )}
+            
             <button
               onClick={handleShare}
-              className="px-3 py-1.5 rounded-lg border border-amber-500/30 bg-[#121218] text-stone-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-lg"
-              title="Share Lyrics"
+              className="px-3 py-1.5 rounded-lg border border-amber-500/30 bg-[#121218] text-stone-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-lg hover:border-amber-400"
+              title="Share Lyrics Link"
             >
               <Share2 className="w-3.5 h-3.5 text-amber-400" />
               <span>Share</span>
+            </button>
+
+            {/* Embed Code Button right next to Share button */}
+            <button
+              onClick={() => setEmbedModalOpen(true)}
+              className="px-3 py-1.5 rounded-lg border border-amber-500/30 bg-[#121218] text-stone-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-lg hover:border-amber-400"
+              title="Get Lyrics Embed Code & Direct URL"
+            >
+              <Code2 className="w-3.5 h-3.5 text-amber-400" />
+              <span>Embed</span>
             </button>
           </div>
 
@@ -500,6 +514,16 @@ export const SingleLyricPage: React.FC = () => {
 
       </div>
     </div>
+
+    {/* Embed Lyrics Modal */}
+    <EmbedLyricsModal
+      isOpen={embedModalOpen}
+      onClose={() => setEmbedModalOpen(false)}
+      lyricId={lyric.id}
+      title={lyric.title}
+      titleDevanagari={lyric.titleDevanagari}
+      composer={lyric.composer}
+    />
     </>
   );
 };
