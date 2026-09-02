@@ -1,66 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 1. Home Page -->
+  <!-- 1. Home Page - Primary Hub -->
   <url>
     <loc>https://vishaljogdeo.com/</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- 2. About & Biography -->
-  <url>
-    <loc>https://vishaljogdeo.com/about</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- 3. Songs Collection -->
+  <!-- 2. Vishal Jogdeo Songs & MP3 Collection -->
   <url>
     <loc>https://vishaljogdeo.com/songs</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 4. Lyrics Library -->
+  <!-- 3. Vishal Jogdeo Lyrics & All Lyrics Repository -->
   <url>
     <loc>https://vishaljogdeo.com/lyrics</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 5. Upcoming Shows & Live Concerts -->
+  <!-- 4. Vishal Jogdeo Live Shows & Concerts -->
   <url>
     <loc>https://vishaljogdeo.com/shows</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 5. Vishal Jogdeo Lifestyle & Biography -->
+  <url>
+    <loc>https://vishaljogdeo.com/about</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- 6. Photo & Video Gallery -->
   <url>
     <loc>https://vishaljogdeo.com/gallery</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
-  <!-- 7. Contact & Booking -->
+  <!-- 7. Contact & Show Booking -->
   <url>
     <loc>https://vishaljogdeo.com/contact</loc>
-    <lastmod>2026-08-25</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- 8. Privacy Policy -->
-  <url>
-    <loc>https://vishaljogdeo.com/privacy</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

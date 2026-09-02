@@ -81,13 +81,12 @@ async function generateLiveSitemapXml(): Promise<string> {
 
   const baseRoutes = [
     { url: `${domain}/`, freq: 'daily', prio: '1.0' },
-    { url: `${domain}/about`, freq: 'weekly', prio: '0.9' },
     { url: `${domain}/songs`, freq: 'daily', prio: '0.9' },
     { url: `${domain}/lyrics`, freq: 'daily', prio: '0.9' },
-    { url: `${domain}/shows`, freq: 'daily', prio: '0.9' },
-    { url: `${domain}/gallery`, freq: 'weekly', prio: '0.8' },
-    { url: `${domain}/contact`, freq: 'monthly', prio: '0.8' },
-    { url: `${domain}/privacy`, freq: 'monthly', prio: '0.5' },
+    { url: `${domain}/shows`, freq: 'daily', prio: '0.8' },
+    { url: `${domain}/about`, freq: 'weekly', prio: '0.8' },
+    { url: `${domain}/gallery`, freq: 'weekly', prio: '0.7' },
+    { url: `${domain}/contact`, freq: 'monthly', prio: '0.7' },
   ];
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
