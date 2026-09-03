@@ -414,6 +414,53 @@ export const AboutSection: React.FC = () => {
             </motion.div>
 
           </div>
+
+          {/* User Requested Photographic Showcase: Lifestyle & Family */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            
+            {/* 1. Vishal Jogdeo Lifestyle Photo */}
+            <figure className="bg-[#121218] p-4 rounded-3xl border border-amber-500/25 space-y-3 shadow-xl">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-black/60 flex items-center justify-center">
+                <img
+                  src="https://cnd.vishaljogdeo.com/1788071932306_1788068980383_IMG-20260830-WA0013.jpg"
+                  alt="Vishal Jogdeo Lifestyle"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <figcaption className="space-y-1 text-left px-1">
+                <h4 className="text-sm font-bold text-amber-300 font-heading">
+                  Vishal Jogdeo Lifestyle
+                </h4>
+                <p className="text-xs text-stone-300 leading-relaxed font-sans">
+                  नियमित सकाळी ब्रह्ममुहूर्तावर रियाज, सात्विक जीवनशैली आणि शास्त्रीय संगीतातील अविरत साधना हे विशाल जोगदेव यांच्या जीवनशैलीचे मुख्य सूत्र आहे.
+                </p>
+              </figcaption>
+            </figure>
+
+            {/* 2. Vishal Jogdeo Wife Photo */}
+            <figure className="bg-[#121218] p-4 rounded-3xl border border-amber-500/25 space-y-3 shadow-xl">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-black/60 flex items-center justify-center">
+                <img
+                  src="https://cnd.vishaljogdeo.com/1788071957747_1788071240647_VISHAL_JOGDEO_-_WIFE_MAYURI_JOGDEO_FAMELY_PICS__13_.jpeg"
+                  alt="Vishal Jogdeo Wife"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <figcaption className="space-y-1 text-left px-1">
+                <h4 className="text-sm font-bold text-amber-300 font-heading">
+                  Vishal Jogdeo Wife (मयुरी जोगदेव व कुटुंब)
+                </h4>
+                <p className="text-xs text-stone-300 leading-relaxed font-sans">
+                  विशाल जोगदेव यांच्या सांगीतिक प्रवासात त्यांची पत्नी मयुरी जोगदेव आणि संपूर्ण कुटुंबीयांचे मोलाचे सहकार्य व पाठींबा लाभला आहे.
+                </p>
+              </figcaption>
+            </figure>
+
+          </div>
         </div>
 
       </div>

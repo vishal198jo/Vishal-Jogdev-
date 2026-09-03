@@ -6,6 +6,7 @@ import {
 } from 'firebase/firestore';
 import { 
   db, 
+  isFirestoreAvailable,
   COLLECTIONS, 
   FirestoreSong, 
   FirestoreLyric, 
@@ -107,6 +108,13 @@ let isInitialized = false;
 function initSharedListeners() {
   if (isInitialized) return;
   isInitialized = true;
+
+  if (!isFirestoreAvailable || !db) {
+    console.warn("Firestore is not available in this environment. Running in offline/cached-first mode.");
+    storeState.loading = false;
+    notifySubscribers();
+    return;
+  }
 
   try {
     // 1. Subscribe to Songs

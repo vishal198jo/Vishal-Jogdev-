@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, MapPin, Send, CheckCircle, Instagram, Facebook, Youtube, Phone } from 'lucide-react';
 import { SINGER_PROFILE } from '../data/mockData';
-import { db, COLLECTIONS } from '../lib/firebase';
+import { db, COLLECTIONS, isFirestoreAvailable } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { SpotifyIcon } from './SpotifyIcon';
@@ -63,7 +63,13 @@ export const ContactSection: React.FC = () => {
       };
 
       // Save directly to Admin Panel database (Firestore inquiries collection)
-      await addDoc(collection(db, COLLECTIONS.INQUIRIES), inquiryPayload);
+      if (isFirestoreAvailable && db) {
+        try {
+          await addDoc(collection(db, COLLECTIONS.INQUIRIES), inquiryPayload);
+        } catch (dbErr) {
+          console.warn('Could not save contact inquiry to database:', dbErr);
+        }
+      }
 
       // 2. Prepare beautifully formatted WhatsApp message with Emojis & Official Website Link
       const whatsappText = [

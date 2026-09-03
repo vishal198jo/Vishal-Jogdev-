@@ -51,8 +51,40 @@
   <!-- 7. Contact & Show Booking -->
   <url>
     <loc>https://vishaljogdeo.com/contact</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- 8. SEO Articles & Knowledge Hub -->
+  <url>
+    <loc>https://vishaljogdeo.com/articles</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 9. Deep-Dive Article: Vishal Jogdeo Lifestyle & Biography -->
+  <url>
+    <loc>https://vishaljogdeo.com/articles/vishal-jogdeo-lifestyle-biography-bhajan-samrat</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 10. Deep-Dive Article: Vishal Jogdeo Songs & MP3 Bhajans -->
+  <url>
+    <loc>https://vishaljogdeo.com/articles/vishal-jogdeo-top-devotional-songs-mp3-marathi-bhajans</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 11. Deep-Dive Article: Book Vishal Jogdeo for Live Shows -->
+  <url>
+    <loc>https://vishaljogdeo.com/articles/how-to-book-vishal-jogdeo-bhajan-sandhya-live-shows</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
 </urlset>

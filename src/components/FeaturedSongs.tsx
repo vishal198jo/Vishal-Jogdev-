@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Headphones, Search, X, Music, Download, Check, Loader2 } from 'lucide-react';
 import { doc, updateDoc, setDoc, increment } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, isFirestoreAvailable } from '../lib/firebase';
 import { Song } from '../types';
 import { FEATURED_SONGS } from '../data/mockData';
 import { useFirestoreData } from '../hooks/useFirestoreData';
@@ -57,16 +57,18 @@ export const FeaturedSongs: React.FC<FeaturedSongsProps> = ({
             [song.id]: Math.max(baseCount + 1, (prev[song.id] || 0) + 1)
           }));
 
-          const songDocRef = doc(db, 'songs', song.id);
-          try {
-            await updateDoc(songDocRef, {
-              downloads: increment(1)
-            });
-          } catch {
-            // Fallback with merge if doc does not exist or requires setDoc
-            await setDoc(songDocRef, {
-              downloads: increment(1)
-            }, { merge: true }).catch(() => {});
+          if (isFirestoreAvailable && db) {
+            const songDocRef = doc(db, 'songs', song.id);
+            try {
+              await updateDoc(songDocRef, {
+                downloads: increment(1)
+              });
+            } catch {
+              // Fallback with merge if doc does not exist or requires setDoc
+              await setDoc(songDocRef, {
+                downloads: increment(1)
+              }, { merge: true }).catch(() => {});
+            }
           }
         }
       } catch (err) {

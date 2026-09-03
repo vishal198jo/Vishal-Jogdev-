@@ -10,7 +10,7 @@ import { useFirestoreData } from './hooks/useFirestoreData';
 import { Song, Show } from './types';
 import { FEATURED_SONGS } from './data/mockData';
 import { X, Music2 } from 'lucide-react';
-import { db } from './lib/firebase';
+import { db, isFirestoreAvailable } from './lib/firebase';
 import { doc, setDoc, increment } from 'firebase/firestore';
 import { 
   registerRouteForPreload, 
@@ -28,6 +28,8 @@ const importShows = () => import('./pages/ShowsPage');
 const importContact = () => import('./pages/ContactPage');
 const importPrivacy = () => import('./pages/PrivacyPolicyPage');
 const importEmbedLyric = () => import('./pages/EmbedLyricPage');
+const importArticles = () => import('./pages/ArticlesPage');
+const importSingleArticle = () => import('./pages/SingleArticlePage');
 
 registerRouteForPreload('/', importHome);
 registerRouteForPreload('/about', importAbout);
@@ -38,6 +40,7 @@ registerRouteForPreload('/gallery', importGallery);
 registerRouteForPreload('/shows', importShows);
 registerRouteForPreload('/contact', importContact);
 registerRouteForPreload('/privacy', importPrivacy);
+registerRouteForPreload('/articles', importArticles);
 
 // Safe lazy import wrapper with auto-retry on dynamic import / chunk fetch errors
 function lazyWithRetry<T extends React.ComponentType<any>>(
@@ -83,6 +86,8 @@ const ShowsPage = lazyWithRetry(importShows, 'ShowsPage');
 const ContactPage = lazyWithRetry(importContact, 'ContactPage');
 const PrivacyPolicyPage = lazyWithRetry(importPrivacy, 'PrivacyPolicyPage');
 const EmbedLyricPage = lazyWithRetry(importEmbedLyric, 'EmbedLyricPage');
+const ArticlesPage = lazyWithRetry(importArticles, 'ArticlesPage');
+const SingleArticlePage = lazyWithRetry(importSingleArticle, 'SingleArticlePage');
 
 // Sleek fallback component during page lazy load
 const PageFallback = () => (
@@ -168,6 +173,7 @@ export default function App() {
     const trackingKey = 'vj_visited_user_strictly';
     if (!localStorage.getItem(trackingKey)) {
       const incrementVisitor = async () => {
+        if (!isFirestoreAvailable || !db) return;
         try {
           localStorage.setItem(trackingKey, 'true');
           await setDoc(doc(db, 'stats', 'global'), {
@@ -330,6 +336,10 @@ function AppContent() {
                 />
               } 
             />
+
+            {/* Editorial & Articles Hub */}
+            <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/articles/:slug" element={<SingleArticlePage />} />
 
             {/* Legal Pages */}
             <Route path="/privacy" element={<PrivacyPolicyPage />} />

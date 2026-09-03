@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { X, Calendar, MapPin, Send, CheckCircle2 } from 'lucide-react';
 import { Show } from '../types';
 import { SINGER_PROFILE } from '../data/mockData';
-import { db, COLLECTIONS } from '../lib/firebase';
+import { db, COLLECTIONS, isFirestoreAvailable } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
@@ -64,7 +64,13 @@ export const BookEventModal: React.FC<BookEventModalProps> = ({
         status: 'new'
       };
 
-      await addDoc(collection(db, COLLECTIONS.INQUIRIES), inquiryPayload);
+      if (isFirestoreAvailable && db) {
+        try {
+          await addDoc(collection(db, COLLECTIONS.INQUIRIES), inquiryPayload);
+        } catch (dbErr) {
+          console.warn('Could not save booking inquiry to database:', dbErr);
+        }
+      }
 
       // Prepare WhatsApp text with clean emojis and booking details
       const eventDetails = [

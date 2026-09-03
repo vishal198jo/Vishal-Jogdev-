@@ -13,7 +13,7 @@ import {
 import { LATEST_LYRICS, FEATURED_SONGS, SINGER_PROFILE } from '../data/mockData';
 import { SEO } from '../components/SEO';
 import { useFirestoreData } from '../hooks/useFirestoreData';
-import { db } from '../lib/firebase';
+import { db, isFirestoreAvailable } from '../lib/firebase';
 import { doc, setDoc, updateDoc, increment } from 'firebase/firestore';
 import { EmbedLyricsModal } from '../components/EmbedLyricsModal';
 
@@ -29,6 +29,7 @@ export const SingleLyricPage: React.FC = () => {
     const sessionKey = `viewed_lyric_${lyricId}`;
     if (!sessionStorage.getItem(sessionKey)) {
       const incrementReading = async () => {
+        if (!isFirestoreAvailable || !db) return;
         try {
           sessionStorage.setItem(sessionKey, 'true');
           

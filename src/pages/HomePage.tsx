@@ -1,12 +1,16 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { HeroSection } from '../components/HeroSection';
 import { AnnouncementTicker } from '../components/AnnouncementTicker';
+import { HomepageSEOArticle } from '../components/HomepageSEOArticle';
+import { SEOFAQSection } from '../components/SEOFAQSection';
 import { FEATURED_SONGS } from '../data/mockData';
+import { SEO_FAQS } from '../data/seoFaqsData';
+import { ARTICLES_DATA } from '../data/articlesData';
 import { Song } from '../types';
 import { SEO } from '../components/SEO';
-import { Calendar } from 'lucide-react';
+import { Calendar, BookOpen, Clock, ArrowRight } from 'lucide-react';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 
 interface HomePageProps {
@@ -48,7 +52,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       "jobTitle": "Devotional Playback Singer & Classical Vocalist",
       "url": "https://vishaljogdeo.com/",
       "image": "https://cnd.vishaljogdeo.com/IMG_4239-removebg-preview.png",
-      "description": "Acclaimed Marathi devotional singer and classical vocalist with 15+ years of stage and recording career in Abhangas, Mahanubhav Bhajans, and live spiritual concerts.",
+      "description": "Acclaimed Marathi devotional singer and classical vocalist with 24+ years of stage and recording career in Abhangas, Mahanubhav Bhajans, and live spiritual concerts.",
       "birthPlace": {
         "@type": "Place",
         "name": "Maharashtra, India"
@@ -70,6 +74,19 @@ export const HomePage: React.FC<HomePageProps> = ({
         "https://www.instagram.com/vishaljogdeo",
         "https://www.facebook.com/share/1AMnZnHGyd/"
       ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": "https://vishaljogdeo.com/#faq",
+      "mainEntity": SEO_FAQS.map(f => ({
+        "@type": "Question",
+        "name": f.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.answer
+        }
+      }))
     }
   ];
 
@@ -90,7 +107,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       <div className="space-y-12 pb-16">
       
-        {/* Main 16:9 Hero Slider & Artist Profile Section */}
+        {/* Main 16:9 Hero Slider & Artist Profile Section (Contains Single H1 on Homepage) */}
         <HeroSection 
           slides={heroSlides}
           onPlayFeaturedSong={() => onPlaySong(FEATURED_SONGS[0])}
@@ -99,6 +116,66 @@ export const HomePage: React.FC<HomePageProps> = ({
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+          {/* 1000-1500 WORDS SEO ARTICLE SECTION WITH IMAGES & INTERNAL LINKS */}
+          <HomepageSEOArticle />
+
+          {/* CURATED ARTICLES & EDITORIAL SHOWCASE */}
+          <section className="py-8 border-t border-amber-500/20 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-amber-500/20 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-wider mb-2">
+                  <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Spiritual Insights & Articles</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold font-heading text-white">
+                  Vishal Jogdeo Editorial & Guides
+                </h2>
+                <p className="text-xs sm:text-sm text-stone-300 mt-1">
+                  In-depth articles covering his devotional music journey, Marathi Abhangas, lifestyle, and career.
+                </p>
+              </div>
+
+              <Link
+                to="/articles"
+                className="inline-flex items-center gap-2 text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors whitespace-nowrap"
+              >
+                <span>View All Articles</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {ARTICLES_DATA.map((art) => (
+                <div
+                  key={art.id}
+                  className="p-5 rounded-2xl bg-[#121218] border border-amber-500/20 hover:border-amber-500/40 transition-all space-y-3 group flex flex-col justify-between"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-[11px] text-stone-400">
+                      <span>{art.publishedDate}</span>
+                      <span className="flex items-center gap-1 text-amber-400">
+                        <Clock className="w-3 h-3" /> {art.readingTime}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-bold font-heading text-white group-hover:text-amber-300 transition-colors">
+                      <Link to={`/articles/${art.slug}`}>{art.h1Title}</Link>
+                    </h3>
+                    <p className="text-xs text-stone-300 font-sans line-clamp-2">
+                      {art.summary}
+                    </p>
+                  </div>
+                  <Link
+                    to={`/articles/${art.slug}`}
+                    className="pt-2 inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:underline"
+                  >
+                    <span>Read Article</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* SPOTIFY EMBEDDED PLAYER SECTION */}
           <motion.section 
@@ -139,6 +216,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </motion.section>
 
+          {/* 20+ FAQ SECTION WITH SEARCH, CATEGORY PILLS & STRUCTURED DATA */}
+          <SEOFAQSection />
+
           {/* DIRECT EVENT BOOKING BANNER */}
           <motion.section 
             initial={{ opacity: 0, y: 25 }}
@@ -152,9 +232,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <Calendar className="w-3.5 h-3.5 text-amber-400" />
                 <span>Direct Event Inquiries</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white">
+              <h2 className="text-2xl sm:text-3xl font-bold font-heading text-white">
                 Want to Organize Bhajan Sandhya or Wedding Shows?
-              </h3>
+              </h2>
               <p className="text-stone-300 text-xs sm:text-sm font-sans">
                 Connect directly with Vishal Jogdeo's official management team for concert bookings, wedding devotional programs, and corporate cultural events.
               </p>
@@ -173,5 +253,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     </>
   );
 };
+
 
 

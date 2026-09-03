@@ -32,17 +32,28 @@ export const firebaseConfig = {
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 // Initialize Firestore and Auth cleanly with robust fallback
-let firestoreInstance: ReturnType<typeof getFirestore>;
+let firestoreInstance: any = null;
+let isFirestoreAvailable = false;
+
 try {
   firestoreInstance = initializeFirestore(app, {
     experimentalForceLongPolling: true,
-    ignoreUndefinedProperties: true,
   });
-} catch {
-  firestoreInstance = getFirestore(app);
+  isFirestoreAvailable = true;
+} catch (e1) {
+  console.warn("First initializeFirestore failed, trying getFirestore...", e1);
+  try {
+    firestoreInstance = getFirestore(app);
+    isFirestoreAvailable = true;
+  } catch (e2) {
+    console.error("Firestore is not enabled or available in this environment. Falling back to offline/local-cache mode.", e2);
+    firestoreInstance = null;
+    isFirestoreAvailable = false;
+  }
 }
 
 export const db = firestoreInstance;
+export { isFirestoreAvailable };
 export const auth = getAuth(app);
 
 export enum OperationType {

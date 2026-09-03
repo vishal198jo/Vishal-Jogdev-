@@ -19,7 +19,7 @@ import { useFirestoreData } from '../hooks/useFirestoreData';
 import { CardSkeleton } from './SkeletonLoader';
 import { HLSVideoPlayer } from './HLSVideoPlayer';
 import { SEO } from './SEO';
-import { db } from '../lib/firebase';
+import { db, isFirestoreAvailable } from '../lib/firebase';
 import { doc, updateDoc, setDoc, increment } from 'firebase/firestore';
 import { ProgressiveImage } from './ProgressiveImage';
 import { HDLightboxImage } from './HDLightboxImage';
@@ -212,6 +212,7 @@ export const GallerySection: React.FC = () => {
       if (!sessionStorage.getItem(sessionKey)) {
         sessionStorage.setItem(sessionKey, 'true');
         const incrementPhotoView = async () => {
+          if (!isFirestoreAvailable || !db) return;
           try {
             await updateDoc(doc(db, 'gallery_photos', currentItem.id), {
               views: increment(1)
@@ -347,7 +348,7 @@ export const GallerySection: React.FC = () => {
               <span>Folder Media Gallery</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white">
-              Photos & Video <span className="font-serif italic text-gold-gradient font-normal">Folders Archive</span>
+              Vishal Jogdeo <span className="font-serif italic text-gold-gradient font-normal">Photos & Videos Gallery</span>
             </h1>
           </motion.div>
         ) : (

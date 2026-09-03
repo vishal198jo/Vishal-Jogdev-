@@ -57,6 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { name: 'About', path: '/about' },
     { name: 'Songs', path: '/songs' },
     { name: 'Lyrics', path: '/lyrics' },
+    { name: 'Articles', path: '/articles' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Upcoming Shows', path: '/shows' },
     { name: 'Contact', path: '/contact' },

@@ -4,7 +4,7 @@ import {
   SkipBack, SkipForward, Headphones, Share2, Loader2, Check, Music
 } from 'lucide-react';
 import { Song } from '../types';
-import { db } from '../lib/firebase';
+import { db, isFirestoreAvailable } from '../lib/firebase';
 import { doc, setDoc, increment } from 'firebase/firestore';
 import { useFirestoreData } from '../hooks/useFirestoreData';
 import { FEATURED_SONGS } from '../data/mockData';
@@ -130,9 +130,11 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               counted.push(currentSong.id);
               sessionStorage.setItem('vj_counted_plays', JSON.stringify(counted));
               
-              setDoc(doc(db, 'songs', currentSong.id), {
-                plays: increment(1)
-              }, { merge: true }).catch(() => {});
+              if (isFirestoreAvailable && db) {
+                setDoc(doc(db, 'songs', currentSong.id), {
+                  plays: increment(1)
+                }, { merge: true }).catch(() => {});
+              }
             }
           } catch (e) {}
         }).catch(() => {});
