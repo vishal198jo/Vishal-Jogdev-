@@ -33,9 +33,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       "@type": "WebSite",
       "@id": "https://vishaljogdeo.com/#website",
       "url": "https://vishaljogdeo.com/",
-      "name": "Vishal Jogdeo | Official Devotional Music Portal",
-      "alternateName": ["Vishal Jogdeo Official", "विशाल जोगदेव अधिकृत पोर्टल"],
-      "description": "Official website of Vishal Jogdeo - classical vocalist and devotional playback singer. Discover songs, lyrics, music, lifestyle, biography, photos, and book live shows.",
+      "name": "Vishal Jogdeo",
+      "alternateName": ["Vishal Jogdeo Official", "विशाल जोगदेव", "Vishal Jogdeo Ke Bhajan", "Vishal Jogdeo Songs"],
+      "description": "Official website of Vishal Jogdeo. Listen to popular Vishal Jogdeo Ke Bhajan and Vishal Jogdeo Songs, read complete lyrics, explore lifestyle, biography, and upcoming live shows.",
       "inLanguage": ["mr-IN", "en-IN", "hi-IN"],
       "potentialAction": {
         "@type": "SearchAction",
@@ -93,9 +93,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <>
       <SEO 
-        title="Vishal Jogdeo | Official Website – Devotional Playback Singer & Music Portal" 
-        description="Official website of Vishal Jogdeo - acclaimed classical vocalist and Marathi devotional playback singer. Explore Vishal Jogdeo songs, lyrics, music, lifestyle, biography, photo gallery, upcoming live shows, and concert bookings." 
-        keywords="Vishal Jogdeo, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Songs, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya, विशाल जोगदेव" 
+        title="Vishal Jogdeo" 
+        description="Official website of Vishal Jogdeo. Listen to popular Vishal Jogdeo Ke Bhajan and Vishal Jogdeo Songs, read complete lyrics, explore lifestyle, biography, and upcoming live shows." 
+        keywords="Vishal Jogdeo, Vishal Jogdeo Ke Bhajan, Vishal Jogdeo Songs, Vishal Jogdeo Bhajan, Vishal Jogdeo MP3, Vishal Jogdeo Lifestyle, Vishal Jogdeo Lyrics, विशाल जोगदेव, विशाल जोगदेव के भजन, विशाल जोगदेव सॉंग्स, Abhanga Sandhya" 
         url="/"
         schema={homeSchema}
       />

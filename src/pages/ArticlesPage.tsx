@@ -32,9 +32,9 @@ export const ArticlesPage: React.FC = () => {
   return (
     <>
       <SEO
-        title="Vishal Jogdeo Articles, Biography & Devotional Guides"
-        description="Explore comprehensive in-depth articles on Vishal Jogdeo Lifestyle, Marathi Bhajans, discography, classical training, and devotional music insights."
-        keywords="Vishal Jogdeo Lifestyle, Vishal Jogdeo ke Bhajan, Vishal Jogdeo Songs, Vishal Jogdeo Ke Bare Maine, Who's Vishal Jogdeo, Vishal Jogdeo Articles"
+        title="Vishal Jogdeo Articles – Songs, Bhajans & Biography"
+        description="Explore comprehensive articles on Vishal Jogdeo, popular Vishal Jogdeo Ke Bhajan, Vishal Jogdeo Songs, lifestyle, classical training, and devotional music insights."
+        keywords="Vishal Jogdeo, Vishal Jogdeo Ke Bhajan, Vishal Jogdeo Songs, Vishal Jogdeo Lifestyle, Vishal Jogdeo Articles, विशाल जोगदेव, विशाल जोगदेव के भजन, विशाल जोगदेव सॉंग्स"
         url="/articles"
         schema={articlesSchema}
       />

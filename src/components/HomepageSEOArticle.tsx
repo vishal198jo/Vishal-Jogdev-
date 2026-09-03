@@ -31,27 +31,27 @@ export const HomepageSEOArticle: React.FC = () => {
       <header className="space-y-4 text-center max-w-3xl mx-auto pb-8 border-b border-amber-500/20">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/80 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-widest">
           <BookOpen className="w-3.5 h-3.5 text-amber-400" />
-          <span>Complete Biography & Musical Chronicle</span>
+          <span>Official Biography, Songs & Bhajan Guide</span>
         </div>
 
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-heading text-white leading-tight">
-          Vishal Jogdeo: Devotional Playback Singer, Classical Vocalist & Spiritual Icon
+          Vishal Jogdeo: Popular Vishal Jogdeo Ke Bhajan, Vishal Jogdeo Songs & Lifestyle
         </h2>
 
         <p className="text-stone-300 text-sm sm:text-base font-sans leading-relaxed">
-          An in-depth biography covering the 24-year artistic voyage of <strong>Vishal Jogdeo</strong>, his classical music roots, disciplined <em>Vishal Jogdeo lifestyle</em>, celebrated <em>Vishal Jogdeo ke Bhajan</em>, and his family life with wife Mayuri Jogdeo.
+          The complete guide to <strong>Vishal Jogdeo</strong>, featuring his 24-year musical journey, over 1,500 soulful <strong>Vishal Jogdeo Songs</strong>, world-renowned <strong>Vishal Jogdeo Ke Bhajan</strong>, authentic <em>Vishal Jogdeo Lifestyle</em>, and family support from wife Mayuri Jogdeo.
         </p>
 
         {/* Quick Highlights Bar */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs text-amber-300/90 font-medium">
           <span className="inline-flex items-center gap-1 bg-stone-900/90 px-3 py-1.5 rounded-full border border-stone-800">
-            <Award className="w-3.5 h-3.5 text-amber-400" /> 24+ Years Experience
+            <Award className="w-3.5 h-3.5 text-amber-400" /> Vishal Jogdeo: 24+ Years Career
           </span>
           <span className="inline-flex items-center gap-1 bg-stone-900/90 px-3 py-1.5 rounded-full border border-stone-800">
-            <Music className="w-3.5 h-3.5 text-amber-400" /> 1,500+ Devotional Songs
+            <Music className="w-3.5 h-3.5 text-amber-400" /> 1,500+ Vishal Jogdeo Songs
           </span>
           <span className="inline-flex items-center gap-1 bg-stone-900/90 px-3 py-1.5 rounded-full border border-stone-800">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 500+ Mahanubhav Bhajans
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 500+ Vishal Jogdeo Ke Bhajan
           </span>
         </div>
       </header>
@@ -63,13 +63,13 @@ export const HomepageSEOArticle: React.FC = () => {
         <section className="space-y-4">
           <h3 className="text-xl sm:text-2xl font-bold font-heading text-amber-200 flex items-center gap-2">
             <span className="w-2 h-6 bg-amber-400 rounded-full inline-block" />
-            Who's Vishal Jogdeo? The Divine Voice of Maharashtra
+            Who is Vishal Jogdeo? Master of Devotional Music & Marathi Abhangas
           </h3>
           <p>
-            When music lovers ask <strong>"Who's Vishal Jogdeo?"</strong>, the answer connects them to one of India’s most gifted classical vocalists and devotional playback singers. Born and raised in Maharashtra, Vishal Jogdeo has dedicated his life to spiritual music, classical ragas, and the timeless poetry of the saints. His divine, resonant baritone has earned him an esteemed place among exponents of <em>Marathi Bhakti Sangeet</em>, <em>Abhanga Sandhya</em>, and <em>Mahanubhav Panth Bhajans</em>.
+            When devotees and music lovers search for <strong>Vishal Jogdeo</strong>, they discover one of India’s most celebrated classical vocalists and devotional playback singers. Born and raised in Maharashtra, <strong>Vishal Jogdeo</strong> has dedicated his entire life to spiritual music, classical ragas, and the eternal poetry of saint-poets. Across Maharashtra and beyond, the name <strong>Vishal Jogdeo</strong> is synonymous with pure spiritual emotion, soul-stirring <strong>Vishal Jogdeo Ke Bhajan</strong>, and iconic <strong>Vishal Jogdeo Songs</strong> that have touched millions of hearts.
           </p>
           <p>
-            Unlike purely commercial performers, Vishal Jogdeo treats music as a form of sacred worship (Nada Brahma). Over more than two decades on stage and in recording studios, he has breathed new life into sacred verses written by Sant Dnyaneshwar, Sant Tukaram, Sant Namdev, and the teachings of Sarvadnya Shri Chakradhar Swami. With over 1,500 recorded devotional tracks and 500+ specialized Mahanubhav bhajans, his works have garnered millions of streams across YouTube, Spotify, and Indian music broadcasts.
+            Unlike commercial music, every performance of <strong>Vishal Jogdeo</strong> is an offering of sacred worship (Nada Brahma). Over his glorious 24-year musical career, <strong>Vishal Jogdeo</strong> has recorded and released more than 1,500 devotional compositions and over 500 authentic Mahanubhav Panth bhajans. Whether listening to his early morning aartis or attending a packed live concert, <strong>Vishal Jogdeo Songs</strong> transport listeners straight into deep peace and spiritual bliss.
           </p>
         </section>
 
@@ -77,13 +77,13 @@ export const HomepageSEOArticle: React.FC = () => {
         <section className="space-y-4">
           <h3 className="text-xl sm:text-2xl font-bold font-heading text-amber-200 flex items-center gap-2">
             <span className="w-2 h-6 bg-amber-400 rounded-full inline-block" />
-            Vishal Jogdeo Ke Bare Maine: Early Life & Classical Gharana
+            Vishal Jogdeo Ke Bare Maine: Early Life, Classical Training & Riyaz
           </h3>
           <p>
-            The story of <strong>Vishal Jogdeo Ke Bare Maine</strong> begins in an environment steeped in spiritual tradition, Vedic hymns, and melodic riyaz. From early childhood, Vishal showed an uncanny sensitivity to musical pitch (Sur) and rhythmic cadences (Taal). Recognizing this divine gift, his family and early mentors enrolled him in rigorous Indian Classical vocal training under the traditional Guru-Shishya parampara.
+            If you want to know <strong>Vishal Jogdeo Ke Bare Maine</strong>, his roots lie in the fertile soil of Maharashtra’s rich cultural and devotional heritage. From an early age, <strong>Vishal Jogdeo</strong> showed an exceptional natural gift for musical pitch (Sur) and rhythm (Laya). Guided by dedicated classical gurus under the revered Guru-Shishya parampara, he immersed himself in rigorous voice training.
           </p>
           <p>
-            His classical foundation incorporates stylistic nuances from the Kirana and Gwalior gharanas—known for their expansive vilambit elaborations, precise microtonal intonation (Shrutis), and emotive melodic ornamentation. Whether he performs in Raga Yaman, Raga Bhairav, Raga Malkauns, or Raga Bhupali, his voice creates an atmosphere of deep serenity that effortlessly transports listeners into a meditative state.
+            The signature quality of <strong>Vishal Jogdeo Songs</strong> stems from his classical foundation in the Kirana and Gwalior gharanas. His mastery over swara microtones (Shrutis), meend, and taans gives <strong>Vishal Jogdeo Ke Bhajan</strong> an unmatched acoustic brilliance. When <strong>Vishal Jogdeo</strong> sings in classical ragas like Yaman, Bhairav, Malkauns, or Bhupali, his crystal-clear diction and resonant voice create an ambiance of pure divinity.
           </p>
         </section>
 
@@ -185,10 +185,10 @@ export const HomepageSEOArticle: React.FC = () => {
             Family Life: Vishal Jogdeo Wife Mayuri Jogdeo & Strength at Home
           </h3>
           <p>
-            Behind every celebrated artist stands a foundation of unwavering love and familial stability. For Vishal Jogdeo, that pillar of strength is his wife, <strong>Mayuri Jogdeo</strong>. Known for her graceful support and traditional values, Mayuri Jogdeo plays an indispensable role in managing the household and providing a peaceful sanctuary where artistic creativity can flourish.
+            Behind every celebrated artist stands a foundation of unwavering love and familial stability. For <strong>Vishal Jogdeo</strong>, that pillar of strength is his wife, <strong>Mayuri Jogdeo</strong>. Known for her graceful support and traditional values, Mayuri Jogdeo plays an indispensable role in managing the household and providing a peaceful sanctuary where artistic creativity can flourish.
           </p>
           <p>
-            With an intense schedule of live concerts, studio recording deadlines, and inter-state travels, having a grounded family is vital. Vishal Jogdeo frequently attributes his mental calm and focus on stage to the constant encouragement of his wife Mayuri Jogdeo and his close-knit family. Despite his renown, Vishal remains an affectionate husband, devoted family man, and humble member of his local community.
+            With an intense schedule of recording new <strong>Vishal Jogdeo Songs</strong>, live concerts, and spiritual tours, having a grounded family is vital. <strong>Vishal Jogdeo</strong> frequently attributes his mental calm and focus on stage to the constant encouragement of his wife Mayuri Jogdeo and his close-knit family. Despite his renown as an exponent of <strong>Vishal Jogdeo Ke Bhajan</strong>, he remains a humble family man deeply connected to his cultural roots.
           </p>
         </section>
 
@@ -196,19 +196,19 @@ export const HomepageSEOArticle: React.FC = () => {
         <section className="space-y-4">
           <h3 className="text-xl sm:text-2xl font-bold font-heading text-amber-200 flex items-center gap-2">
             <span className="w-2 h-6 bg-amber-400 rounded-full inline-block" />
-            Vishal Jogdeo ke Bhajan: The Grand Legacy of Marathi Bhakti Sangeet
+            Vishal Jogdeo Ke Bhajan: 1,500+ Devotional Songs & Sacred Heritage
           </h3>
           <p>
-            The musical canon of <strong>Vishal Jogdeo ke Bhajan</strong> is vast, diverse, and deeply authentic. Rather than limiting himself to popular hits, Vishal Jogdeo has explored the deepest recesses of Marathi spiritual literature. His repertoire spans:
+            The musical canon of <strong>Vishal Jogdeo Ke Bhajan</strong> is vast, diverse, and deeply authentic. Rather than limiting himself to commercial compositions, <strong>Vishal Jogdeo</strong> has explored the deepest treasures of Indian and Marathi devotional poetry. Today, millions of devotees tune in daily to listen to <strong>Vishal Jogdeo Songs</strong> spanning multiple sacred genres:
           </p>
           <ul className="space-y-2 list-disc list-inside text-stone-300">
-            <li><strong>Pandharpur Varkari Abhangas:</strong> Soulful hymns dedicated to Lord Vitthal and Rukmini Devi, rendered with the traditional vigor of the Pakhawaj, Taal, and Ektari.</li>
-            <li><strong>Mahanubhav Panth Devotional Padavali:</strong> Rare compositions celebrating the divine incarnations of Shri Chakradhar Swami, preserving ancient lilas with acoustic beauty.</li>
-            <li><strong>Dnyaneshwari & Bhavarth Deepika Padas:</strong> Musical interpretations of the profound philosophical verses of Sant Dnyaneshwar Maharaj.</li>
-            <li><strong>Morning Aartis & Stotras:</strong> Pristinely recorded daily prayer hymns that bring auspicious peace into millions of Hindu households each sunrise.</li>
+            <li><strong>Pandharpur Varkari Abhangas:</strong> Soulful hymns dedicated to Lord Vitthal and Rukmini Devi, rendered in authentic <strong>Vishal Jogdeo Ke Bhajan</strong> style with traditional Pakhawaj and Taal.</li>
+            <li><strong>Mahanubhav Panth Devotional Bhajans:</strong> Over 500 rare sacred tracks composed in praise of Sarvadnya Shri Chakradhar Swami, preserving ancient spiritual literature through melodious <strong>Vishal Jogdeo Songs</strong>.</li>
+            <li><strong>Dnyaneshwari & Bhavarth Deepika Padas:</strong> Eloquent classical renderings of the philosophical verses of Sant Dnyaneshwar and Sant Tukaram.</li>
+            <li><strong>Daily Morning Aartis & Stotras:</strong> Pristinely mastered devotional recordings bringing peace and auspicious energy to households worldwide.</li>
           </ul>
           <p>
-            To listen to these masterworks, explore the official <Link to="/songs" className="text-amber-400 underline font-bold hover:text-amber-300">Vishal Jogdeo Songs Collection</Link> or view accurate Devnagari lyrics in the <Link to="/lyrics" className="text-amber-400 underline font-bold hover:text-amber-300">Lyrics Library</Link>.
+            To listen to these masterworks, explore the official <Link to="/songs" className="text-amber-400 underline font-bold hover:text-amber-300">Vishal Jogdeo Songs Collection</Link> with free MP3 audio or view complete Devnagari lyrics in the <Link to="/lyrics" className="text-amber-400 underline font-bold hover:text-amber-300">Vishal Jogdeo Lyrics Library</Link>.
           </p>
         </section>
 
@@ -216,13 +216,13 @@ export const HomepageSEOArticle: React.FC = () => {
         <section className="space-y-4">
           <h3 className="text-xl sm:text-2xl font-bold font-heading text-amber-200 flex items-center gap-2">
             <span className="w-2 h-6 bg-amber-400 rounded-full inline-block" />
-            Upcoming Shows, Abhanga Sandhya & Live Booking
+            Live Concerts & Booking: Experience Vishal Jogdeo Songs Live
           </h3>
           <p>
-            The true magic of Vishal Jogdeo is best experienced live. Accompanied by a master orchestra featuring Harmonium, Tabla, Pakhawaj, Dholki, Bansuri, and Side Percussions, his signature <em>Abhanga Sandhya</em> concerts routinely pack auditoriums, temple festival grounds, and cultural arenas.
+            The true magic of <strong>Vishal Jogdeo</strong> is best experienced live in person. Accompanied by a master orchestra featuring Harmonium (Sanvadini), Tabla, Pakhawaj, Dholki, Bansuri, and Taal, his signature <em>Abhanga Sandhya</em> concerts create an electrifying spiritual atmosphere. When <strong>Vishal Jogdeo</strong> performs his famous <strong>Vishal Jogdeo Ke Bhajan</strong> on stage, thousands of listeners sing along in divine ecstasy.
           </p>
           <p>
-            Whether performing for spiritual organizations, temple trusts, community festivals, or private devotional celebrations, Vishal Jogdeo creates an inclusive space where listeners of all ages sing, clap, and dissolve into divine bliss. Organizers seeking to host him for live programs can check the <Link to="/shows" className="text-amber-400 underline font-bold hover:text-amber-300">Upcoming Live Shows Schedule</Link> or submit a direct inquiry on the <Link to="/contact" className="text-amber-400 underline font-bold hover:text-amber-300">Official Contact & Booking Page</Link>.
+            Whether performing for spiritual organizations, temple trusts, community festivals, or family devotional events, <strong>Vishal Jogdeo</strong> delivers an unforgettable experience. Organizers seeking to host live concerts of <strong>Vishal Jogdeo Songs</strong> and bhajans can view the <Link to="/shows" className="text-amber-400 underline font-bold hover:text-amber-300">Upcoming Live Shows Schedule</Link> or connect directly via the <Link to="/contact" className="text-amber-400 underline font-bold hover:text-amber-300">Official Contact & Booking Portal</Link> (WhatsApp: <strong>+91 7038086864</strong>).
           </p>
         </section>
 

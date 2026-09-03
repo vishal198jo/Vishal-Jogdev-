@@ -28,23 +28,25 @@ export const SEO: React.FC<SEOProps> = ({
 }) => {
   const location = useLocation();
   const siteUrl = "https://vishaljogdeo.com";
-  const siteName = "Vishal Jogdeo | Official Devotional Music Portal";
+  const siteName = "Vishal Jogdeo";
   
   // Format title cleanly
-  let fullTitle = siteName;
+  let fullTitle = "Vishal Jogdeo";
   if (title) {
-    if (title.toLowerCase().includes("vishal jogdeo") || title.includes("विशाल जोगदेव")) {
+    if (title.trim() === "Vishal Jogdeo" || title.trim() === "विशाल जोगदेव") {
+      fullTitle = "Vishal Jogdeo";
+    } else if (title.toLowerCase().includes("vishal jogdeo") || title.includes("विशाल जोगदेव")) {
       fullTitle = title;
     } else {
       fullTitle = `${title} | Vishal Jogdeo`;
     }
   }
   
-  const defaultDesc = "Official website of Vishal Jogdeo - acclaimed classical vocalist and Marathi devotional playback singer. Explore Vishal Jogdeo songs, lyrics, music, lifestyle, biography, photo gallery, upcoming live shows, and concert bookings.";
+  const defaultDesc = "Official website of Vishal Jogdeo. Listen to popular Vishal Jogdeo Ke Bhajan and Vishal Jogdeo Songs, read complete lyrics, explore lifestyle, biography, and upcoming live shows.";
   const metaDesc = description || defaultDesc;
   
-  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdeo Song, Vishal Jogdeo Lifestyle, Vishal Jogdeo lyrics, Vishal Jogdeo music, Vishal Jogdeo Bhajan, Vishal Jogdeo Abhanga, Mahanubhav Panth Bhajan, Marathi Devotional Music, Vishal Jogdeo Live Show, Vishal Jogdeo Biography, Vishal Jogdeo Photos, Abhanga Sandhya, विशाल जोगदेव";
-  const metaKeywords = keywords ? `${keywords}, Vishal Jogdeo, विशाल जोगदेव` : defaultKeywords;
+  const defaultKeywords = "Vishal Jogdeo, Vishal Jogdeo Ke Bhajan, Vishal Jogdeo Songs, Vishal Jogdeo Bhajan, Vishal Jogdeo MP3, Vishal Jogdeo Lifestyle, Vishal Jogdeo Lyrics, विशाल जोगदेव, विशाल जोगदेव के भजन, विशाल जोगदेव सॉंग्स";
+  const metaKeywords = keywords ? `${keywords}, Vishal Jogdeo Ke Bhajan, Vishal Jogdeo Songs, विशाल जोगदेव` : defaultKeywords;
   
   const currentPath = url || location.pathname;
   const cleanPath = currentPath.startsWith('/') ? currentPath : `/${currentPath}`;
