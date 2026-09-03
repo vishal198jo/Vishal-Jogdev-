@@ -3,7 +3,7 @@
   <!-- 1. Home Page - Primary Hub -->
   <url>
     <loc>https://vishaljogdeo.com/</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,7 +11,7 @@
   <!-- 2. Vishal Jogdeo Songs & MP3 Collection -->
   <url>
     <loc>https://vishaljogdeo.com/songs</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -19,41 +19,59 @@
   <!-- 3. Vishal Jogdeo Lyrics & All Lyrics Repository -->
   <url>
     <loc>https://vishaljogdeo.com/lyrics</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- 4. Vishal Jogdeo Live Shows & Concerts -->
+  <!-- 4. Individual Song Lyrics Pages -->
   <url>
-    <loc>https://vishaljogdeo.com/shows</loc>
-    <lastmod>2026-09-02</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://vishaljogdeo.com/lyrics/lyric-1</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vishaljogdeo.com/lyrics/lyric-2</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vishaljogdeo.com/lyrics/lyric-3</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vishaljogdeo.com/lyrics/lyric-4</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 5. Vishal Jogdeo Lifestyle & Biography -->
+  <!-- 5. Vishal Jogdeo Lifestyle, Biography & Career -->
   <url>
     <loc>https://vishaljogdeo.com/about</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
 
-  <!-- 6. Photo & Video Gallery -->
+  <!-- 6. Photo & Video Gallery Archive -->
   <url>
     <loc>https://vishaljogdeo.com/gallery</loc>
-    <lastmod>2026-09-02</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- 7. Contact & Show Booking -->
+  <!-- 7. Vishal Jogdeo Live Shows & Concerts -->
   <url>
-    <loc>https://vishaljogdeo.com/contact</loc>
+    <loc>https://vishaljogdeo.com/shows</loc>
     <lastmod>2026-09-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
 
   <!-- 8. SEO Articles & Knowledge Hub -->
@@ -64,27 +82,43 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- 9. Deep-Dive Article: Vishal Jogdeo Lifestyle & Biography -->
+  <!-- 9. Article: Vishal Jogdeo Biography, Lifestyle & Musical Journey -->
   <url>
-    <loc>https://vishaljogdeo.com/articles/vishal-jogdeo-lifestyle-biography-bhajan-samrat</loc>
+    <loc>https://vishaljogdeo.com/articles/vishal-jogdeo-biography-lifestyle</loc>
     <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
-  <!-- 10. Deep-Dive Article: Vishal Jogdeo Songs & MP3 Bhajans -->
+  <!-- 10. Article: Vishal Jogdeo ke Bhajan Guide -->
   <url>
-    <loc>https://vishaljogdeo.com/articles/vishal-jogdeo-top-devotional-songs-mp3-marathi-bhajans</loc>
+    <loc>https://vishaljogdeo.com/articles/vishal-jogdeo-ke-bhajan-guide</loc>
     <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
-  <!-- 11. Deep-Dive Article: Book Vishal Jogdeo for Live Shows -->
+  <!-- 11. Article: Who's Vishal Jogdeo - Discography & Shows -->
   <url>
-    <loc>https://vishaljogdeo.com/articles/how-to-book-vishal-jogdeo-bhajan-sandhya-live-shows</loc>
+    <loc>https://vishaljogdeo.com/articles/who-is-vishal-jogdeo-discography-shows</loc>
     <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+
+  <!-- 12. Contact & Show Booking -->
+  <url>
+    <loc>https://vishaljogdeo.com/contact</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- 13. Privacy & Legal -->
+  <url>
+    <loc>https://vishaljogdeo.com/privacy</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

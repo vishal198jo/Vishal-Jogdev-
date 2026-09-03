@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 
 // In-Memory Sliding Window Rate Limiter to protect against DDoS & Bot Attacks
@@ -83,10 +84,19 @@ async function generateLiveSitemapXml(): Promise<string> {
     { url: `${domain}/`, freq: 'daily', prio: '1.0' },
     { url: `${domain}/songs`, freq: 'daily', prio: '0.9' },
     { url: `${domain}/lyrics`, freq: 'daily', prio: '0.9' },
-    { url: `${domain}/shows`, freq: 'daily', prio: '0.8' },
-    { url: `${domain}/about`, freq: 'weekly', prio: '0.8' },
+    { url: `${domain}/lyrics/lyric-1`, freq: 'weekly', prio: '0.8' },
+    { url: `${domain}/lyrics/lyric-2`, freq: 'weekly', prio: '0.8' },
+    { url: `${domain}/lyrics/lyric-3`, freq: 'weekly', prio: '0.8' },
+    { url: `${domain}/lyrics/lyric-4`, freq: 'weekly', prio: '0.8' },
+    { url: `${domain}/about`, freq: 'weekly', prio: '0.85' },
     { url: `${domain}/gallery`, freq: 'weekly', prio: '0.7' },
-    { url: `${domain}/contact`, freq: 'monthly', prio: '0.7' },
+    { url: `${domain}/shows`, freq: 'daily', prio: '0.85' },
+    { url: `${domain}/articles`, freq: 'weekly', prio: '0.9' },
+    { url: `${domain}/articles/vishal-jogdeo-biography-lifestyle`, freq: 'weekly', prio: '0.85' },
+    { url: `${domain}/articles/vishal-jogdeo-ke-bhajan-guide`, freq: 'weekly', prio: '0.85' },
+    { url: `${domain}/articles/who-is-vishal-jogdeo-discography-shows`, freq: 'weekly', prio: '0.85' },
+    { url: `${domain}/contact`, freq: 'monthly', prio: '0.75' },
+    { url: `${domain}/privacy`, freq: 'yearly', prio: '0.5' },
   ];
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
@@ -269,8 +279,25 @@ async function startServer() {
   // Real-time dynamic Sitemap XML route
   app.get('/sitemap.xml', async (_req, res) => {
     try {
+      const publicSitemap = path.join(process.cwd(), 'public', 'sitemap.xml');
+      const distSitemap = path.join(process.cwd(), 'dist', 'sitemap.xml');
+      let targetFile: string | null = null;
+
+      if (fs.existsSync(publicSitemap)) {
+        targetFile = publicSitemap;
+      } else if (fs.existsSync(distSitemap)) {
+        targetFile = distSitemap;
+      }
+
+      if (targetFile) {
+        const fileContent = await fs.promises.readFile(targetFile, 'utf-8');
+        res.header('Content-Type', 'application/xml; charset=utf-8');
+        res.header('Cache-Control', 'public, max-age=60, s-maxage=60');
+        return res.send(fileContent);
+      }
+
       const xml = await generateLiveSitemapXml();
-      res.header('Content-Type', 'application/xml');
+      res.header('Content-Type', 'application/xml; charset=utf-8');
       res.header('Cache-Control', 'public, max-age=60, s-maxage=60'); // Fresh every 1 min
       res.send(xml);
     } catch (error) {
@@ -280,8 +307,29 @@ async function startServer() {
   });
 
   // Robots.txt route
-  app.get('/robots.txt', (_req, res) => {
-    res.header('Content-Type', 'text/plain');
+  app.get('/robots.txt', async (_req, res) => {
+    try {
+      const publicRobots = path.join(process.cwd(), 'public', 'robots.txt');
+      const distRobots = path.join(process.cwd(), 'dist', 'robots.txt');
+      let targetFile: string | null = null;
+
+      if (fs.existsSync(publicRobots)) {
+        targetFile = publicRobots;
+      } else if (fs.existsSync(distRobots)) {
+        targetFile = distRobots;
+      }
+
+      if (targetFile) {
+        const fileContent = await fs.promises.readFile(targetFile, 'utf-8');
+        res.header('Content-Type', 'text/plain; charset=utf-8');
+        res.header('Cache-Control', 'public, max-age=86400');
+        return res.send(fileContent);
+      }
+    } catch (err) {
+      console.warn('Could not read robots.txt file, fallback to text', err);
+    }
+
+    res.header('Content-Type', 'text/plain; charset=utf-8');
     res.header('Cache-Control', 'public, max-age=86400');
     res.send(`User-agent: *\nAllow: /\n\nSitemap: https://vishaljogdeo.com/sitemap.xml\n`);
   });
